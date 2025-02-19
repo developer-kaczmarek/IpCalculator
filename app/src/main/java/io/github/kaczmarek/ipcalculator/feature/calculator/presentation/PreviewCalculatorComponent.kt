@@ -20,5 +20,9 @@ class PreviewCalculatorComponent : CalculatorComponent {
 
     override fun onOctetFocusChange(index: Int) = Unit
 
-    override fun onCIDRPrefixClick() = Unit
+    override fun onCIDRClick() = Unit
+
+    override fun onSubnetMaskItemClick(cidrValue: Int) = Unit
+
+    override fun onSubnetMaskListDialogDismissRequest() = Unit
 }

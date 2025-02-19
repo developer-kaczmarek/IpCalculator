@@ -58,4 +58,12 @@ val Typography = Typography(
         lineHeight = 20.sp,
         letterSpacing = 0.1.sp,
     ),
+
+    headlineSmall = TextStyle(
+        fontFamily = robotoFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 24.sp,
+        lineHeight = 32.sp,
+        letterSpacing = 0.0.sp,
+    ),
 )
