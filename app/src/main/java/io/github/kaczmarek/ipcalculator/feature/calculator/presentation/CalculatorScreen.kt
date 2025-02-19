@@ -63,7 +63,6 @@ import io.github.kaczmarek.ipcalculator.common.ui.theme.robotoMonoFamily
 import io.github.kaczmarek.ipcalculator.common.ui.widget.LargeText
 import io.github.kaczmarek.ipcalculator.common.utils.toPx
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalculatorScreen(
     component: CalculatorComponent,
@@ -90,81 +89,19 @@ fun CalculatorScreen(
             component = component,
         )
 
-        val scrollState = rememberScrollState()
-        val shadowHeightInPx = 8.dp.toPx()
-        val isShadowVisible: Boolean by remember {
-            derivedStateOf { scrollState.value.toFloat() > shadowHeightInPx }
-        }
-
         if (uiState.isSubnetMaskListOpening) {
-            BasicAlertDialog(
+            SubnetMaskListDialogWidget(
                 onDismissRequest = component::onSubnetMaskListDialogDismissRequest,
-            ) {
-                Column(
-                    modifier = Modifier
-                        .padding(all = 16.dp)
-                        .fillMaxSize()
-                        .background(
-                            color = MaterialTheme.colorScheme.surface,
-                            shape = RoundedCornerShape(24.dp),
-                        )
-                        .clip(shape = RoundedCornerShape(24.dp)),
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.calculator_subnet_mask_dialog_title),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 24.dp, bottom = 16.dp)
-                            .padding(horizontal = 16.dp),
-                        style = MaterialTheme.typography.headlineSmall,
-                        color = MaterialTheme.colorScheme.onSurface,
+                onSubnetMaskItemClick = component::onSubnetMaskItemClick,
+                modifier = Modifier
+                    .padding(all = 16.dp)
+                    .fillMaxSize()
+                    .background(
+                        color = MaterialTheme.colorScheme.surface,
+                        shape = RoundedCornerShape(24.dp),
                     )
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .verticalScroll(scrollState)
-                        ) {
-                            val subnetMaskList =
-                                stringArrayResource(id = R.array.calculator_subnet_masks)
-
-                            subnetMaskList.forEachIndexed { cidrValue, subnetMask ->
-                                LargeText(
-                                    text = subnetMask,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .clickable {
-                                            component.onSubnetMaskItemClick(cidrValue = cidrValue)
-                                        },
-                                )
-
-                                if (cidrValue < subnetMaskList.lastIndex) {
-                                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-                                }
-                            }
-                        }
-
-                        if (isShadowVisible) {
-                            Spacer(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(8.dp)
-                                    .background(
-                                        Brush.verticalGradient(
-                                            colors = listOf(
-                                                Color.Black.copy(0.1f),
-                                                Color.Transparent,
-                                            ),
-                                        ),
-                                    ),
-                            )
-                        }
-                    }
-                }
-            }
+                    .clip(shape = RoundedCornerShape(24.dp)),
+            )
         }
     }
 }
@@ -508,6 +445,82 @@ private fun PanelButton(
         enabled = enabled,
     ) {
         Text(text = text)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SubnetMaskListDialogWidget(
+    onDismissRequest: () -> Unit,
+    onSubnetMaskItemClick: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val scrollState = rememberScrollState()
+    val shadowHeightInPx = 8.dp.toPx()
+    val isShadowVisible: Boolean by remember {
+        derivedStateOf { scrollState.value.toFloat() > shadowHeightInPx }
+    }
+
+    BasicAlertDialog(onDismissRequest = onDismissRequest) {
+        Column(modifier = modifier) {
+            Text(
+                text = stringResource(id = R.string.calculator_subnet_mask_dialog_title),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp, bottom = 16.dp)
+                    .padding(horizontal = 16.dp),
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+
+            Box(modifier = Modifier.fillMaxSize()) {
+                SubnetMaskListWidget(
+                    onSubnetMaskItemClick = onSubnetMaskItemClick,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(scrollState),
+                )
+
+                if (isShadowVisible) {
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(height = 8.dp)
+                            .background(
+                                Brush.verticalGradient(
+                                    colors = listOf(
+                                        Color.Black.copy(alpha = 0.1f),
+                                        Color.Transparent,
+                                    ),
+                                ),
+                            ),
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SubnetMaskListWidget(
+    onSubnetMaskItemClick: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier) {
+        val subnetMaskList = stringArrayResource(id = R.array.calculator_subnet_masks)
+
+        subnetMaskList.forEachIndexed { cidrValue, subnetMask ->
+            LargeText(
+                text = subnetMask,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onSubnetMaskItemClick(cidrValue) },
+            )
+
+            if (cidrValue < subnetMaskList.lastIndex) {
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+            }
+        }
     }
 }
 
