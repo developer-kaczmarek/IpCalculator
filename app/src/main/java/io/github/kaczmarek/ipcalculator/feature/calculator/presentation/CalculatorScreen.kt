@@ -7,10 +7,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -21,12 +24,16 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -34,11 +41,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -51,7 +61,9 @@ import io.github.kaczmarek.ipcalculator.R
 import io.github.kaczmarek.ipcalculator.common.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.common.ui.theme.robotoMonoFamily
 import io.github.kaczmarek.ipcalculator.common.ui.widget.LargeText
+import io.github.kaczmarek.ipcalculator.common.utils.toPx
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalculatorScreen(
     component: CalculatorComponent,
@@ -77,6 +89,83 @@ fun CalculatorScreen(
             uiState = uiState,
             component = component,
         )
+
+        val scrollState = rememberScrollState()
+        val shadowHeightInPx = 8.dp.toPx()
+        val isShadowVisible: Boolean by remember {
+            derivedStateOf { scrollState.value.toFloat() > shadowHeightInPx }
+        }
+
+        if (uiState.isSubnetMaskListOpening) {
+            BasicAlertDialog(
+                onDismissRequest = component::onSubnetMaskListDialogDismissRequest,
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(all = 16.dp)
+                        .fillMaxSize()
+                        .background(
+                            color = MaterialTheme.colorScheme.surface,
+                            shape = RoundedCornerShape(24.dp),
+                        )
+                        .clip(shape = RoundedCornerShape(24.dp)),
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.calculator_subnet_mask_dialog_title),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 24.dp, bottom = 16.dp)
+                            .padding(horizontal = 16.dp),
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .verticalScroll(scrollState)
+                        ) {
+                            val subnetMaskList =
+                                stringArrayResource(id = R.array.calculator_subnet_masks)
+
+                            subnetMaskList.forEachIndexed { cidrValue, subnetMask ->
+                                LargeText(
+                                    text = subnetMask,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clickable {
+                                            component.onSubnetMaskItemClick(cidrValue = cidrValue)
+                                        },
+                                )
+
+                                if (cidrValue < subnetMaskList.lastIndex) {
+                                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+                                }
+                            }
+                        }
+
+                        if (isShadowVisible) {
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(8.dp)
+                                    .background(
+                                        Brush.verticalGradient(
+                                            colors = listOf(
+                                                Color.Black.copy(0.1f),
+                                                Color.Transparent,
+                                            ),
+                                        ),
+                                    ),
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -100,12 +189,12 @@ private fun CalculatorControlPanelWidget(
             modifier = Modifier.fillMaxWidth(),
             octets = uiState.octets,
             focusedOctetIndex = uiState.focusedOctetIndex,
-            cidrPrefix = uiState.cidrPrefix,
+            cidr = uiState.cidr,
             onOctetChange = component::onOctetChange,
             onOctetDeleteImeClick = component::onOctetDeleteImeClick,
             onOctetNextImeActionClick = component::onOctetNextImeActionClick,
             onOctetFocusChange = component::onOctetFocusChange,
-            onCIDRPrefixClick = component::onCIDRPrefixClick,
+            onCIDRClick = component::onCIDRClick,
         )
 
         PanelButtonsGroupWidget(
@@ -121,12 +210,12 @@ private fun CalculatorControlPanelWidget(
 private fun PanelFieldsGroupWidget(
     octets: List<CalculatorUiState.Octet>,
     focusedOctetIndex: Int?,
-    cidrPrefix: CalculatorUiState.CIDRPrefix?,
+    cidr: CalculatorUiState.CIDR?,
     onOctetChange: (Int, TextFieldValue) -> Unit,
     onOctetDeleteImeClick: (Int) -> Unit,
     onOctetNextImeActionClick: (Int) -> Unit,
     onOctetFocusChange: (Int) -> Unit,
-    onCIDRPrefixClick: () -> Unit,
+    onCIDRClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -146,12 +235,12 @@ private fun PanelFieldsGroupWidget(
                 .weight(1.5f),
         )
 
-        cidrPrefix?.let {
+        cidr?.let {
             LargeText(text = stringResource(id = R.string.common_slash))
 
-            CIDRPrefixWidget(
+            CIDRWidget(
                 cidrPrefix = it,
-                onCIDRPrefixClick = onCIDRPrefixClick,
+                onCIDRClick = onCIDRClick,
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(0.5f),
@@ -357,9 +446,9 @@ private fun PlaceholderText(
 }
 
 @Composable
-private fun CIDRPrefixWidget(
-    cidrPrefix: CalculatorUiState.CIDRPrefix,
-    onCIDRPrefixClick: () -> Unit,
+private fun CIDRWidget(
+    cidrPrefix: CalculatorUiState.CIDR,
+    onCIDRClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -370,17 +459,18 @@ private fun CIDRPrefixWidget(
                 shape = CircleShape,
             )
             .clip(CircleShape)
-            .clickable(onClick = onCIDRPrefixClick)
+            .clickable(onClick = onCIDRClick)
             .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (cidrPrefix.value.isEmpty()) {
             PlaceholderText(
                 text = cidrPrefix.placeholder,
-                textAlign = TextAlign.End,
+                textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1.0f)
+                    .padding(start = 8.dp)
                     .padding(vertical = 8.dp),
             )
         } else {
@@ -389,8 +479,9 @@ private fun CIDRPrefixWidget(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1.0f)
+                    .padding(start = 8.dp)
                     .padding(vertical = 8.dp),
-                textAlign = TextAlign.End,
+                textAlign = TextAlign.Center,
                 fontFamily = robotoMonoFamily,
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.bodyLarge,

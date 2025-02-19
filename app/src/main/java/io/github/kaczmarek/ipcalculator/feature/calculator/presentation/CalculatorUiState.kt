@@ -12,15 +12,16 @@ const val FOURTH_OCTET_INDEX = 3
 data class CalculatorUiState(
     val octets: List<Octet> = emptyList(),
     val focusedOctetIndex: Int? = null,
-    val cidrPrefix: CIDRPrefix? = null,
+    val cidr: CIDR? = null,
     val isSharingAvailable: Boolean = false,
+    val isSubnetMaskListOpening: Boolean = false,
 ) {
     data class Octet(
         val placeholder: String,
         val value: TextFieldValue,
     )
 
-    data class CIDRPrefix(
+    data class CIDR(
         val placeholder: String,
         val value: String,
     )

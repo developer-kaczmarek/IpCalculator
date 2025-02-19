@@ -96,10 +96,27 @@ class DefaultCalculatorComponent(
         }
     }
 
-    override fun onCIDRPrefixClick() {
+    override fun onCIDRClick() {
         coroutineScope.launch {
             updateFocusedOctetIndexIfCan(index = null)
-            // TODO: Open Bottom sheet with list
+            updateCIDRPrefixListOpeningState(isOpening = true)
+        }
+    }
+
+    override fun onSubnetMaskItemClick(cidrValue: Int) {
+        coroutineScope.launch {
+            uiState.update { state ->
+                state.copy(
+                    cidr = state.cidr?.copy(value = cidrValue.toString()),
+                    isSubnetMaskListOpening = false,
+                )
+            }
+        }
+    }
+
+    override fun onSubnetMaskListDialogDismissRequest() {
+        coroutineScope.launch {
+            updateCIDRPrefixListOpeningState(isOpening = false)
         }
     }
 
@@ -126,8 +143,8 @@ class DefaultCalculatorComponent(
 
     private fun updateFocusedOctetIndexIfCan(index: Int?) {
         if (index == null || index <= FOURTH_OCTET_INDEX) {
-            uiState.update {
-                uiState.value.copy(focusedOctetIndex = index)
+            uiState.update { state ->
+                state.copy(focusedOctetIndex = index)
             }
         }
     }
@@ -200,15 +217,21 @@ class DefaultCalculatorComponent(
 
     private fun prepareUiState() {
         coroutineScope.launch {
-            uiState.update {
-                uiState.value.copy(
+            uiState.update { state ->
+                state.copy(
                     octets = getPreparedOctets(),
-                    cidrPrefix = CalculatorUiState.CIDRPrefix(
+                    cidr = CalculatorUiState.CIDR(
                         placeholder = CIDR_PREFIX_PLACEHOLDER,
                         value = String.empty,
                     ),
                 )
             }
+        }
+    }
+
+    private fun updateCIDRPrefixListOpeningState(isOpening: Boolean) {
+        uiState.update { state ->
+            state.copy(isSubnetMaskListOpening = isOpening)
         }
     }
 }
