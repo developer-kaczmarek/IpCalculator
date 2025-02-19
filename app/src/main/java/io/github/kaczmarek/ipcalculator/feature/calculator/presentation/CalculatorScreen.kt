@@ -1,6 +1,7 @@
 package io.github.kaczmarek.ipcalculator.feature.calculator.presentation
 
 import android.content.res.Configuration
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -47,7 +48,9 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -61,6 +64,7 @@ import io.github.kaczmarek.ipcalculator.R
 import io.github.kaczmarek.ipcalculator.common.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.common.ui.theme.robotoMonoFamily
 import io.github.kaczmarek.ipcalculator.common.ui.widget.LargeText
+import io.github.kaczmarek.ipcalculator.common.utils.isLight
 import io.github.kaczmarek.ipcalculator.common.utils.toPx
 
 @Composable
@@ -70,19 +74,22 @@ fun CalculatorScreen(
 ) {
     val uiState: CalculatorUiState by component.uiState.collectAsStateWithLifecycle()
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-    ) {
-        Column(
-            modifier = modifier
+    Column(modifier = modifier.fillMaxSize()) {
+        EmptyStateWidget(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1.0f),
+        )
+
+        /*Column(
+            modifier = Modifier
                 .fillMaxSize()
                 .weight(1.0f)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(space = 24.dp),
         ) {
 
-        }
+        }*/
 
         CalculatorControlPanelWidget(
             uiState = uiState,
@@ -369,13 +376,12 @@ private fun OctetDelimiterText(
 @Composable
 private fun PlaceholderText(
     text: String,
-    textAlign: TextAlign = TextAlign.Center,
     modifier: Modifier = Modifier,
 ) {
     Text(
         text = text,
         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-        textAlign = textAlign,
+        textAlign = TextAlign.Center,
         fontFamily = robotoMonoFamily,
         style = MaterialTheme.typography.bodyLarge,
         modifier = modifier,
@@ -403,7 +409,6 @@ private fun CIDRWidget(
         if (cidrPrefix.value.isEmpty()) {
             PlaceholderText(
                 text = cidrPrefix.placeholder,
-                textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1.0f)
@@ -520,6 +525,38 @@ private fun SubnetMaskListWidget(
             if (cidrValue < subnetMaskList.lastIndex) {
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
             }
+        }
+    }
+}
+
+@Composable
+private fun EmptyStateWidget(
+    modifier: Modifier = Modifier,
+) {
+    Box(modifier = modifier) {
+        Column(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Image(
+                painter = painterResource(
+                    id = if (MaterialTheme.colorScheme.isLight()) {
+                        R.drawable.img_empty_state_light
+                    } else {
+                        R.drawable.img_empty_state_dark
+                    }
+                ),
+                contentDescription = null,
+                modifier = Modifier.height(100.dp),
+                contentScale = ContentScale.Inside,
+            )
+
+            LargeText(
+                text = stringResource(id = R.string.calculator_empty_state_text),
+                textAlign = TextAlign.Center,
+            )
         }
     }
 }

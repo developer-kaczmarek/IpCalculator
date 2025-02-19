@@ -11,6 +11,7 @@
     <string name="calculator_calculate_text">Calculate</string>
     <string name="calculator_share_text">Share</string>
     <string name="calculator_subnet_mask_dialog_title">Choose subnet mask</string>
+    <string name="calculator_empty_state_text">Waiting for data entry</string>
     <string-array name="calculator_subnet_masks">
         <item>/0 (0.0.0.0)</item>
         <item>/1 (128.0.0.0)</item>
