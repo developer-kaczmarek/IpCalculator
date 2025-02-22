@@ -12,6 +12,17 @@
     <string name="calculator_share_text">Share</string>
     <string name="calculator_subnet_mask_dialog_title">Choose subnet mask</string>
     <string name="calculator_empty_state_text">Waiting for data entry</string>
+    <string name="calculator_ip_address">IP address</string>
+    <string name="calculator_cidr_prefix">CIDR notation</string>
+    <string name="calculator_subnet_mask">Subnet mask</string>
+    <string name="calculator_wildcard_mask">Wildcard mask</string>
+    <string name="calculator_network_ip_address">Network address</string>
+    <string name="calculator_broadcast_ip_address">Broadcast address</string>
+    <string name="calculator_max_possible_hosts">Total number of addresses</string>
+    <string name="calculator_usable_hosts">Usable number of hosts</string>
+    <string name="calculator_first_host">First host address</string>
+    <string name="calculator_last_host">Last host address</string>
+    <string name="calculator_no_data">No data</string>
     <string-array name="calculator_subnet_masks">
         <item>/0 (0.0.0.0)</item>
         <item>/1 (128.0.0.0)</item>

@@ -7,6 +7,11 @@ interface CalculatorComponent {
 
     val uiState: StateFlow<CalculatorUiState>
 
+    sealed interface Output {
+
+        class ShareText(val text: String) : Output
+    }
+
     fun onCalculateClick()
 
     fun onShareClick()

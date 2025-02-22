@@ -6,9 +6,7 @@ import androidx.core.os.ConfigurationCompat
 import androidx.core.os.LocaleListCompat
 import io.github.kaczmarek.ipcalculator.common.model.language.Language
 
-class LanguageManager(
-    private val context: Context,
-) {
+class LanguageManager(private val context: Context) {
 
     fun getSystemLocaleOrDefault(): Language {
         val currentLocale = ConfigurationCompat.getLocales(context.resources.configuration)[0]
