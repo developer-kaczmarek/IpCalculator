@@ -11,6 +11,7 @@ import io.github.kaczmarek.ipcalculator.common.manager.locale.LanguageManager
 import io.github.kaczmarek.ipcalculator.common.model.link.AppLinkType
 import io.github.kaczmarek.ipcalculator.common.model.theme.ThemeType
 import io.github.kaczmarek.ipcalculator.common.utils.componentCoroutineScope
+import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.CalculatorComponent
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.DefaultCalculatorComponent
 import io.github.kaczmarek.ipcalculator.feature.info.presentation.DefaultInfoComponent
 import io.github.kaczmarek.ipcalculator.feature.info.presentation.InfoComponent
@@ -80,6 +81,7 @@ class DefaultRootComponent(
                 RootComponent.Child.CalculatorChild(
                     DefaultCalculatorComponent(
                         componentContext = componentContext,
+                        onOutput = ::onCalculatorOutput,
                     )
                 )
 
@@ -128,6 +130,12 @@ class DefaultRootComponent(
             is InfoComponent.Output.OpenLink -> onOpenLink(output.linkType)
             is InfoComponent.Output.ShareText -> onShareText(output.text)
             is InfoComponent.Output.RateApp -> onRateApp()
+        }
+    }
+
+    private fun onCalculatorOutput(output: CalculatorComponent.Output) {
+        if (output is CalculatorComponent.Output.ShareText) {
+            onShareText(output.text)
         }
     }
 

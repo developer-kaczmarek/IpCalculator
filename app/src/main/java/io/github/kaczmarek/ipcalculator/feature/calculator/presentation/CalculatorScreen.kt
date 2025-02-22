@@ -30,6 +30,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -66,6 +68,9 @@ import io.github.kaczmarek.ipcalculator.common.ui.theme.robotoMonoFamily
 import io.github.kaczmarek.ipcalculator.common.ui.widget.LargeText
 import io.github.kaczmarek.ipcalculator.common.utils.isLight
 import io.github.kaczmarek.ipcalculator.common.utils.toPx
+import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.CIDRDvo
+import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.CalculationDvo
+import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.OctetDvo
 
 @Composable
 fun CalculatorScreen(
@@ -75,21 +80,22 @@ fun CalculatorScreen(
     val uiState: CalculatorUiState by component.uiState.collectAsStateWithLifecycle()
 
     Column(modifier = modifier.fillMaxSize()) {
-        EmptyStateWidget(
-            modifier = Modifier
-                .fillMaxSize()
-                .weight(1.0f),
-        )
 
-        /*Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .weight(1.0f)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(space = 24.dp),
-        ) {
-
-        }*/
+        if (uiState.calculations.isEmpty()) {
+            EmptyStateWidget(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1.0f),
+            )
+        } else {
+            ContentStateWidget(
+                calculations = uiState.calculations,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1.0f)
+                    .verticalScroll(rememberScrollState()),
+            )
+        }
 
         CalculatorControlPanelWidget(
             uiState = uiState,
@@ -152,9 +158,9 @@ private fun CalculatorControlPanelWidget(
 
 @Composable
 private fun PanelFieldsGroupWidget(
-    octets: List<CalculatorUiState.Octet>,
+    octets: List<OctetDvo>,
     focusedOctetIndex: Int?,
-    cidr: CalculatorUiState.CIDR?,
+    cidr: CIDRDvo?,
     onOctetChange: (Int, TextFieldValue) -> Unit,
     onOctetDeleteImeClick: (Int) -> Unit,
     onOctetNextImeActionClick: (Int) -> Unit,
@@ -225,7 +231,7 @@ private fun PanelButtonsGroupWidget(
 
 @Composable
 private fun OctetTextFieldsWidget(
-    octets: List<CalculatorUiState.Octet>,
+    octets: List<OctetDvo>,
     focusedOctetIndex: Int?,
     onOctetChange: (Int, TextFieldValue) -> Unit,
     onOctetDeleteImeClick: (Int) -> Unit,
@@ -298,7 +304,7 @@ private fun OctetTextFieldsWidget(
 
 @Composable
 private fun OctetTextField(
-    octet: CalculatorUiState.Octet,
+    octet: OctetDvo,
     onOctetChange: (TextFieldValue) -> Unit,
     onNextImeActionClick: () -> Unit,
     onFocusChange: () -> Unit,
@@ -390,7 +396,7 @@ private fun PlaceholderText(
 
 @Composable
 private fun CIDRWidget(
-    cidrPrefix: CalculatorUiState.CIDR,
+    cidrPrefix: CIDRDvo,
     onCIDRClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -557,6 +563,33 @@ private fun EmptyStateWidget(
                 text = stringResource(id = R.string.calculator_empty_state_text),
                 textAlign = TextAlign.Center,
             )
+        }
+    }
+}
+
+@Composable
+private fun ContentStateWidget(
+    calculations: List<CalculationDvo>,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier) {
+        calculations.forEachIndexed { index, calculation ->
+            ListItem(
+                headlineContent = { Text(text = calculation.name) },
+                supportingContent = {
+                    Text(
+                        text = calculation.value,
+                        fontFamily = robotoMonoFamily,
+                    )
+                },
+                colors = ListItemDefaults.colors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                ),
+            )
+
+            if (index < calculations.lastIndex) {
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+            }
         }
     }
 }

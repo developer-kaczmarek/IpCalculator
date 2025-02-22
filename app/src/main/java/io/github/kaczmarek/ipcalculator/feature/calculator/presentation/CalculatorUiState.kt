@@ -1,7 +1,9 @@
 package io.github.kaczmarek.ipcalculator.feature.calculator.presentation
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.ui.text.input.TextFieldValue
+import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.CIDRDvo
+import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.CalculationDvo
+import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.OctetDvo
 
 const val FIRST_OCTET_INDEX = 0
 const val SECOND_OCTET_INDEX = 1
@@ -10,19 +12,10 @@ const val FOURTH_OCTET_INDEX = 3
 
 @Immutable
 data class CalculatorUiState(
-    val octets: List<Octet> = emptyList(),
+    val octets: List<OctetDvo> = emptyList(),
     val focusedOctetIndex: Int? = null,
-    val cidr: CIDR? = null,
+    val cidr: CIDRDvo? = null,
     val isSharingAvailable: Boolean = false,
     val isSubnetMaskListOpening: Boolean = false,
-) {
-    data class Octet(
-        val placeholder: String,
-        val value: TextFieldValue,
-    )
-
-    data class CIDR(
-        val placeholder: String,
-        val value: String,
-    )
-}
+    val calculations: List<CalculationDvo> = emptyList(),
+)
