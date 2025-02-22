@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.IPCalculator" parent="Theme.AppCompat.Light.NoActionBar"/>
+
+    <style name="Theme.IPCalculator.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#FF387AFF</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.IPCalculator</item>
+    </style>
+
+    <style name="Theme.IPCalculator" parent="Theme.AppCompat.Light.NoActionBar" />
+
 </resources>
