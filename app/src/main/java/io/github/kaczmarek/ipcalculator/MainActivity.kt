@@ -11,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.arkivanov.decompose.defaultComponentContext
 import io.github.kaczmarek.ipcalculator.common.model.link.AppLinkType
 import io.github.kaczmarek.ipcalculator.common.utils.getShareTextIntent
@@ -21,6 +22,7 @@ import io.github.kaczmarek.ipcalculator.feature.root.presentation.RootScreen
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         enableRealEdgeToEdge()
         super.onCreate(savedInstanceState)
 
