@@ -26,6 +26,6 @@ interface RootComponent {
 
       class SettingsChild(val component: SettingsComponent) : Child
 
-      class InfoChild(val component: io.github.kaczmarek.ipcalculator.feature.info.presentation.screen.InfoComponent) : Child
+      class InfoChild(val component: InfoComponent) : Child
    }
 }
