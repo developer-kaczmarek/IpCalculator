@@ -7,14 +7,14 @@ import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.lifecycle.doOnStart
-import io.github.kaczmarek.ipcalculator.common.manager.locale.LanguageManager
-import io.github.kaczmarek.ipcalculator.common.model.link.AppLinkType
-import io.github.kaczmarek.ipcalculator.common.model.theme.ThemeType
-import io.github.kaczmarek.ipcalculator.common.utils.componentCoroutineScope
+import io.github.kaczmarek.ipcalculator.core.manager.locale.LanguageManager
+import io.github.kaczmarek.ipcalculator.core.model.theme.ThemeType
+import io.github.kaczmarek.ipcalculator.core.utils.componentCoroutineScope
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.CalculatorComponent
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.DefaultCalculatorComponent
-import io.github.kaczmarek.ipcalculator.feature.info.presentation.DefaultInfoComponent
-import io.github.kaczmarek.ipcalculator.feature.info.presentation.InfoComponent
+import io.github.kaczmarek.ipcalculator.feature.info.di.createInfoComponent
+import io.github.kaczmarek.ipcalculator.feature.info.domain.model.AppLinkType
+import io.github.kaczmarek.ipcalculator.feature.info.presentation.screen.InfoComponent
 import io.github.kaczmarek.ipcalculator.feature.settings.domain.repository.SettingsRepository
 import io.github.kaczmarek.ipcalculator.feature.settings.presentation.DefaultSettingsComponent
 import io.github.kaczmarek.ipcalculator.feature.settings.presentation.SettingsComponent
@@ -95,7 +95,7 @@ class DefaultRootComponent(
 
             is Config.Info ->
                 RootComponent.Child.InfoChild(
-                    DefaultInfoComponent(
+                    createInfoComponent(
                         componentContext = componentContext,
                         onOutput = ::onInfoOutput,
                     )

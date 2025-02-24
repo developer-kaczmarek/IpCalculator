@@ -24,11 +24,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.kaczmarek.ipcalculator.R
-import io.github.kaczmarek.ipcalculator.common.model.language.Language
-import io.github.kaczmarek.ipcalculator.common.model.theme.ThemeType
-import io.github.kaczmarek.ipcalculator.common.ui.theme.AppTheme
-import io.github.kaczmarek.ipcalculator.common.ui.widget.CardWrapper
-import io.github.kaczmarek.ipcalculator.common.ui.widget.HeadlineItem
+import io.github.kaczmarek.ipcalculator.core.model.language.Language
+import io.github.kaczmarek.ipcalculator.core.model.theme.ThemeType
+import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
+import io.github.kaczmarek.ipcalculator.core.ui.widget.CardWrapper
+import io.github.kaczmarek.ipcalculator.core.ui.widget.HeadlineItem
 
 @Composable
 fun SettingsScreen(

@@ -5,9 +5,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.doOnStart
 import io.github.kaczmarek.ipcalculator.R
-import io.github.kaczmarek.ipcalculator.common.manager.resource.ResourceManager
-import io.github.kaczmarek.ipcalculator.common.utils.componentCoroutineScope
-import io.github.kaczmarek.ipcalculator.common.utils.empty
+import io.github.kaczmarek.ipcalculator.core.manager.resource.ResourceManager
+import io.github.kaczmarek.ipcalculator.core.utils.componentCoroutineScope
+import io.github.kaczmarek.ipcalculator.core.utils.empty
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.CIDRDvo
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.CalculationDvo
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.OctetDvo

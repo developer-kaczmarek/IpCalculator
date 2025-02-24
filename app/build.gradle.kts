@@ -7,14 +7,14 @@ plugins {
 
 android {
     namespace = "io.github.kaczmarek.ipcalculator"
-    compileSdk = 35
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "io.github.kaczmarek.ipcalculator"
-        minSdk = 21
-        targetSdk = 35
-        versionCode = 5
-        versionName = "1.4"
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
+        versionCode = libs.versions.versionCode.get().toInt()
+        versionName = libs.versions.versionName.get()
 
         resourceConfigurations += listOf("en", "ru", "kk")
 
@@ -53,6 +53,9 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":core"))
+    implementation(project(":feature:info"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
