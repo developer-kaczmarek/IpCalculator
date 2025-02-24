@@ -39,10 +39,10 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import io.github.kaczmarek.ipcalculator.R
-import io.github.kaczmarek.ipcalculator.common.model.theme.ThemeType
-import io.github.kaczmarek.ipcalculator.common.ui.theme.AppTheme
+import io.github.kaczmarek.ipcalculator.core.model.theme.ThemeType
+import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.CalculatorScreen
-import io.github.kaczmarek.ipcalculator.feature.info.presentation.InfoScreen
+import io.github.kaczmarek.ipcalculator.feature.info.presentation.screen.InfoScreen
 import io.github.kaczmarek.ipcalculator.feature.settings.presentation.SettingsScreen
 
 @OptIn(ExperimentalMaterial3Api::class)

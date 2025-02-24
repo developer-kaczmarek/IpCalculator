@@ -13,9 +13,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.arkivanov.decompose.defaultComponentContext
-import io.github.kaczmarek.ipcalculator.common.model.link.AppLinkType
-import io.github.kaczmarek.ipcalculator.common.utils.getShareTextIntent
-import io.github.kaczmarek.ipcalculator.common.utils.getSuitableViewerIntent
+import io.github.kaczmarek.ipcalculator.core.utils.getShareTextIntent
+import io.github.kaczmarek.ipcalculator.core.utils.getSuitableViewerIntent
+import io.github.kaczmarek.ipcalculator.feature.info.domain.model.AppLinkType
 import io.github.kaczmarek.ipcalculator.feature.root.presentation.DefaultRootComponent
 import io.github.kaczmarek.ipcalculator.feature.root.presentation.RootScreen
 

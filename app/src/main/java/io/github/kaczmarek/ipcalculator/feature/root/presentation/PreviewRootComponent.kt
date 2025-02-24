@@ -4,7 +4,7 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.PreviewCalculatorComponent
-import io.github.kaczmarek.ipcalculator.common.model.theme.ThemeType
+import io.github.kaczmarek.ipcalculator.core.model.theme.ThemeType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

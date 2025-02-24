@@ -63,11 +63,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.kaczmarek.ipcalculator.R
-import io.github.kaczmarek.ipcalculator.common.ui.theme.AppTheme
-import io.github.kaczmarek.ipcalculator.common.ui.theme.robotoMonoFamily
-import io.github.kaczmarek.ipcalculator.common.ui.widget.LargeText
-import io.github.kaczmarek.ipcalculator.common.utils.isLight
-import io.github.kaczmarek.ipcalculator.common.utils.toPx
+import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
+import io.github.kaczmarek.ipcalculator.core.ui.theme.robotoMonoFamily
+import io.github.kaczmarek.ipcalculator.core.ui.widget.LargeText
+import io.github.kaczmarek.ipcalculator.core.utils.isLight
+import io.github.kaczmarek.ipcalculator.core.utils.toPx
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.CIDRDvo
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.CalculationDvo
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.OctetDvo

@@ -1,0 +1,4 @@
+package io.github.kaczmarek.ipcalculator.core.utils
+
+val String.Companion.empty: String
+    get() = ""

@@ -2,9 +2,9 @@ package io.github.kaczmarek.ipcalculator.feature.root.presentation
 
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
-import io.github.kaczmarek.ipcalculator.common.model.theme.ThemeType
+import io.github.kaczmarek.ipcalculator.core.model.theme.ThemeType
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.CalculatorComponent
-import io.github.kaczmarek.ipcalculator.feature.info.presentation.InfoComponent
+import io.github.kaczmarek.ipcalculator.feature.info.presentation.screen.InfoComponent
 import io.github.kaczmarek.ipcalculator.feature.settings.presentation.SettingsComponent
 import kotlinx.coroutines.flow.StateFlow
 
