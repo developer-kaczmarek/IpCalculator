@@ -58,26 +58,4 @@
         <item>/31 (255.255.255.254)</item>
         <item>/32 (255.255.255.255)</item>
     </string-array>
-
-    <string name="settings_language">Language</string>
-    <string name="settings_locale_ru" translatable="false">Русский</string>
-    <string name="settings_locale_kk" translatable="false">Қазақша</string>
-    <string name="settings_locale_en" translatable="false">English</string>
-    <string name="settings_theme">Theme</string>
-    <string name="settings_theme_system">System</string>
-    <string name="settings_theme_dark">Dark</string>
-    <string name="settings_theme_light">Light</string>
-
-    <string name="info_share_app">Share the app</string>
-    <string name="info_app_rate">Rate the app</string>
-    <string name="info_send_email">Contact the developer</string>
-    <string name="info_privacy_policy">Read privacy policy</string>
-    <string name="info_go_to_github">Open GitHub page</string>
-
-    <string name="developer_email_link" translatable="false">mailto:developer.kaczmarek@gmail.com</string>
-    <string name="github_page_link" translatable="false">https://github.com/developer-kaczmarek/IpCalculator</string>
-    <string name="market_link" translatable="false">market://details?id=io.github.kaczmarek.ipcalculator</string>
-    <string name="web_google_play_link" translatable="false">https://play.google.com/store/apps/details?id=io.github.kaczmarek.ipcalculator</string>
-    <string name="privacy_policy_link">https://github.com/developer-kaczmarek/IpCalculator/wiki/Privacy-policy</string>
-    <string name="share_app_text">Try IP Calculator. Google Play link: https://play.google.com/store/apps/details?id=io.github.kaczmarek.ipcalculator</string>
 </resources>

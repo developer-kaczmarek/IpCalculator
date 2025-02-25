@@ -7,31 +7,33 @@ import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.lifecycle.doOnStart
+import io.github.kaczmarek.ipcalculator.core.factory.component.ComponentFactory
 import io.github.kaczmarek.ipcalculator.core.manager.locale.LanguageManager
 import io.github.kaczmarek.ipcalculator.core.model.theme.ThemeType
 import io.github.kaczmarek.ipcalculator.core.utils.componentCoroutineScope
+import io.github.kaczmarek.ipcalculator.feature.calculator.di.createCalculatorComponent
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.CalculatorComponent
-import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.DefaultCalculatorComponent
 import io.github.kaczmarek.ipcalculator.feature.info.di.createInfoComponent
 import io.github.kaczmarek.ipcalculator.feature.info.domain.model.AppLinkType
 import io.github.kaczmarek.ipcalculator.feature.info.presentation.screen.InfoComponent
-import io.github.kaczmarek.ipcalculator.feature.settings.domain.repository.SettingsRepository
-import io.github.kaczmarek.ipcalculator.feature.settings.presentation.DefaultSettingsComponent
+import io.github.kaczmarek.ipcalculator.feature.settings.di.createSettingsComponent
 import io.github.kaczmarek.ipcalculator.feature.settings.presentation.SettingsComponent
+import io.github.kaczmarek.ipcalculator.feature.settings.repository.SettingsRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 class DefaultRootComponent(
     componentContext: ComponentContext,
     private val onOpenLink: (AppLinkType) -> Unit,
     private val onShareText: (String) -> Unit,
     private val onRateApp: () -> Unit,
-) : ComponentContext by componentContext, RootComponent, KoinComponent {
+    private val componentFactory: ComponentFactory,
+    private val settingsRepository: SettingsRepository,
+    private val languageManager: LanguageManager,
+) : ComponentContext by componentContext, RootComponent {
 
     private val navigation = StackNavigation<Config>()
 
@@ -48,8 +50,6 @@ class DefaultRootComponent(
 
     override val themeType = MutableStateFlow(ThemeType.System)
 
-    private val settingsRepository: SettingsRepository by inject()
-    private val languageManager: LanguageManager by inject()
     private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
         // TODO: show snackbar
     }
@@ -79,23 +79,22 @@ class DefaultRootComponent(
         when (config) {
             is Config.Calculator ->
                 RootComponent.Child.CalculatorChild(
-                    DefaultCalculatorComponent(
+                    componentFactory.createCalculatorComponent(
                         componentContext = componentContext,
                         onOutput = ::onCalculatorOutput,
                     )
                 )
 
-            is Config.Settings ->
-                RootComponent.Child.SettingsChild(
-                    DefaultSettingsComponent(
-                        componentContext = componentContext,
-                        onOutput = ::onSettingsOutput,
-                    )
+            is Config.Settings -> RootComponent.Child.SettingsChild(
+                componentFactory.createSettingsComponent(
+                    componentContext = componentContext,
+                    onOutput = ::onSettingsOutput,
                 )
+            )
 
             is Config.Info ->
                 RootComponent.Child.InfoChild(
-                    createInfoComponent(
+                    componentFactory.createInfoComponent(
                         componentContext = componentContext,
                         onOutput = ::onInfoOutput,
                     )

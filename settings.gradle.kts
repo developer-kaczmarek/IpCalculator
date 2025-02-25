@@ -24,3 +24,4 @@ rootProject.name = "IP Calculator"
 include(":app")
 include(":feature:info")
 include(":core")
+include(":feature:settings")

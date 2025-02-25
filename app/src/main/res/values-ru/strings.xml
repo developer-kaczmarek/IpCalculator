@@ -21,18 +21,5 @@
     <string name="calculator_last_host">IP адрес последнего хоста</string>
     <string name="calculator_no_data">Нет данных</string>
 
-    <string name="settings_language">Язык</string>
-    <string name="settings_theme">Тема</string>
-    <string name="settings_theme_system">Системная</string>
-    <string name="settings_theme_dark">Тёмная</string>
-    <string name="settings_theme_light">Светлая</string>
 
-    <string name="info_share_app">Поделиться приложением</string>
-    <string name="info_app_rate">Оценить приложение</string>
-    <string name="info_send_email">Связаться с разработчиком</string>
-    <string name="info_privacy_policy">Прочитать политику конфиденциальности</string>
-    <string name="info_go_to_github">Открыть страницу на Github</string>
-
-    <string name="privacy_policy_link">https://github.com/developer-kaczmarek/IpCalculator/wiki/%D0%9F%D0%BE%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0-%D0%BA%D0%BE%D0%BD%D1%84%D0%B8%D0%B4%D0%B5%D0%BD%D1%86%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D0%B8</string>
-    <string name="share_app_text">Попробуй IP Калькулятор. Ссылка на Google Play: https://play.google.com/store/apps/details?id=io.github.kaczmarek.ipcalculator</string>
 </resources>

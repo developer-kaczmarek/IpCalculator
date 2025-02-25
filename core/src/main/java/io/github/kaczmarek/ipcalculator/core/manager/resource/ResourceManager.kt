@@ -1,11 +1,13 @@
 package io.github.kaczmarek.ipcalculator.core.manager.resource
 
-import android.content.Context
+import android.content.res.Resources
 import androidx.annotation.StringRes
 
-class ResourceManager(private val context: Context) {
+class ResourceManager(
+    private val resources: Resources,
+) {
 
     fun getString(@StringRes resource: Int, vararg formatArgs: Any?): String {
-        return context.resources.getString(resource, *formatArgs)
+        return resources.getString(resource, *formatArgs)
     }
 }
