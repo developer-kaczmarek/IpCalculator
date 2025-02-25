@@ -6,7 +6,7 @@ import io.github.kaczmarek.ipcalculator.core.manager.locale.LanguageManager
 import io.github.kaczmarek.ipcalculator.core.model.language.Language
 import io.github.kaczmarek.ipcalculator.core.model.theme.ThemeType
 import io.github.kaczmarek.ipcalculator.core.utils.componentCoroutineScope
-import io.github.kaczmarek.ipcalculator.feature.settings.repository.SettingsRepository
+import io.github.kaczmarek.ipcalculator.feature.settings.domain.repository.SettingsRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update

@@ -18,7 +18,7 @@ import io.github.kaczmarek.ipcalculator.feature.info.domain.model.AppLinkType
 import io.github.kaczmarek.ipcalculator.feature.info.presentation.screen.InfoComponent
 import io.github.kaczmarek.ipcalculator.feature.settings.di.createSettingsComponent
 import io.github.kaczmarek.ipcalculator.feature.settings.presentation.SettingsComponent
-import io.github.kaczmarek.ipcalculator.feature.settings.repository.SettingsRepository
+import io.github.kaczmarek.ipcalculator.feature.settings.domain.repository.SettingsRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update

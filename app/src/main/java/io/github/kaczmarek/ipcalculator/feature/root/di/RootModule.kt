@@ -9,7 +9,7 @@ import io.github.kaczmarek.ipcalculator.core.manager.resource.ResourceManager
 import io.github.kaczmarek.ipcalculator.feature.info.domain.model.AppLinkType
 import io.github.kaczmarek.ipcalculator.feature.root.presentation.DefaultRootComponent
 import io.github.kaczmarek.ipcalculator.feature.root.presentation.RootComponent
-import io.github.kaczmarek.ipcalculator.feature.settings.repository.SettingsRepository
+import io.github.kaczmarek.ipcalculator.feature.settings.domain.repository.SettingsRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.component.get
 import org.koin.dsl.module

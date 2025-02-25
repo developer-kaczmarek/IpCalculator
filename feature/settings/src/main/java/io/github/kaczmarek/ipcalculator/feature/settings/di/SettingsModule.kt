@@ -6,7 +6,7 @@ import io.github.kaczmarek.ipcalculator.feature.settings.data.repository.Default
 import io.github.kaczmarek.ipcalculator.feature.settings.data.source.SettingsLocalDataStore
 import io.github.kaczmarek.ipcalculator.feature.settings.presentation.DefaultSettingsComponent
 import io.github.kaczmarek.ipcalculator.feature.settings.presentation.SettingsComponent
-import io.github.kaczmarek.ipcalculator.feature.settings.repository.SettingsRepository
+import io.github.kaczmarek.ipcalculator.feature.settings.domain.repository.SettingsRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import org.koin.core.component.get
