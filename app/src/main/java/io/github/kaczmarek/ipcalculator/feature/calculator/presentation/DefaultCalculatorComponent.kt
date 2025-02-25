@@ -17,8 +17,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import kotlin.math.pow
@@ -35,7 +33,8 @@ private const val GROUPING_SEPARATOR = ' '
 class DefaultCalculatorComponent(
     componentContext: ComponentContext,
     private val onOutput: (CalculatorComponent.Output) -> Unit,
-) : ComponentContext by componentContext, CalculatorComponent, KoinComponent {
+    private val resourceManager: ResourceManager,
+) : ComponentContext by componentContext, CalculatorComponent {
 
     override val uiState = MutableStateFlow(CalculatorUiState())
 
@@ -43,7 +42,6 @@ class DefaultCalculatorComponent(
         // TODO: show snackbar
     }
     private val coroutineScope = componentCoroutineScope(exceptionHandler)
-    private val resourceManager: ResourceManager by inject()
 
     init {
         lifecycle.doOnStart {

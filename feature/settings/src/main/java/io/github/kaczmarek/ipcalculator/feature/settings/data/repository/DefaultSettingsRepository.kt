@@ -5,7 +5,7 @@ import io.github.kaczmarek.ipcalculator.core.model.language.Language
 import io.github.kaczmarek.ipcalculator.core.model.theme.ThemeType
 import io.github.kaczmarek.ipcalculator.feature.settings.domain.repository.SettingsRepository
 
-class DefaultSettingsRepository(
+internal class DefaultSettingsRepository(
     private val settingsLocalDataStore: SettingsLocalDataStore,
 ): SettingsRepository {
 

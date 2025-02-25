@@ -13,11 +13,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.arkivanov.decompose.defaultComponentContext
+import io.github.kaczmarek.ipcalculator.core.factory.component.ComponentFactory
+import io.github.kaczmarek.ipcalculator.core.provider.koin
 import io.github.kaczmarek.ipcalculator.core.utils.getShareTextIntent
 import io.github.kaczmarek.ipcalculator.core.utils.getSuitableViewerIntent
 import io.github.kaczmarek.ipcalculator.feature.info.domain.model.AppLinkType
-import io.github.kaczmarek.ipcalculator.feature.root.presentation.DefaultRootComponent
 import io.github.kaczmarek.ipcalculator.feature.root.presentation.RootScreen
+import io.github.kaczmarek.ipcalculator.feature.info.R
+import io.github.kaczmarek.ipcalculator.feature.root.di.createRootComponent
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,14 +29,18 @@ class MainActivity : AppCompatActivity() {
         enableRealEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        val rootComponent = DefaultRootComponent(
+        val componentFactory = application.koin.get<ComponentFactory>()
+        val rootComponent = componentFactory.createRootComponent(
             componentContext = defaultComponentContext(),
             onOpenLink = ::openLink,
             onShareText = ::shareText,
             onRateApp = ::openStorePage,
         )
         setContent {
-            RootScreen(component = rootComponent, modifier = Modifier.fillMaxSize())
+            RootScreen(
+                component = rootComponent,
+                modifier = Modifier.fillMaxSize(),
+            )
         }
     }
 

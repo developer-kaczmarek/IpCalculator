@@ -6,7 +6,7 @@ private const val SETTINGS_PREFERENCES = "SETTINGS_PREFERENCES"
 private const val LANGUAGE_SETTINGS_KEY = "LANGUAGE_SETTINGS_KEY"
 private const val APP_THEME_SETTINGS_KEY = "APP_THEME_SETTINGS_KEY"
 
-class SettingsLocalDataStore(context: Context) {
+internal class SettingsLocalDataStore(context: Context) {
     private val settingsPreferences =
         context.getSharedPreferences(SETTINGS_PREFERENCES, Context.MODE_PRIVATE)
 
