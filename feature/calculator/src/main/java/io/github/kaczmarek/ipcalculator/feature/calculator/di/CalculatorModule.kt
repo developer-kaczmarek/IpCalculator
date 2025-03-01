@@ -2,8 +2,9 @@ package io.github.kaczmarek.ipcalculator.feature.calculator.di
 
 import com.arkivanov.decompose.ComponentContext
 import io.github.kaczmarek.ipcalculator.core.factory.component.ComponentFactory
-import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.CalculatorComponent
-import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.DefaultCalculatorComponent
+import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.screen.CalculatorComponent
+import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.screen.DefaultCalculatorComponent
+import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.screen.PreviewCalculatorComponent
 import org.koin.core.component.get
 
 
@@ -16,4 +17,8 @@ fun ComponentFactory.createCalculatorComponent(
         onOutput = onOutput,
         resourceManager = get(),
     )
+}
+
+fun createPreviewCalculatorComponent(): CalculatorComponent {
+    return PreviewCalculatorComponent()
 }

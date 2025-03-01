@@ -1,4 +1,4 @@
-package io.github.kaczmarek.ipcalculator.feature.calculator.presentation
+package io.github.kaczmarek.ipcalculator.feature.calculator.presentation.screen
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
@@ -62,12 +62,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import io.github.kaczmarek.ipcalculator.R
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.core.ui.theme.robotoMonoFamily
 import io.github.kaczmarek.ipcalculator.core.ui.widget.LargeText
 import io.github.kaczmarek.ipcalculator.core.utils.isLight
 import io.github.kaczmarek.ipcalculator.core.utils.toPx
+import io.github.kaczmarek.ipcalculator.feature.calculator.R
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.CIDRDvo
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.CalculationDvo
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.OctetDvo
@@ -186,7 +186,7 @@ private fun PanelFieldsGroupWidget(
         )
 
         cidr?.let {
-            LargeText(text = stringResource(id = R.string.common_slash))
+            LargeText(text = stringResource(id = R.string.calculator_slash))
 
             CIDRWidget(
                 cidrPrefix = it,
@@ -368,7 +368,7 @@ private fun OctetDelimiterText(
     val interactionSource = remember { MutableInteractionSource() }
 
     Text(
-        text = stringResource(id = R.string.common_dot),
+        text = stringResource(id = R.string.calculator_dot),
         modifier = modifier
             .clickable(
                 interactionSource = interactionSource,

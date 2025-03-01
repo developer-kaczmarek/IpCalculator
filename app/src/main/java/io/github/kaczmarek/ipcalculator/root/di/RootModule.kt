@@ -1,4 +1,4 @@
-package io.github.kaczmarek.ipcalculator.feature.root.di
+package io.github.kaczmarek.ipcalculator.root.di
 
 import android.content.Context
 import android.content.res.Resources
@@ -7,8 +7,8 @@ import io.github.kaczmarek.ipcalculator.core.factory.component.ComponentFactory
 import io.github.kaczmarek.ipcalculator.core.manager.locale.LanguageManager
 import io.github.kaczmarek.ipcalculator.core.manager.resource.ResourceManager
 import io.github.kaczmarek.ipcalculator.feature.info.domain.model.AppLinkType
-import io.github.kaczmarek.ipcalculator.feature.root.presentation.DefaultRootComponent
-import io.github.kaczmarek.ipcalculator.feature.root.presentation.RootComponent
+import io.github.kaczmarek.ipcalculator.root.presentation.DefaultRootComponent
+import io.github.kaczmarek.ipcalculator.root.presentation.RootComponent
 import io.github.kaczmarek.ipcalculator.feature.settings.domain.repository.SettingsRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.component.get

@@ -1,4 +1,4 @@
-package io.github.kaczmarek.ipcalculator.feature.root.presentation
+package io.github.kaczmarek.ipcalculator.root.presentation
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
@@ -41,7 +41,7 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import io.github.kaczmarek.ipcalculator.R
 import io.github.kaczmarek.ipcalculator.core.model.theme.ThemeType
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
-import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.CalculatorScreen
+import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.screen.CalculatorScreen
 import io.github.kaczmarek.ipcalculator.feature.info.presentation.screen.InfoScreen
 import io.github.kaczmarek.ipcalculator.feature.settings.presentation.SettingsScreen
 
