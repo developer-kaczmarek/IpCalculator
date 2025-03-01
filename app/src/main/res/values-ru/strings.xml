@@ -4,22 +4,4 @@
     <string name="root_nav_calculator">Калькулятор</string>
     <string name="root_nav_settings">Настройки</string>
     <string name="root_nav_info">Инфо</string>
-
-    <string name="calculator_calculate_text">Вычислить</string>
-    <string name="calculator_share_text">Поделиться</string>
-    <string name="calculator_subnet_mask_dialog_title">Выберите маску подсети</string>
-    <string name="calculator_empty_state_text">Ожидание ввода данных</string>
-    <string name="calculator_ip_address">IP адрес</string>
-    <string name="calculator_cidr_prefix">CIDR нотация</string>
-    <string name="calculator_subnet_mask">Маска подсети</string>
-    <string name="calculator_wildcard_mask">Обратная маска подсети (wildcard mask)</string>
-    <string name="calculator_network_ip_address">IP адрес сети</string>
-    <string name="calculator_broadcast_ip_address">Широковещательный адрес</string>
-    <string name="calculator_max_possible_hosts">Количество доступных адресов в порции хоста</string>
-    <string name="calculator_usable_hosts">Количество рабочих адресов для хостов</string>
-    <string name="calculator_first_host">IP адрес первого хоста</string>
-    <string name="calculator_last_host">IP адрес последнего хоста</string>
-    <string name="calculator_no_data">Нет данных</string>
-
-
 </resources>

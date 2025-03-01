@@ -1,4 +1,4 @@
-package io.github.kaczmarek.ipcalculator.feature.root.presentation
+package io.github.kaczmarek.ipcalculator.root.presentation
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -12,7 +12,7 @@ import io.github.kaczmarek.ipcalculator.core.manager.locale.LanguageManager
 import io.github.kaczmarek.ipcalculator.core.model.theme.ThemeType
 import io.github.kaczmarek.ipcalculator.core.utils.componentCoroutineScope
 import io.github.kaczmarek.ipcalculator.feature.calculator.di.createCalculatorComponent
-import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.CalculatorComponent
+import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.screen.CalculatorComponent
 import io.github.kaczmarek.ipcalculator.feature.info.di.createInfoComponent
 import io.github.kaczmarek.ipcalculator.feature.info.domain.model.AppLinkType
 import io.github.kaczmarek.ipcalculator.feature.info.presentation.screen.InfoComponent

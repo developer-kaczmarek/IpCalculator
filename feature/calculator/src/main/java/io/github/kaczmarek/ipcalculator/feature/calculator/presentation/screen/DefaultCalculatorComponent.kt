@@ -1,13 +1,13 @@
-package io.github.kaczmarek.ipcalculator.feature.calculator.presentation
+package io.github.kaczmarek.ipcalculator.feature.calculator.presentation.screen
 
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.doOnStart
-import io.github.kaczmarek.ipcalculator.R
 import io.github.kaczmarek.ipcalculator.core.manager.resource.ResourceManager
 import io.github.kaczmarek.ipcalculator.core.utils.componentCoroutineScope
 import io.github.kaczmarek.ipcalculator.core.utils.empty
+import io.github.kaczmarek.ipcalculator.feature.calculator.R
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.CIDRDvo
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.CalculationDvo
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.OctetDvo
@@ -30,7 +30,7 @@ private const val CIDR_PREFIX_PLACEHOLDER = "24"
 private const val DECIMAL_FORMAT_PATTERN = "###,###"
 private const val GROUPING_SEPARATOR = ' '
 
-class DefaultCalculatorComponent(
+internal class DefaultCalculatorComponent(
     componentContext: ComponentContext,
     private val onOutput: (CalculatorComponent.Output) -> Unit,
     private val resourceManager: ResourceManager,

@@ -1,4 +1,4 @@
-package io.github.kaczmarek.ipcalculator.feature.calculator.presentation
+package io.github.kaczmarek.ipcalculator.feature.calculator.presentation.screen
 
 import androidx.compose.ui.text.input.TextFieldValue
 import kotlinx.coroutines.flow.StateFlow

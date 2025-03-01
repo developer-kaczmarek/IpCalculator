@@ -1,10 +1,10 @@
-package io.github.kaczmarek.ipcalculator.feature.calculator.presentation
+package io.github.kaczmarek.ipcalculator.feature.calculator.presentation.screen
 
 import androidx.compose.ui.text.input.TextFieldValue
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class PreviewCalculatorComponent : CalculatorComponent {
+internal class PreviewCalculatorComponent : CalculatorComponent {
 
     override val uiState: StateFlow<CalculatorUiState> = MutableStateFlow(CalculatorUiState())
 

@@ -1,4 +1,4 @@
-package io.github.kaczmarek.ipcalculator.feature.calculator.presentation
+package io.github.kaczmarek.ipcalculator.feature.calculator.presentation.screen
 
 import androidx.compose.runtime.Immutable
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.CIDRDvo

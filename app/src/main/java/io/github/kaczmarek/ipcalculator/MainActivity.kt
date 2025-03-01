@@ -18,9 +18,9 @@ import io.github.kaczmarek.ipcalculator.core.provider.koin
 import io.github.kaczmarek.ipcalculator.core.utils.getShareTextIntent
 import io.github.kaczmarek.ipcalculator.core.utils.getSuitableViewerIntent
 import io.github.kaczmarek.ipcalculator.feature.info.domain.model.AppLinkType
-import io.github.kaczmarek.ipcalculator.feature.root.presentation.RootScreen
+import io.github.kaczmarek.ipcalculator.root.presentation.RootScreen
 import io.github.kaczmarek.ipcalculator.feature.info.R
-import io.github.kaczmarek.ipcalculator.feature.root.di.createRootComponent
+import io.github.kaczmarek.ipcalculator.root.di.createRootComponent
 
 class MainActivity : AppCompatActivity() {
 
