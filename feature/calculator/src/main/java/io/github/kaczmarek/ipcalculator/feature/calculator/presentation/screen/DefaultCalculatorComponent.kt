@@ -7,6 +7,7 @@ import com.arkivanov.essenty.lifecycle.doOnStart
 import io.github.kaczmarek.ipcalculator.core.manager.resource.ResourceManager
 import io.github.kaczmarek.ipcalculator.core.utils.componentCoroutineScope
 import io.github.kaczmarek.ipcalculator.core.utils.empty
+import io.github.kaczmarek.ipcalculator.core.utils.persistent
 import io.github.kaczmarek.ipcalculator.feature.calculator.R
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.CIDRDvo
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.CalculationDvo
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.Serializable
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import kotlin.math.pow
@@ -44,6 +46,12 @@ internal class DefaultCalculatorComponent(
     private val coroutineScope = componentCoroutineScope(exceptionHandler)
 
     init {
+        persistent(
+            serializer = PersistentState.serializer(),
+            save = { saveState() },
+            restore = { state -> restoreState(state) },
+        )
+
         lifecycle.doOnStart {
             prepareUiState()
         }
@@ -261,6 +269,8 @@ internal class DefaultCalculatorComponent(
 
     private fun prepareUiState() {
         coroutineScope.launch {
+            if (uiState.value.octets.isNotEmpty() && uiState.value.cidr != null) return@launch
+
             uiState.update { state ->
                 state.copy(
                     octets = getPreparedOctets(),
@@ -432,4 +442,46 @@ internal class DefaultCalculatorComponent(
 
         return DecimalFormat(DECIMAL_FORMAT_PATTERN, symbols).format(number)
     }
+
+    private fun saveState(): PersistentState {
+        val uiStateValue = uiState.value
+
+        return PersistentState(
+            octets = uiStateValue.octets.map { octet -> octet.value.text },
+            cidr = uiStateValue.cidr?.value.orEmpty(),
+            areCalculationsVisible = uiStateValue.calculations.isNotEmpty(),
+        )
+    }
+
+    private fun restoreState(persistentState: PersistentState) {
+        coroutineScope.launch {
+            uiState.update { state ->
+                state.copy(
+                    octets = getPreparedOctets().mapIndexed { index, octetDvo ->
+                        octetDvo.copy(
+                            value = TextFieldValue(
+                                text = persistentState.octets[index],
+                                selection = TextRange.Zero,
+                            ),
+                        )
+                    },
+                    cidr = CIDRDvo(
+                        placeholder = CIDR_PREFIX_PLACEHOLDER,
+                        value = persistentState.cidr,
+                    ),
+                )
+            }
+
+            if (persistentState.areCalculationsVisible) {
+                onCalculateClick()
+            }
+        }
+    }
+
+    @Serializable
+    private data class PersistentState(
+        val octets: List<String>,
+        val cidr: String,
+        val areCalculationsVisible: Boolean,
+    )
 }
