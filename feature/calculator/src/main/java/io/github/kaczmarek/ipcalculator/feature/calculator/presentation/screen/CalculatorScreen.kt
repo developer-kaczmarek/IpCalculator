@@ -12,10 +12,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -62,6 +69,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.github.kaczmarek.ipcalculator.core.model.layout.LayoutType
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.core.ui.theme.robotoMonoFamily
 import io.github.kaczmarek.ipcalculator.core.ui.widget.LargeText
@@ -75,67 +83,171 @@ import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.Oc
 @Composable
 fun CalculatorScreen(
     component: CalculatorComponent,
+    layoutType: LayoutType,
     modifier: Modifier = Modifier,
 ) {
     val uiState: CalculatorUiState by component.uiState.collectAsStateWithLifecycle()
 
-    Column(modifier = modifier.fillMaxSize()) {
-
-        if (uiState.calculations.isEmpty()) {
-            EmptyStateWidget(
+    Box(modifier = modifier) {
+        if (layoutType == LayoutType.SPACIOUS) {
+            SpaciousContainer(
+                uiState = uiState,
+                component = component,
+                modifier = Modifier.fillMaxSize(),
+            )
+        } else {
+            CompactContainer(
+                uiState = uiState,
+                component = component,
                 modifier = Modifier
                     .fillMaxSize()
-                    .weight(1.0f),
+                    .imePadding(),
             )
+        }
+    }
+
+    if (uiState.isSubnetMaskListOpening) {
+        SubnetMaskListDialogWidget(
+            onDismissRequest = component::onSubnetMaskListDialogDismissRequest,
+            onSubnetMaskItemClick = component::onSubnetMaskItemClick,
+            modifier = Modifier
+                .padding(all = 16.dp)
+                .fillMaxSize()
+                .background(
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = RoundedCornerShape(24.dp),
+                )
+                .clip(shape = RoundedCornerShape(24.dp)),
+        )
+    }
+}
+
+@Composable
+private fun SpaciousContainer(
+    uiState: CalculatorUiState,
+    component: CalculatorComponent,
+    modifier: Modifier = Modifier,
+    windowInsets: WindowInsets = WindowInsets.safeDrawing,
+) {
+    Row(
+        modifier = modifier
+            .windowInsetsPadding(windowInsets.only(WindowInsetsSides.Start))
+            .fillMaxSize(),
+
+        ) {
+        CalculationsListContentWidget(
+            uiState = uiState,
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1.0f),
+        )
+
+        SpaciousCalculatorControlPanelWidget(
+            uiState = uiState,
+            component = component,
+            modifier = Modifier
+                .fillMaxHeight()
+                .weight(0.8f)
+                .background(
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = RoundedCornerShape(topStart = 24.dp, bottomStart = 24.dp),
+                )
+                .padding(all = 16.dp),
+        )
+    }
+}
+
+@Composable
+private fun CompactContainer(
+    uiState: CalculatorUiState,
+    component: CalculatorComponent,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier,
+    ) {
+
+        CalculationsListContentWidget(
+            uiState = uiState,
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1.0f),
+        )
+
+        CompatCalculatorControlPanelWidget(
+            uiState = uiState,
+            component = component,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+                )
+                .padding(all = 16.dp),
+        )
+    }
+}
+
+@Composable
+private fun CalculationsListContentWidget(
+    uiState: CalculatorUiState,
+    modifier: Modifier = Modifier,
+) {
+    Box(modifier = modifier) {
+        if (uiState.calculations.isEmpty()) {
+            EmptyStateWidget(modifier = Modifier.fillMaxSize())
         } else {
             ContentStateWidget(
                 calculations = uiState.calculations,
                 modifier = Modifier
                     .fillMaxSize()
-                    .weight(1.0f)
                     .verticalScroll(rememberScrollState()),
-            )
-        }
-
-        CalculatorControlPanelWidget(
-            uiState = uiState,
-            component = component,
-        )
-
-        if (uiState.isSubnetMaskListOpening) {
-            SubnetMaskListDialogWidget(
-                onDismissRequest = component::onSubnetMaskListDialogDismissRequest,
-                onSubnetMaskItemClick = component::onSubnetMaskItemClick,
-                modifier = Modifier
-                    .padding(all = 16.dp)
-                    .fillMaxSize()
-                    .background(
-                        color = MaterialTheme.colorScheme.surface,
-                        shape = RoundedCornerShape(24.dp),
-                    )
-                    .clip(shape = RoundedCornerShape(24.dp)),
             )
         }
     }
 }
 
 @Composable
-private fun CalculatorControlPanelWidget(
+private fun SpaciousCalculatorControlPanelWidget(
     uiState: CalculatorUiState,
     component: CalculatorComponent,
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(
-                color = MaterialTheme.colorScheme.surface,
-                shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
-            )
-            .padding(all = 16.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),
     ) {
-        PanelFieldsGroupWidget(
+        SpaciousPanelFieldsGroupWidget(
+            octets = uiState.octets,
+            focusedOctetIndex = uiState.focusedOctetIndex,
+            cidr = uiState.cidr,
+            onOctetChange = component::onOctetChange,
+            onOctetDeleteImeClick = component::onOctetDeleteImeClick,
+            onOctetNextImeActionClick = component::onOctetNextImeActionClick,
+            onOctetFocusChange = component::onOctetFocusChange,
+            onCIDRClick = component::onCIDRClick,
+        )
+
+        SpaciousPanelButtonsGroupWidget(
+            modifier = Modifier.fillMaxWidth(),
+            isSharingAvailable = uiState.isSharingAvailable,
+            onCalculateClick = component::onCalculateClick,
+            onShareClick = component::onShareClick,
+        )
+    }
+}
+
+@Composable
+private fun CompatCalculatorControlPanelWidget(
+    uiState: CalculatorUiState,
+    component: CalculatorComponent,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(space = 16.dp),
+    ) {
+        CompatPanelFieldsGroupWidget(
             modifier = Modifier.fillMaxWidth(),
             octets = uiState.octets,
             focusedOctetIndex = uiState.focusedOctetIndex,
@@ -147,7 +259,7 @@ private fun CalculatorControlPanelWidget(
             onCIDRClick = component::onCIDRClick,
         )
 
-        PanelButtonsGroupWidget(
+        CompatPanelButtonsGroupWidget(
             modifier = Modifier.fillMaxWidth(),
             isSharingAvailable = uiState.isSharingAvailable,
             onCalculateClick = component::onCalculateClick,
@@ -157,7 +269,51 @@ private fun CalculatorControlPanelWidget(
 }
 
 @Composable
-private fun PanelFieldsGroupWidget(
+private fun SpaciousPanelFieldsGroupWidget(
+    octets: List<OctetDvo>,
+    focusedOctetIndex: Int?,
+    cidr: CIDRDvo?,
+    onOctetChange: (Int, TextFieldValue) -> Unit,
+    onOctetDeleteImeClick: (Int) -> Unit,
+    onOctetNextImeActionClick: (Int) -> Unit,
+    onOctetFocusChange: (Int) -> Unit,
+    onCIDRClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(space = 16.dp),
+    ) {
+        LargeText(text = stringResource(id = R.string.calculator_ip_address))
+        OctetTextFieldsWidget(
+            octets = octets,
+            focusedOctetIndex = focusedOctetIndex,
+            onOctetChange = onOctetChange,
+            onOctetDeleteImeClick = onOctetDeleteImeClick,
+            onOctetNextImeActionClick = onOctetNextImeActionClick,
+            onOctetFocusChange = onOctetFocusChange,
+            modifier = Modifier.fillMaxWidth(),
+        )
+
+        cidr?.let {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(space = 16.dp),
+            ) {
+                LargeText(text = stringResource(id = R.string.calculator_cidr_prefix))
+
+                CIDRWidget(
+                    cidrPrefix = it,
+                    onCIDRClick = onCIDRClick,
+                    modifier = Modifier,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun CompatPanelFieldsGroupWidget(
     octets: List<OctetDvo>,
     focusedOctetIndex: Int?,
     cidr: CIDRDvo?,
@@ -186,7 +342,10 @@ private fun PanelFieldsGroupWidget(
         )
 
         cidr?.let {
-            LargeText(text = stringResource(id = R.string.calculator_slash))
+            LargeText(
+                text = stringResource(id = R.string.calculator_slash),
+                modifier = Modifier.padding(all = 16.dp),
+            )
 
             CIDRWidget(
                 cidrPrefix = it,
@@ -200,7 +359,33 @@ private fun PanelFieldsGroupWidget(
 }
 
 @Composable
-private fun PanelButtonsGroupWidget(
+private fun SpaciousPanelButtonsGroupWidget(
+    isSharingAvailable: Boolean,
+    onCalculateClick: () -> Unit,
+    onShareClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
+    ) {
+        PanelButton(
+            text = stringResource(id = R.string.calculator_calculate_text),
+            onClick = onCalculateClick,
+            modifier = Modifier.fillMaxWidth(),
+        )
+
+        PanelButton(
+            text = stringResource(id = R.string.calculator_share_text),
+            enabled = isSharingAvailable,
+            onClick = onShareClick,
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
+}
+
+@Composable
+private fun CompatPanelButtonsGroupWidget(
     isSharingAvailable: Boolean,
     onCalculateClick: () -> Unit,
     onShareClick: () -> Unit,
@@ -525,7 +710,8 @@ private fun SubnetMaskListWidget(
                 text = subnetMask,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { onSubnetMaskItemClick(cidrValue) },
+                    .clickable { onSubnetMaskItemClick(cidrValue) }
+                    .padding(all = 16.dp),
             )
 
             if (cidrValue < subnetMaskList.lastIndex) {
@@ -562,6 +748,7 @@ private fun EmptyStateWidget(
             LargeText(
                 text = stringResource(id = R.string.calculator_empty_state_text),
                 textAlign = TextAlign.Center,
+                modifier = Modifier.padding(all = 16.dp),
             )
         }
     }
@@ -599,6 +786,9 @@ private fun ContentStateWidget(
 @Composable
 private fun CalculatorScreenPreview() {
     AppTheme {
-        CalculatorScreen(PreviewCalculatorComponent())
+        CalculatorScreen(
+            layoutType = LayoutType.COMPACT,
+            component = PreviewCalculatorComponent(),
+        )
     }
 }

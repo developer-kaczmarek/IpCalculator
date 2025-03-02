@@ -22,7 +22,7 @@ fun LargeText(
     textAlign: TextAlign = TextAlign.Start,
 ) {
     Text(
-        modifier = modifier.padding(16.dp),
+        modifier = modifier,
         text = text,
         textAlign = textAlign,
         color = MaterialTheme.colorScheme.onSurface,

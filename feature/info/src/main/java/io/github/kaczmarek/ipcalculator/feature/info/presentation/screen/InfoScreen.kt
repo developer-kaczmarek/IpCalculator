@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.github.kaczmarek.ipcalculator.core.model.layout.LayoutType
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.core.ui.widget.CardWrapper
 import io.github.kaczmarek.ipcalculator.core.ui.widget.LargeText
@@ -23,6 +24,7 @@ import io.github.kaczmarek.ipcalculator.feature.info.R
 @Composable
 fun InfoScreen(
     component: InfoComponent,
+    layoutType: LayoutType,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -40,7 +42,8 @@ fun InfoScreen(
                 text = stringResource(id = R.string.info_go_to_github),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable(onClick = component::onOpenGithubPageClick),
+                    .clickable(onClick = component::onOpenGithubPageClick)
+                    .padding(all = 16.dp),
             )
         }
 
@@ -53,7 +56,8 @@ fun InfoScreen(
                 text = stringResource(id = R.string.info_privacy_policy),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable(onClick = component::onReadPrivacyPolicyClick),
+                    .clickable(onClick = component::onReadPrivacyPolicyClick)
+                    .padding(all = 16.dp),
             )
         }
 
@@ -69,7 +73,8 @@ fun InfoScreen(
                     text = stringResource(id = R.string.info_send_email),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable(onClick = component::onContactDeveloperClick),
+                        .clickable(onClick = component::onContactDeveloperClick)
+                        .padding(all = 16.dp),
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -78,7 +83,8 @@ fun InfoScreen(
                     text = stringResource(id = R.string.info_app_rate),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable(onClick = component::onRateAppClick),
+                        .clickable(onClick = component::onRateAppClick)
+                        .padding(all = 16.dp),
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -91,7 +97,8 @@ fun InfoScreen(
                             component.onShareAppClick(
                                 text = context.getString(R.string.share_app_text),
                             )
-                        },
+                        }
+                        .padding(all = 16.dp),
                 )
             }
         }
@@ -103,6 +110,9 @@ fun InfoScreen(
 @Composable
 private fun InfoScreenPreview() {
     AppTheme {
-        InfoScreen(PreviewInfoComponent())
+        InfoScreen(
+            layoutType = LayoutType.COMPACT,
+            component = PreviewInfoComponent(),
+        )
     }
 }

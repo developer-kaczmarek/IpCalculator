@@ -2,32 +2,43 @@ package io.github.kaczmarek.ipcalculator.root.presentation
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationRail
+import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -39,13 +50,14 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import io.github.kaczmarek.ipcalculator.R
+import io.github.kaczmarek.ipcalculator.core.model.layout.LayoutType
 import io.github.kaczmarek.ipcalculator.core.model.theme.ThemeType
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
+import io.github.kaczmarek.ipcalculator.core.utils.getLayoutType
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.screen.CalculatorScreen
 import io.github.kaczmarek.ipcalculator.feature.info.presentation.screen.InfoScreen
 import io.github.kaczmarek.ipcalculator.feature.settings.presentation.SettingsScreen
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RootScreen(
     component: RootComponent,
@@ -56,49 +68,90 @@ fun RootScreen(
     AppTheme(themeType) {
         val stack by component.stack.subscribeAsState()
         val activeComponent = stack.active.instance
+        val adaptiveInfo = currentWindowAdaptiveInfo()
+        val layoutType = getLayoutType(adaptiveInfo = adaptiveInfo)
 
-        Scaffold(
-            modifier = modifier,
-            containerColor = MaterialTheme.colorScheme.background,
-            topBar = {
-                CenterAlignedTopAppBar(
-                    title = {
-                        Text(
-                            text = stringResource(
-                                id = when (activeComponent) {
-                                    is RootComponent.Child.CalculatorChild -> R.string.root_nav_calculator
-                                    is RootComponent.Child.SettingsChild -> R.string.root_nav_settings
-                                    is RootComponent.Child.InfoChild -> R.string.root_nav_info
-                                }
-                            ),
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
+        Row(modifier = modifier) {
+            Scaffold(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1.0f),
+                containerColor = MaterialTheme.colorScheme.background,
+                bottomBar = {
+                    if (layoutType == LayoutType.COMPACT) {
+                        BottomBar(
+                            component = component,
+                            activeComponent = activeComponent,
+                            modifier = Modifier.fillMaxWidth(),
                         )
                     }
-                )
-            },
-            bottomBar = {
-                BottomBar(
+                },
+            ) { innerPadding ->
+                RootContent(
+                    layoutType = layoutType,
                     component = component,
                     activeComponent = activeComponent,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .consumeWindowInsets(innerPadding)
+                        .fillMaxSize(),
                 )
-            },
-        ) { innerPadding ->
-            Children(
-                component = component,
-                modifier = Modifier
-                    .padding(innerPadding)
-                    .consumeWindowInsets(innerPadding)
-                    .imePadding()
-                    .fillMaxSize(),
-            )
+            }
         }
     }
 }
 
 @Composable
-private fun Children(component: RootComponent, modifier: Modifier = Modifier) {
+private fun RootContent(
+    layoutType: LayoutType,
+    component: RootComponent,
+    activeComponent: RootComponent.Child,
+    modifier: Modifier = Modifier,
+    windowInsets: WindowInsets = WindowInsets.safeDrawing,
+) {
+    Row(modifier = modifier) {
+        Children(
+            component = component,
+            layoutType = layoutType,
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1.0f),
+        )
+
+        if (layoutType == LayoutType.SPACIOUS) {
+            if (activeComponent is RootComponent.Child.CalculatorChild) {
+                VerticalDivider()
+            }
+
+            Box(
+                modifier = Modifier
+                    .windowInsetsPadding(windowInsets.only(WindowInsetsSides.End))
+                    .background(
+                        color = MaterialTheme.colorScheme.surface,
+                        shape = if (activeComponent is RootComponent.Child.CalculatorChild) {
+                            RoundedCornerShape(topEnd = 24.dp, bottomEnd = 24.dp)
+                        } else {
+                            RoundedCornerShape(24.dp)
+                        },
+                    )
+                    .padding(horizontal = 8.dp),
+            ) {
+                NavigationRailBar(
+                    component = component,
+                    activeComponent = activeComponent,
+                    modifier = Modifier.fillMaxHeight()
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun Children(
+    component: RootComponent,
+    layoutType: LayoutType,
+    modifier: Modifier = Modifier,
+) {
     Children(
         stack = component.stack,
         modifier = modifier,
@@ -107,19 +160,57 @@ private fun Children(component: RootComponent, modifier: Modifier = Modifier) {
         when (val child = it.instance) {
             is RootComponent.Child.CalculatorChild -> CalculatorScreen(
                 component = child.component,
+                layoutType = layoutType,
                 modifier = Modifier.fillMaxSize(),
             )
 
             is RootComponent.Child.SettingsChild -> SettingsScreen(
                 component = child.component,
+                layoutType = layoutType,
                 modifier = Modifier.fillMaxSize(),
             )
 
             is RootComponent.Child.InfoChild -> InfoScreen(
                 component = child.component,
+                layoutType = layoutType,
                 modifier = Modifier.fillMaxSize(),
             )
         }
+    }
+}
+
+@Composable
+fun NavigationRailBar(
+    component: RootComponent,
+    activeComponent: RootComponent.Child,
+    modifier: Modifier = Modifier,
+) {
+    NavigationRail(
+        modifier = modifier,
+        containerColor = Color.Transparent,
+    ) {
+        Spacer(modifier = Modifier.weight(1.0f))
+        NavigationItem(
+            selected = activeComponent is RootComponent.Child.CalculatorChild,
+            onClick = component::onCalculatorTabClick,
+            labelRes = R.string.root_nav_calculator,
+            icon = Icons.AutoMirrored.Filled.List,
+        )
+
+        NavigationItem(
+            selected = activeComponent is RootComponent.Child.SettingsChild,
+            onClick = component::onSettingsTabClick,
+            labelRes = R.string.root_nav_settings,
+            icon = Icons.Default.Settings,
+        )
+
+        NavigationItem(
+            selected = activeComponent is RootComponent.Child.InfoChild,
+            onClick = component::onInfoTabClick,
+            labelRes = R.string.root_nav_info,
+            icon = Icons.Default.Info,
+        )
+        Spacer(modifier = Modifier.weight(1.0f))
     }
 }
 
@@ -186,11 +277,34 @@ fun RowScope.NavigationItem(
     )
 }
 
+@Composable
+fun ColumnScope.NavigationItem(
+    icon: ImageVector,
+    @StringRes labelRes: Int,
+    selected: Boolean,
+    onClick: () -> Unit,
+) {
+    NavigationRailItem(
+        selected = selected,
+        onClick = onClick,
+        label = {
+            Text(
+                text = stringResource(labelRes),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        },
+        icon = { Icon(imageVector = icon, contentDescription = null) },
+    )
+}
+
 @Preview(showSystemUi = true)
 @Composable
 private fun RootScreenPreview() {
     AppTheme {
-        RootScreen(PreviewRootComponent())
+        RootScreen(
+            component = PreviewRootComponent(),
+        )
     }
 }
 
