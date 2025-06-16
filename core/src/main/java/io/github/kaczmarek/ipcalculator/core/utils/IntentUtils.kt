@@ -1,7 +1,7 @@
 package io.github.kaczmarek.ipcalculator.core.utils
 
 import android.content.Intent
-import android.net.Uri
+import androidx.core.net.toUri
 
 private const val TEXT_TYPE = "text/plain"
 
@@ -15,7 +15,7 @@ fun getShareTextIntent(text: String): Intent {
 }
 
 fun getSuitableViewerIntent(link: String): Intent {
-    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
+    val intent = Intent(Intent.ACTION_VIEW, link.toUri())
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
 
     return Intent.createChooser(intent, null)

@@ -4,12 +4,19 @@ import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -29,14 +36,17 @@ fun InfoScreen(
 ) {
     Column(
         modifier = modifier
-            .verticalScroll(rememberScrollState()),
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Start)),
         verticalArrangement = Arrangement.spacedBy(space = 24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         CardWrapper(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .padding(top = 24.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth(fraction = if (layoutType == LayoutType.COMPACT) 1.0f else 0.6f),
         ) {
             LargeText(
                 text = stringResource(id = R.string.info_go_to_github),
@@ -50,7 +60,7 @@ fun InfoScreen(
         CardWrapper(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth(fraction = if (layoutType == LayoutType.COMPACT) 1.0f else 0.6f),
         ) {
             LargeText(
                 text = stringResource(id = R.string.info_privacy_policy),
@@ -64,7 +74,7 @@ fun InfoScreen(
         CardWrapper(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth(fraction = if (layoutType == LayoutType.COMPACT) 1.0f else 0.6f),
         ) {
             val context = LocalContext.current
 

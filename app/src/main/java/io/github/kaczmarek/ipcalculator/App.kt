@@ -3,7 +3,7 @@ package io.github.kaczmarek.ipcalculator
 import android.app.Application
 import android.content.Context
 import io.github.kaczmarek.ipcalculator.core.factory.component.ComponentFactory
-import io.github.kaczmarek.ipcalculator.core.provider.KoinProvider
+import io.github.kaczmarek.ipcalculator.core.provider.koin.KoinProvider
 import io.github.kaczmarek.ipcalculator.root.di.rootModule
 import io.github.kaczmarek.ipcalculator.feature.settings.di.settingsModule
 import org.koin.core.Koin

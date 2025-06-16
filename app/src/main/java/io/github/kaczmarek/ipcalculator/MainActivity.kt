@@ -2,7 +2,6 @@ package io.github.kaczmarek.ipcalculator
 
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.SystemBarStyle
@@ -11,16 +10,17 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
+import androidx.core.net.toUri
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.arkivanov.decompose.defaultComponentContext
 import io.github.kaczmarek.ipcalculator.core.factory.component.ComponentFactory
-import io.github.kaczmarek.ipcalculator.core.provider.koin
+import io.github.kaczmarek.ipcalculator.core.provider.koin.koin
 import io.github.kaczmarek.ipcalculator.core.utils.getShareTextIntent
 import io.github.kaczmarek.ipcalculator.core.utils.getSuitableViewerIntent
-import io.github.kaczmarek.ipcalculator.feature.info.domain.model.AppLinkType
-import io.github.kaczmarek.ipcalculator.root.presentation.RootScreen
 import io.github.kaczmarek.ipcalculator.feature.info.R
+import io.github.kaczmarek.ipcalculator.feature.info.domain.model.AppLinkType
 import io.github.kaczmarek.ipcalculator.root.di.createRootComponent
+import io.github.kaczmarek.ipcalculator.root.presentation.RootScreen
 
 class MainActivity : AppCompatActivity() {
 
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun openStorePage() {
         try {
-            val uri = Uri.parse(resources.getString(R.string.market_link))
+            val uri = resources.getString(R.string.market_link).toUri()
             val intent = Intent(Intent.ACTION_VIEW, uri)
             startActivity(intent)
         } catch (t: Throwable) {

@@ -4,7 +4,6 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -54,6 +53,7 @@ import io.github.kaczmarek.ipcalculator.core.model.layout.LayoutType
 import io.github.kaczmarek.ipcalculator.core.model.theme.ThemeType
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.core.utils.getLayoutType
+import io.github.kaczmarek.ipcalculator.core.utils.isLandscapeOrientation
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.screen.CalculatorScreen
 import io.github.kaczmarek.ipcalculator.feature.info.presentation.screen.InfoScreen
 import io.github.kaczmarek.ipcalculator.feature.settings.presentation.SettingsScreen
@@ -78,7 +78,7 @@ fun RootScreen(
                     .weight(1.0f),
                 containerColor = MaterialTheme.colorScheme.background,
                 bottomBar = {
-                    if (layoutType == LayoutType.COMPACT) {
+                    if (!isLandscapeOrientation()) {
                         BottomBar(
                             component = component,
                             activeComponent = activeComponent,
@@ -118,7 +118,7 @@ private fun RootContent(
                 .weight(1.0f),
         )
 
-        if (layoutType == LayoutType.SPACIOUS) {
+        if (isLandscapeOrientation()) {
             if (activeComponent is RootComponent.Child.CalculatorChild) {
                 VerticalDivider()
             }
@@ -191,24 +191,24 @@ fun NavigationRailBar(
     ) {
         Spacer(modifier = Modifier.weight(1.0f))
         NavigationItem(
+            icon = Icons.AutoMirrored.Filled.List,
+            labelRes = R.string.root_nav_calculator,
             selected = activeComponent is RootComponent.Child.CalculatorChild,
             onClick = component::onCalculatorTabClick,
-            labelRes = R.string.root_nav_calculator,
-            icon = Icons.AutoMirrored.Filled.List,
         )
 
         NavigationItem(
+            icon = Icons.Default.Settings,
+            labelRes = R.string.root_nav_settings,
             selected = activeComponent is RootComponent.Child.SettingsChild,
             onClick = component::onSettingsTabClick,
-            labelRes = R.string.root_nav_settings,
-            icon = Icons.Default.Settings,
         )
 
         NavigationItem(
+            icon = Icons.Default.Info,
+            labelRes = R.string.root_nav_info,
             selected = activeComponent is RootComponent.Child.InfoChild,
             onClick = component::onInfoTabClick,
-            labelRes = R.string.root_nav_info,
-            icon = Icons.Default.Info,
         )
         Spacer(modifier = Modifier.weight(1.0f))
     }
@@ -278,7 +278,7 @@ fun RowScope.NavigationItem(
 }
 
 @Composable
-fun ColumnScope.NavigationItem(
+fun NavigationItem(
     icon: ImageVector,
     @StringRes labelRes: Int,
     selected: Boolean,

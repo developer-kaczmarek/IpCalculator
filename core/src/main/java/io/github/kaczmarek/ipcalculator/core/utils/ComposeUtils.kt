@@ -37,7 +37,6 @@ fun getLayoutType(adaptiveInfo: WindowAdaptiveInfo): LayoutType {
                     windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.MEDIUM
 
         when {
-            isLandscapeOrientation() -> LayoutType.SPACIOUS
             isCompatWindowSize -> LayoutType.COMPACT
             isSpaciousWindowSize -> LayoutType.SPACIOUS
             else -> LayoutType.COMPACT
