@@ -30,7 +30,7 @@ import io.github.kaczmarek.ipcalculator.core.ui.theme.robotoMonoFamily
 import io.github.kaczmarek.ipcalculator.core.ui.widget.LargeText
 import io.github.kaczmarek.ipcalculator.core.utils.isLight
 import io.github.kaczmarek.ipcalculator.feature.calculator.R
-import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.CalculationDvo
+import io.github.kaczmarek.ipcalculator.feature.calculator.domain.model.Calculation
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.screen.CalculatorUiState
 
 @Composable
@@ -87,7 +87,7 @@ private fun EmptyStateWidget(
 
 @Composable
 private fun ContentStateWidget(
-    calculations: List<CalculationDvo>,
+    calculations: List<Calculation>,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
@@ -124,15 +124,15 @@ private fun CalculationsListContentWidgetPreview() {
             CalculationsListContentWidget(
                 uiState = CalculatorUiState(
                     calculations = listOf(
-                        CalculationDvo(
+                        Calculation(
                             name = "IP адрес",
                             value = "192.168.1.1",
                         ),
-                        CalculationDvo(
+                        Calculation(
                             name = "CIDR нотация",
                             value = "24",
                         ),
-                        CalculationDvo(
+                        Calculation(
                             name = "Маска подсети",
                             value = "255.255.255.0",
                         )
