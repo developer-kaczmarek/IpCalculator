@@ -1,4 +1,4 @@
-package io.github.kaczmarek.ipcalculator.core.provider
+package io.github.kaczmarek.ipcalculator.core.provider.koin
 
 import android.app.Application
 import org.koin.core.Koin

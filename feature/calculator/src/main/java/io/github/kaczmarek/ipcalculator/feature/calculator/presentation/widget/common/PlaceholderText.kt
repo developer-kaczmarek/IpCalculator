@@ -1,4 +1,4 @@
-package io.github.kaczmarek.ipcalculator.core.ui.widget
+package io.github.kaczmarek.ipcalculator.feature.calculator.presentation.widget.common
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
@@ -14,43 +14,34 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
+import io.github.kaczmarek.ipcalculator.core.ui.theme.robotoMonoFamily
 
 @Composable
-fun LargeText(
+internal fun PlaceholderText(
     text: String,
     modifier: Modifier = Modifier,
-    textAlign: TextAlign = TextAlign.Start,
 ) {
     Text(
-        modifier = modifier,
         text = text,
-        textAlign = textAlign,
-        color = MaterialTheme.colorScheme.onSurface,
+        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+        textAlign = TextAlign.Center,
+        fontFamily = robotoMonoFamily,
         style = MaterialTheme.typography.bodyLarge,
+        modifier = modifier,
     )
 }
 
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-private fun LargeTextPreview() {
+private fun PlaceholderTextPreview() {
     AppTheme {
         Column(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background),
         ) {
-            LargeText(
+            PlaceholderText(
                 text = LoremIpsum(2).values
-                    .toList()
-                    .first()
-                    .toString(),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(all = 16.dp),
-            )
-
-            LargeText(
-                text = LoremIpsum(10).values
                     .toList()
                     .first()
                     .toString(),
