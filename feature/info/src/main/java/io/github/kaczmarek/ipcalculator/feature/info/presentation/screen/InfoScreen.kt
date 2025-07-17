@@ -22,11 +22,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.kaczmarek.ipcalculator.core.model.layout.LayoutType
-import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
+import io.github.kaczmarek.ipcalculator.core.model.LayoutType
 import io.github.kaczmarek.ipcalculator.core.ui.widget.CardWrapper
 import io.github.kaczmarek.ipcalculator.core.ui.widget.LargeText
 import io.github.kaczmarek.ipcalculator.feature.info.R
+import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
+
 
 @Composable
 fun InfoScreen(
@@ -46,7 +47,7 @@ fun InfoScreen(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .padding(top = 24.dp)
-                .fillMaxWidth(fraction = if (layoutType == LayoutType.COMPACT) 1.0f else 0.6f),
+                .fillMaxWidth(fraction = if (layoutType == LayoutType.Compat) 1.0f else 0.6f),
         ) {
             LargeText(
                 text = stringResource(id = R.string.info_go_to_github),
@@ -60,7 +61,7 @@ fun InfoScreen(
         CardWrapper(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .fillMaxWidth(fraction = if (layoutType == LayoutType.COMPACT) 1.0f else 0.6f),
+                .fillMaxWidth(fraction = if (layoutType == LayoutType.Compat) 1.0f else 0.6f),
         ) {
             LargeText(
                 text = stringResource(id = R.string.info_privacy_policy),
@@ -74,7 +75,7 @@ fun InfoScreen(
         CardWrapper(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .fillMaxWidth(fraction = if (layoutType == LayoutType.COMPACT) 1.0f else 0.6f),
+                .fillMaxWidth(fraction = if (layoutType == LayoutType.Compat) 1.0f else 0.6f),
         ) {
             val context = LocalContext.current
 
@@ -121,7 +122,7 @@ fun InfoScreen(
 private fun InfoScreenPreview() {
     AppTheme {
         InfoScreen(
-            layoutType = LayoutType.COMPACT,
+            layoutType = LayoutType.Compat,
             component = PreviewInfoComponent(),
         )
     }

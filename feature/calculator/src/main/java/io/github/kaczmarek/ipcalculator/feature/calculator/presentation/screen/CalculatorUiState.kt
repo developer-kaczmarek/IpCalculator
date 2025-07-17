@@ -1,8 +1,8 @@
 package io.github.kaczmarek.ipcalculator.feature.calculator.presentation.screen
 
 import androidx.compose.runtime.Immutable
+import io.github.kaczmarek.ipcalculator.core.model.Calculation
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.CIDRDvo
-import io.github.kaczmarek.ipcalculator.feature.calculator.domain.model.Calculation
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.OctetDvo
 
 const val FIRST_OCTET_INDEX = 0

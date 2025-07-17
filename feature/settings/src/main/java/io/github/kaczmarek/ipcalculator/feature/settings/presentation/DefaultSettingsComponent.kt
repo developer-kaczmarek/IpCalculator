@@ -2,11 +2,11 @@ package io.github.kaczmarek.ipcalculator.feature.settings.presentation
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.doOnStart
-import io.github.kaczmarek.ipcalculator.core.manager.locale.LanguageManager
-import io.github.kaczmarek.ipcalculator.core.model.language.Language
-import io.github.kaczmarek.ipcalculator.core.model.theme.ThemeType
-import io.github.kaczmarek.ipcalculator.core.utils.componentCoroutineScope
-import io.github.kaczmarek.ipcalculator.feature.settings.domain.repository.SettingsRepository
+import io.github.kaczmarek.ipcalculator.core.data.AppThemeRepository
+import io.github.kaczmarek.ipcalculator.core.data.LanguageRepository
+import io.github.kaczmarek.ipcalculator.core.model.Language
+import io.github.kaczmarek.ipcalculator.core.model.ThemeType
+import io.github.kaczmarek.ipcalculator.core.ui.utils.componentCoroutineScope
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -15,8 +15,8 @@ import kotlinx.coroutines.launch
 internal class DefaultSettingsComponent(
     componentContext: ComponentContext,
     private val onOutput: (SettingsComponent.Output) -> Unit,
-    private val settingsRepository: SettingsRepository,
-    private val languageManager: LanguageManager,
+    private val themeRepository: AppThemeRepository,
+    private val languageRepository: LanguageRepository,
 ) : ComponentContext by componentContext, SettingsComponent {
 
     override val uiState = MutableStateFlow(SettingsUiState())
@@ -34,15 +34,14 @@ internal class DefaultSettingsComponent(
 
     override fun onLanguageItemClick(newLanguage: Language) {
         coroutineScope.launch {
-            settingsRepository.setSelectedLanguage(newLanguage)
+            languageRepository.setSelectedLanguage(newLanguage)
             uiState.update { uiState.value.copy(selectedLanguage = newLanguage) }
-            languageManager.updateAppLocale(newLanguage)
         }
     }
 
     override fun onThemeItemClick(newTheme: ThemeType) {
         coroutineScope.launch {
-            settingsRepository.setSelectedTheme(newTheme)
+            themeRepository.setSelectedTheme(newTheme)
             uiState.update { uiState.value.copy(selectedThemeType = newTheme) }
             onOutput.invoke(SettingsComponent.Output.ThemeChanged)
         }
@@ -50,8 +49,8 @@ internal class DefaultSettingsComponent(
 
     private fun prepareUiState() {
         coroutineScope.launch {
-            val selectedLanguage = settingsRepository.getSelectedLanguage()
-            val selectedTheme = settingsRepository.getSelectedThemeType()
+            val selectedLanguage = languageRepository.getSelectedLanguage()
+            val selectedTheme = themeRepository.getSelectedThemeType()
 
             uiState.update {
                 uiState.value.copy(

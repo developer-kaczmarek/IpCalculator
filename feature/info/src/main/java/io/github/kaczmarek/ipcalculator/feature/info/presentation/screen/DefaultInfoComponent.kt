@@ -1,7 +1,7 @@
 package io.github.kaczmarek.ipcalculator.feature.info.presentation.screen
 
 import com.arkivanov.decompose.ComponentContext
-import io.github.kaczmarek.ipcalculator.feature.info.domain.model.AppLinkType
+import io.github.kaczmarek.ipcalculator.core.model.AppLinkType
 
 internal class DefaultInfoComponent(
     componentContext: ComponentContext,

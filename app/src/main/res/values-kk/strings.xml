@@ -1,3 +1,7 @@
 <resources>
+    <string name="app_name">IP Калькулятор</string>
 
+    <string name="root_nav_calculator">Калькулятор</string>
+    <string name="root_nav_settings">Баптаулар</string>
+    <string name="root_nav_info">Ақпарат</string>
 </resources>

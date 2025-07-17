@@ -29,13 +29,14 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import io.github.kaczmarek.ipcalculator.core.model.language.Language
-import io.github.kaczmarek.ipcalculator.core.model.layout.LayoutType
-import io.github.kaczmarek.ipcalculator.core.model.theme.ThemeType
-import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
+import io.github.kaczmarek.ipcalculator.core.model.Language
+import io.github.kaczmarek.ipcalculator.core.model.LayoutType
+import io.github.kaczmarek.ipcalculator.core.model.ThemeType
 import io.github.kaczmarek.ipcalculator.core.ui.widget.CardWrapper
 import io.github.kaczmarek.ipcalculator.core.ui.widget.HeadlineItem
 import io.github.kaczmarek.ipcalculator.feature.settings.R
+import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
+
 
 @Composable
 fun SettingsScreen(
@@ -55,7 +56,7 @@ fun SettingsScreen(
         HeadlineItem(
             text = stringResource(id = R.string.settings_theme),
             modifier = Modifier
-                .fillMaxWidth(fraction = if (layoutType == LayoutType.COMPACT) 1.0f else 0.6f)
+                .fillMaxWidth(fraction = if (layoutType == LayoutType.Compat) 1.0f else 0.6f)
                 .padding(horizontal = 16.dp)
                 .padding(top = 24.dp, bottom = 8.dp),
         )
@@ -65,13 +66,13 @@ fun SettingsScreen(
             onClick = { component.onThemeItemClick(it) },
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .fillMaxWidth(fraction = if (layoutType == LayoutType.COMPACT) 1.0f else 0.6f),
+                .fillMaxWidth(fraction = if (layoutType == LayoutType.Compat) 1.0f else 0.6f),
         )
 
         HeadlineItem(
             text = stringResource(id = R.string.settings_language),
             modifier = Modifier
-                .fillMaxWidth(fraction = if (layoutType == LayoutType.COMPACT) 1.0f else 0.6f)
+                .fillMaxWidth(fraction = if (layoutType == LayoutType.Compat) 1.0f else 0.6f)
                 .padding(horizontal = 16.dp)
                 .padding(top = 24.dp, bottom = 8.dp),
         )
@@ -81,7 +82,7 @@ fun SettingsScreen(
             onClick = { component.onLanguageItemClick(it) },
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .fillMaxWidth(fraction = if (layoutType == LayoutType.COMPACT) 1.0f else 0.6f),
+                .fillMaxWidth(fraction = if (layoutType == LayoutType.Compat) 1.0f else 0.6f),
         )
     }
 }
@@ -207,7 +208,7 @@ private fun ThemeRadioGroup(
 private fun SettingsScreenPreview() {
     AppTheme {
         SettingsScreen(
-            layoutType = LayoutType.COMPACT,
+            layoutType = LayoutType.Compat,
             component = PreviewSettingsComponent(),
         )
     }

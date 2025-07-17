@@ -13,12 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.core.net.toUri
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.arkivanov.decompose.defaultComponentContext
-import io.github.kaczmarek.ipcalculator.core.factory.component.ComponentFactory
-import io.github.kaczmarek.ipcalculator.core.provider.koin.koin
-import io.github.kaczmarek.ipcalculator.core.utils.getShareTextIntent
-import io.github.kaczmarek.ipcalculator.core.utils.getSuitableViewerIntent
+import io.github.kaczmarek.ipcalculator.core.model.AppLinkType
+import io.github.kaczmarek.ipcalculator.core.ui.factory.component.ComponentFactory
+import io.github.kaczmarek.ipcalculator.core.ui.koin.koin
+import io.github.kaczmarek.ipcalculator.core.ui.utils.getShareTextIntent
+import io.github.kaczmarek.ipcalculator.core.ui.utils.getSuitableViewerIntent
 import io.github.kaczmarek.ipcalculator.feature.info.R
-import io.github.kaczmarek.ipcalculator.feature.info.domain.model.AppLinkType
 import io.github.kaczmarek.ipcalculator.root.di.createRootComponent
 import io.github.kaczmarek.ipcalculator.root.presentation.RootScreen
 
@@ -45,7 +45,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun enableRealEdgeToEdge() {
-        enableEdgeToEdge(navigationBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT))
+        enableEdgeToEdge(
+            navigationBarStyle = SystemBarStyle.auto(
+                Color.TRANSPARENT,
+                Color.TRANSPARENT
+            )
+        )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             window.isNavigationBarContrastEnforced = false
         }
@@ -55,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(
             getSuitableViewerIntent(
                 link = resources.getString(
-                    when(appLinkType) {
+                    when (appLinkType) {
                         AppLinkType.Github -> R.string.github_page_link
                         AppLinkType.PrivacyPolicy -> R.string.privacy_policy_link
                         AppLinkType.Support -> R.string.developer_email_link

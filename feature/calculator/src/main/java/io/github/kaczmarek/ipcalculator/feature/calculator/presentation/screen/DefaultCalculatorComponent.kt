@@ -4,10 +4,10 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.doOnStart
-import io.github.kaczmarek.ipcalculator.core.utils.componentCoroutineScope
-import io.github.kaczmarek.ipcalculator.core.utils.empty
-import io.github.kaczmarek.ipcalculator.core.utils.persistent
-import io.github.kaczmarek.ipcalculator.feature.calculator.domain.repository.InternalCalculatorRepository
+import io.github.kaczmarek.ipcalculator.core.data.CalculatorRepository
+import io.github.kaczmarek.ipcalculator.core.ui.utils.componentCoroutineScope
+import io.github.kaczmarek.ipcalculator.core.ui.utils.empty
+import io.github.kaczmarek.ipcalculator.core.ui.utils.persistent
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.CIDRDvo
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.model.OctetDvo
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -28,7 +28,7 @@ private const val CIDR_PREFIX_PLACEHOLDER = "24"
 internal class DefaultCalculatorComponent(
     componentContext: ComponentContext,
     private val onOutput: (CalculatorComponent.Output) -> Unit,
-    private val calculatorRepository: InternalCalculatorRepository,
+    private val calculatorRepository: CalculatorRepository,
 ) : ComponentContext by componentContext, CalculatorComponent {
 
     override val uiState = MutableStateFlow(CalculatorUiState())

@@ -1,6 +1,6 @@
 package io.github.kaczmarek.ipcalculator.feature.info.presentation.screen
 
-import io.github.kaczmarek.ipcalculator.feature.info.domain.model.AppLinkType
+import io.github.kaczmarek.ipcalculator.core.model.AppLinkType
 
 interface InfoComponent {
 

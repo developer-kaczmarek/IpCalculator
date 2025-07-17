@@ -15,12 +15,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import io.github.kaczmarek.ipcalculator.core.model.layout.LayoutType
+import io.github.kaczmarek.ipcalculator.core.model.LayoutType
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
-import io.github.kaczmarek.ipcalculator.core.utils.isLandscapeOrientation
-import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.widget.common.SubnetMaskListDialogWidget
-import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.widget.compat.CompactContainer
-import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.widget.spacious.SpaciousContainer
+import io.github.kaczmarek.ipcalculator.core.ui.utils.isLandscapeOrientation
+import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.widget.SubnetMaskListDialogWidget
+import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.widget.CompactContainer
+import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.widget.SpaciousContainer
+
 
 @Composable
 fun CalculatorScreen(
@@ -69,9 +70,9 @@ fun CalculatorScreen(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun CalculatorScreenPreview() {
-    AppTheme {
+   AppTheme {
         CalculatorScreen(
-            layoutType = LayoutType.COMPACT,
+            layoutType = LayoutType.Compat,
             component = PreviewCalculatorComponent(),
         )
     }
