@@ -49,11 +49,11 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import io.github.kaczmarek.ipcalculator.R
-import io.github.kaczmarek.ipcalculator.core.model.layout.LayoutType
-import io.github.kaczmarek.ipcalculator.core.model.theme.ThemeType
+import io.github.kaczmarek.ipcalculator.core.model.LayoutType
+import io.github.kaczmarek.ipcalculator.core.model.ThemeType
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
-import io.github.kaczmarek.ipcalculator.core.utils.getLayoutType
-import io.github.kaczmarek.ipcalculator.core.utils.isLandscapeOrientation
+import io.github.kaczmarek.ipcalculator.core.ui.utils.getLayoutType
+import io.github.kaczmarek.ipcalculator.core.ui.utils.isLandscapeOrientation
 import io.github.kaczmarek.ipcalculator.feature.calculator.presentation.screen.CalculatorScreen
 import io.github.kaczmarek.ipcalculator.feature.info.presentation.screen.InfoScreen
 import io.github.kaczmarek.ipcalculator.feature.settings.presentation.SettingsScreen

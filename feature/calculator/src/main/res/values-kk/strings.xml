@@ -1,3 +1,8 @@
 <resources>
-
+    <string name="calculator_calculate_text">Есептеу</string>
+    <string name="calculator_share_text">Бөлісу</string>
+    <string name="calculator_subnet_mask_dialog_title">Желі маскасын таңдаңыз</string>
+    <string name="calculator_empty_state_text">Деректер енгізілуін күтіп тұр</string>
+    <string name="calculator_ip_address">IP мекенжай</string>
+    <string name="calculator_cidr_prefix">CIDR жазылымы</string>
 </resources>

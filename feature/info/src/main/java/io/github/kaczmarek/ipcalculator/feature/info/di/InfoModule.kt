@@ -1,7 +1,7 @@
 package io.github.kaczmarek.ipcalculator.feature.info.di
 
 import com.arkivanov.decompose.ComponentContext
-import io.github.kaczmarek.ipcalculator.core.factory.component.ComponentFactory
+import io.github.kaczmarek.ipcalculator.core.ui.factory.component.ComponentFactory
 import io.github.kaczmarek.ipcalculator.feature.info.presentation.screen.DefaultInfoComponent
 import io.github.kaczmarek.ipcalculator.feature.info.presentation.screen.InfoComponent
 

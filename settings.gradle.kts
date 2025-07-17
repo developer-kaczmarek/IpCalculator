@@ -22,7 +22,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "IP Calculator"
 include(":app")
-include(":core")
 include(":feature:info")
 include(":feature:settings")
 include(":feature:calculator")
+include(":core:model")
+include(":core:ui")
+include(":core:datastore")
+include(":core:data")

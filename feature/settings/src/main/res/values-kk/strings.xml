@@ -1,3 +1,7 @@
 <resources>
-
+    <string name="settings_language">Тіл</string>
+    <string name="settings_theme">Тақырып</string>
+    <string name="settings_theme_system">Жүйелік</string>
+    <string name="settings_theme_dark">Қараңғы</string>
+    <string name="settings_theme_light">Жарық</string>
 </resources>
