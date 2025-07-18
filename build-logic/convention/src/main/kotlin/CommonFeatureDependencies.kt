@@ -17,6 +17,9 @@ internal fun Project.configureFeatureDependencies(
         add("implementation", libs.androidx.ui.tooling.preview)
         add("implementation", libs.androidx.material3)
         add("implementation", libs.androidx.adaptive.navigation)
+        add("implementation", libs.androidx.lifecycle.runtime.ktx)
+        add("implementation", libs.androidx.lifecycle.viewModelCompose)
+        add("implementation", libs.androidx.navigation.compose)
 
         add("androidTestImplementation", platform(libs.androidx.compose.bom))
         add("debugImplementation", libs.androidx.ui.tooling)
