@@ -39,12 +39,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import io.github.kaczmarek.ipcalculator.core.model.AppLinkType
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.core.ui.utils.getLayoutType
 import io.github.kaczmarek.ipcalculator.core.ui.utils.isLandscapeOrientation
+import io.github.kaczmarek.ipcalculator.core.ui.utils.navigateToBarRoute
 import io.github.kaczmarek.ipcalculator.feature.calculator.navigation.CALCULATOR_ROUTE
 import io.github.kaczmarek.ipcalculator.root.navigation.IpCalculatorNavGraph
 import io.github.kaczmarek.ipcalculator.root.navigation.ipCalculatorTabScreens
@@ -77,7 +79,7 @@ fun RootScreen(
                     if (!isLandscapeOrientation()) {
                         BottomBar(
                             currentRoute = currentRoute,
-                            onNavigate = { navController.navigate(it) },
+                            onNavigate = { navController.navigateToBarRoute(route = it) },
                         )
                     }
                 }
@@ -113,7 +115,7 @@ fun RootScreen(
                         ) {
                             NavigationRailBar(
                                 currentRoute = currentRoute,
-                                onNavigate = { navController.navigate(it) }
+                                onNavigate = { navController.navigateToBarRoute(route = it) },
                             )
                         }
                     }
