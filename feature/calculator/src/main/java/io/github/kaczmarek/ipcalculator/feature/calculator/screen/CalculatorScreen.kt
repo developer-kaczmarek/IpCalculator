@@ -76,8 +76,10 @@ private fun CalculatorScreen(
     onSubnetMaskItemClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-
-    Box(modifier = modifier) {
+    Box(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.background),
+    ) {
         if (isLandscapeOrientation()) {
             SpaciousContainer(
                 uiState = uiState,

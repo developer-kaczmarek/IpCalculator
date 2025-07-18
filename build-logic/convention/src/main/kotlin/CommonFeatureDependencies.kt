@@ -25,6 +25,5 @@ internal fun Project.configureFeatureDependencies(
         add("debugImplementation", libs.androidx.ui.tooling)
 
         add("implementation", libs.bundles.koin)
-        add("implementation", libs.bundles.decompose)
     }
 }
