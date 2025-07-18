@@ -77,5 +77,4 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
 
     implementation(libs.bundles.koin)
-    implementation(libs.bundles.decompose)
 }
