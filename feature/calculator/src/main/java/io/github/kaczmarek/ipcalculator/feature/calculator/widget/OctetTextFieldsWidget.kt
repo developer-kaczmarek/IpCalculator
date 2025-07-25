@@ -41,7 +41,7 @@ import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.core.ui.theme.robotoMonoFamily
 import io.github.kaczmarek.ipcalculator.core.ui.utils.empty
 import io.github.kaczmarek.ipcalculator.feature.calculator.R
-import io.github.kaczmarek.ipcalculator.feature.calculator.model.OctetDvo
+import io.github.kaczmarek.ipcalculator.feature.calculator.model.OctetUiModel
 import io.github.kaczmarek.ipcalculator.feature.calculator.screen.FIRST_OCTET_INDEX
 import io.github.kaczmarek.ipcalculator.feature.calculator.screen.FOURTH_OCTET_INDEX
 import io.github.kaczmarek.ipcalculator.feature.calculator.screen.SECOND_OCTET_INDEX
@@ -49,7 +49,7 @@ import io.github.kaczmarek.ipcalculator.feature.calculator.screen.THIRD_OCTET_IN
 
 @Composable
 internal fun OctetTextFieldsWidget(
-    octets: List<OctetDvo>,
+    octets: List<OctetUiModel>,
     focusedOctetIndex: Int?,
     onOctetChange: (Int, TextFieldValue) -> Unit,
     onOctetDeleteImeClick: (Int) -> Unit,
@@ -144,7 +144,7 @@ private fun OctetDelimiterText(
 
 @Composable
 private fun OctetTextField(
-    octet: OctetDvo,
+    octet: OctetUiModel,
     onOctetChange: (TextFieldValue) -> Unit,
     onNextImeActionClick: () -> Unit,
     onFocusChange: () -> Unit,
@@ -211,28 +211,28 @@ private fun OctetTextFieldsWidgetPreview() {
         ) {
             OctetTextFieldsWidget(
                 octets = listOf(
-                    OctetDvo(
+                    OctetUiModel(
                         placeholder = "192",
                         value = TextFieldValue(
                             text = String.empty,
                             selection = TextRange.Zero,
                         ),
                     ),
-                    OctetDvo(
+                    OctetUiModel(
                         placeholder = "168",
                         value = TextFieldValue(
                             text = String.empty,
                             selection = TextRange.Zero,
                         ),
                     ),
-                    OctetDvo(
+                    OctetUiModel(
                         placeholder = "1",
                         value = TextFieldValue(
                             text = String.empty,
                             selection = TextRange.Zero,
                         ),
                     ),
-                    OctetDvo(
+                    OctetUiModel(
                         placeholder = "1",
                         value = TextFieldValue(
                             text = String.empty,

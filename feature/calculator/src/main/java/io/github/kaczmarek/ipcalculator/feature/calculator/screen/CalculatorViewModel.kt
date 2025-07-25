@@ -6,8 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.kaczmarek.ipcalculator.core.data.CalculatorRepository
 import io.github.kaczmarek.ipcalculator.core.ui.utils.empty
-import io.github.kaczmarek.ipcalculator.feature.calculator.model.CIDRDvo
-import io.github.kaczmarek.ipcalculator.feature.calculator.model.OctetDvo
+import io.github.kaczmarek.ipcalculator.feature.calculator.model.CIDRUiModel
+import io.github.kaczmarek.ipcalculator.feature.calculator.model.OctetUiModel
+import io.github.kaczmarek.ipcalculator.feature.calculator.model.asUiModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -68,7 +69,7 @@ class CalculatorViewModel(
                     calculations = calculatorRepository.getCalculationList(
                         currentOctets = currentOctets,
                         currentCIDR = currentCIDR,
-                    ),
+                    ).map { it.asUiModel() },
                     isSharingAvailable = true,
                 )
             }
@@ -223,30 +224,30 @@ class CalculatorViewModel(
         updateFocusedOctetIndexIfCan(index = index + 1)
     }
 
-    private fun getPreparedOctets(): List<OctetDvo> {
+    private fun getPreparedOctets(): List<OctetUiModel> {
         return listOf(
-            OctetDvo(
+            OctetUiModel(
                 placeholder = FIRST_OCTET_PLACEHOLDER,
                 value = TextFieldValue(
                     text = String.empty,
                     selection = TextRange.Zero,
                 ),
             ),
-            OctetDvo(
+            OctetUiModel(
                 placeholder = SECOND_OCTET_PLACEHOLDER,
                 value = TextFieldValue(
                     text = String.empty,
                     selection = TextRange.Zero,
                 ),
             ),
-            OctetDvo(
+            OctetUiModel(
                 placeholder = THIRD_AND_FOURTH_OCTETS_PLACEHOLDER,
                 value = TextFieldValue(
                     text = String.empty,
                     selection = TextRange.Zero,
                 ),
             ),
-            OctetDvo(
+            OctetUiModel(
                 placeholder = THIRD_AND_FOURTH_OCTETS_PLACEHOLDER,
                 value = TextFieldValue(
                     text = String.empty,
@@ -263,7 +264,7 @@ class CalculatorViewModel(
             _uiState.update { state ->
                 state.copy(
                     octets = getPreparedOctets(),
-                    cidr = CIDRDvo(
+                    cidr = CIDRUiModel(
                         placeholder = CIDR_PREFIX_PLACEHOLDER,
                         value = String.empty,
                     ),

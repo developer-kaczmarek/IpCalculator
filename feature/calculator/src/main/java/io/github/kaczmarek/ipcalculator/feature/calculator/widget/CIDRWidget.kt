@@ -22,13 +22,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.kaczmarek.ipcalculator.core.ui.theme.robotoMonoFamily
-import io.github.kaczmarek.ipcalculator.feature.calculator.model.CIDRDvo
+import io.github.kaczmarek.ipcalculator.feature.calculator.model.CIDRUiModel
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.core.ui.utils.empty
 
 @Composable
 internal fun CIDRWidget(
-    cidrPrefix: CIDRDvo,
+    cidrPrefix: CIDRUiModel,
     onCIDRClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -86,7 +86,7 @@ private fun CIDRWidgetPreview() {
                 .background(MaterialTheme.colorScheme.background),
         ) {
             CIDRWidget(
-                cidrPrefix = CIDRDvo(
+                cidrPrefix = CIDRUiModel(
                     placeholder = "24",
                     value = String.empty,
                 ),

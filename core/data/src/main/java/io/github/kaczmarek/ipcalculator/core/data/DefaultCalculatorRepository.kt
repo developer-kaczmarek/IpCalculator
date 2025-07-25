@@ -1,6 +1,7 @@
 package io.github.kaczmarek.ipcalculator.core.data
 
 import io.github.kaczmarek.ipcalculator.core.model.Calculation
+import io.github.kaczmarek.ipcalculator.core.model.CalculationType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.text.DecimalFormat
@@ -14,9 +15,7 @@ private const val FOURTH_OCTET_INDEX = 3
 private const val DECIMAL_FORMAT_PATTERN = "###,###"
 private const val GROUPING_SEPARATOR = ' '
 
-internal class DefaultCalculatorRepository(
-    private val resourceManager: ResourceManager,
-) : CalculatorRepository {
+internal class DefaultCalculatorRepository : CalculatorRepository {
 
     override suspend fun getCalculationList(
         currentOctets: List<Int>,
@@ -30,43 +29,43 @@ internal class DefaultCalculatorRepository(
 
         calculations.add(
             Calculation(
-                name = resourceManager.getString(R.string.ip_address),
+                type = CalculationType.IPAddress,
                 value = currentOctets.toBinary().toLong().fromBinary(),
             )
         )
         calculations.add(
             Calculation(
-                name = resourceManager.getString(R.string.cidr_prefix),
+                type = CalculationType.CIDRPrefix,
                 value = currentCIDR.toString(),
             )
         )
         calculations.add(
             Calculation(
-                name = resourceManager.getString(R.string.subnet_mask),
+                type = CalculationType.SubnetMask,
                 value = subnetMask.toLong().fromBinary(),
             )
         )
         calculations.add(
             Calculation(
-                name = resourceManager.getString(R.string.wildcard_mask),
+                type = CalculationType.WildcardMask,
                 value = wildcardMask.toLong().fromBinary(),
             )
         )
         calculations.add(
             Calculation(
-                name = resourceManager.getString(R.string.network_ip_address),
+                type = CalculationType.NetworkIPAddress,
                 value = majorIpAddress.toLong().fromBinary(),
             )
         )
         calculations.add(
             Calculation(
-                name = resourceManager.getString(R.string.broadcast_ip_address),
+                type = CalculationType.BroadcastIPAddress,
                 value = (majorIpAddress or wildcardMask).toLong().fromBinary(),
             )
         )
         calculations.add(
             Calculation(
-                name = resourceManager.getString(R.string.max_possible_hosts),
+                type = CalculationType.MaxPossibleHosts,
                 value = getFormattedNumber(
                     number = getMaxPossibleHostCount(currentCIDR)
                 ),
@@ -74,13 +73,13 @@ internal class DefaultCalculatorRepository(
         )
         calculations.add(
             Calculation(
-                name = resourceManager.getString(R.string.usable_hosts),
+                type = CalculationType.UsableHosts,
                 value = getFormattedNumber(usableHostCount),
             )
         )
         calculations.add(
             Calculation(
-                name = resourceManager.getString(R.string.first_host),
+                type = CalculationType.FirstHost,
                 value = getFirstUsableHost(
                     cidr = currentCIDR,
                     majorIpAddress = majorIpAddress,
@@ -89,7 +88,7 @@ internal class DefaultCalculatorRepository(
         )
         calculations.add(
             Calculation(
-                name = resourceManager.getString(R.string.last_host),
+                type = CalculationType.LastHost,
                 value = getLastUsableHost(
                     cidr = currentCIDR,
                     majorIpAddress = majorIpAddress,
@@ -150,7 +149,7 @@ internal class DefaultCalculatorRepository(
 
     private fun getFirstUsableHost(cidr: Int, majorIpAddress: Int): String {
         return if (cidr > 30) {
-            resourceManager.getString(R.string.no_data)
+            Calculation.NO_DATA
         } else {
             (majorIpAddress + 1).toLong().fromBinary()
         }
@@ -158,7 +157,7 @@ internal class DefaultCalculatorRepository(
 
     private fun getLastUsableHost(cidr: Int, majorIpAddress: Int, usableHostsCount: Long): String {
         return if (cidr > 30) {
-            resourceManager.getString(R.string.no_data)
+            Calculation.NO_DATA
         } else {
             (majorIpAddress + usableHostsCount).fromBinary()
         }

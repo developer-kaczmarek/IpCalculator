@@ -25,13 +25,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.kaczmarek.ipcalculator.feature.calculator.screen.CalculatorUiState
-import io.github.kaczmarek.ipcalculator.core.model.Calculation
+import io.github.kaczmarek.ipcalculator.core.ui.model.UiText
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.core.ui.theme.robotoMonoFamily
 import io.github.kaczmarek.ipcalculator.core.ui.utils.isLight
 import io.github.kaczmarek.ipcalculator.core.ui.widget.LargeText
 import io.github.kaczmarek.ipcalculator.feature.calculator.R
+import io.github.kaczmarek.ipcalculator.feature.calculator.model.CalculationUiModel
+import io.github.kaczmarek.ipcalculator.feature.calculator.screen.CalculatorUiState
 
 @Composable
 internal fun CalculationsListContentWidget(
@@ -87,16 +88,16 @@ private fun EmptyStateWidget(
 
 @Composable
 private fun ContentStateWidget(
-    calculations: List<Calculation>,
+    calculations: List<CalculationUiModel>,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
         calculations.forEachIndexed { index, calculation ->
             ListItem(
-                headlineContent = { Text(text = calculation.name) },
+                headlineContent = { Text(text = calculation.name.asString()) },
                 supportingContent = {
                     Text(
-                        text = calculation.value,
+                        text = calculation.value.asString(),
                         fontFamily = robotoMonoFamily,
                     )
                 },
@@ -124,18 +125,18 @@ private fun CalculationsListContentWidgetPreview() {
             CalculationsListContentWidget(
                 uiState = CalculatorUiState(
                     calculations = listOf(
-                        Calculation(
-                            name = "IP адрес",
-                            value = "192.168.1.1",
+                        CalculationUiModel(
+                            name = UiText.DynamicString("IP адрес"),
+                            value = UiText.DynamicString("192.168.1.1"),
                         ),
-                        Calculation(
-                            name = "CIDR нотация",
-                            value = "24",
+                        CalculationUiModel(
+                            name = UiText.DynamicString("CIDR нотация"),
+                            value = UiText.DynamicString("24"),
                         ),
-                        Calculation(
-                            name = "Маска подсети",
-                            value = "255.255.255.0",
-                        )
+                        CalculationUiModel(
+                            name = UiText.DynamicString("Маска подсети"),
+                            value = UiText.DynamicString("255.255.255.0"),
+                        ),
                     ),
                 ),
             )
