@@ -1,6 +1,6 @@
 package io.github.kaczmarek.ipcalculator.feature.calculator.screen
 
-sealed interface CalculatorEffect {
+internal sealed interface CalculatorEffect {
 
     data class ShareText(val text: String) : CalculatorEffect
 

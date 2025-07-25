@@ -70,7 +70,6 @@ private fun SettingsScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
-
         HeadlineItem(
             text = stringResource(id = R.string.settings_theme),
             modifier = Modifier

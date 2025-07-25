@@ -5,12 +5,12 @@ import io.github.kaczmarek.ipcalculator.core.model.CalculationType
 import io.github.kaczmarek.ipcalculator.core.ui.model.UiText
 import io.github.kaczmarek.ipcalculator.feature.calculator.R
 
-data class CalculationUiModel(
+internal data class CalculationUiModel(
     val name: UiText,
     val value: UiText,
 )
 
-fun Calculation.asUiModel() = CalculationUiModel(
+internal fun Calculation.asUiModel() = CalculationUiModel(
     name = when (type) {
         CalculationType.IPAddress -> UiText.StringResource(R.string.calculator_ip_address)
         CalculationType.CIDRPrefix -> UiText.StringResource(R.string.calculator_cidr_prefix)

@@ -11,7 +11,7 @@ const val THIRD_OCTET_INDEX = 2
 const val FOURTH_OCTET_INDEX = 3
 
 @Immutable
-data class CalculatorUiState(
+internal data class CalculatorUiState(
     val octets: List<OctetUiModel> = emptyList(),
     val focusedOctetIndex: Int? = null,
     val cidr: CIDRUiModel? = null,

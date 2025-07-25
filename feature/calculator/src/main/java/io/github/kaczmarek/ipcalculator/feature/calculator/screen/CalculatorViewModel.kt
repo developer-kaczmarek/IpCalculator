@@ -28,7 +28,7 @@ private const val SECOND_OCTET_PLACEHOLDER = "168"
 private const val THIRD_AND_FOURTH_OCTETS_PLACEHOLDER = "1"
 private const val CIDR_PREFIX_PLACEHOLDER = "24"
 
-class CalculatorViewModel(
+internal class CalculatorViewModel(
     private val calculatorRepository: CalculatorRepository,
 ) : ViewModel() {
 
