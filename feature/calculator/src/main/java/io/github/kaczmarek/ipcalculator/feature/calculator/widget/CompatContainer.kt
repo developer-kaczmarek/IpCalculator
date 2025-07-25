@@ -23,8 +23,8 @@ import io.github.kaczmarek.ipcalculator.core.ui.utils.empty
 import io.github.kaczmarek.ipcalculator.core.ui.widget.LargeText
 import io.github.kaczmarek.ipcalculator.core.ui.widget.PanelButton
 import io.github.kaczmarek.ipcalculator.feature.calculator.R
-import io.github.kaczmarek.ipcalculator.feature.calculator.model.CIDRDvo
-import io.github.kaczmarek.ipcalculator.feature.calculator.model.OctetDvo
+import io.github.kaczmarek.ipcalculator.feature.calculator.model.CIDRUiModel
+import io.github.kaczmarek.ipcalculator.feature.calculator.model.OctetUiModel
 import io.github.kaczmarek.ipcalculator.feature.calculator.screen.CalculatorUiState
 
 @Composable
@@ -107,9 +107,9 @@ private fun CompatCalculatorControlPanelWidget(
 
 @Composable
 private fun CompatPanelFieldsGroupWidget(
-    octets: List<OctetDvo>,
+    octets: List<OctetUiModel>,
     focusedOctetIndex: Int?,
-    cidr: CIDRDvo?,
+    cidr: CIDRUiModel?,
     onOctetChange: (Int, TextFieldValue) -> Unit,
     onOctetDeleteImeClick: (Int) -> Unit,
     onOctetNextImeActionClick: (Int) -> Unit,
@@ -194,28 +194,28 @@ private fun CompactContainerPreview() {
             CompactContainer(
                 uiState = CalculatorUiState(
                     octets = listOf(
-                        OctetDvo(
+                        OctetUiModel(
                             placeholder = "192",
                             value = TextFieldValue(
                                 text = String.empty,
                                 selection = TextRange.Zero,
                             ),
                         ),
-                        OctetDvo(
+                        OctetUiModel(
                             placeholder = "168",
                             value = TextFieldValue(
                                 text = String.empty,
                                 selection = TextRange.Zero,
                             ),
                         ),
-                        OctetDvo(
+                        OctetUiModel(
                             placeholder = "1",
                             value = TextFieldValue(
                                 text = String.empty,
                                 selection = TextRange.Zero,
                             ),
                         ),
-                        OctetDvo(
+                        OctetUiModel(
                             placeholder = "1",
                             value = TextFieldValue(
                                 text = String.empty,
@@ -223,7 +223,7 @@ private fun CompactContainerPreview() {
                             ),
                         ),
                     ),
-                    cidr = CIDRDvo(
+                    cidr = CIDRUiModel(
                         placeholder = "24",
                         value = String.empty,
                     ),
