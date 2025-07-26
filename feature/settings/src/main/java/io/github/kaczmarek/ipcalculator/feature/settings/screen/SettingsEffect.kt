@@ -1,11 +1,11 @@
-package io.github.kaczmarek.ipcalculator.feature.calculator.screen
+package io.github.kaczmarek.ipcalculator.feature.settings.screen
 
 import io.github.kaczmarek.ipcalculator.core.ui.model.UiText
 
-internal sealed interface CalculatorEffect {
+internal sealed interface SettingsEffect {
 
     data class ShowErrorSnackbar(
         val message: UiText,
         val action: UiText,
-    ) : CalculatorEffect
+    ) : SettingsEffect
 }

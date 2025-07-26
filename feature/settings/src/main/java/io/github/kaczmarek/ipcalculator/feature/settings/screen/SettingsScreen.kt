@@ -2,6 +2,7 @@ package io.github.kaczmarek.ipcalculator.feature.settings.screen
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -20,38 +21,74 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.github.kaczmarek.ipcalculator.core.model.AppLinkType
 import io.github.kaczmarek.ipcalculator.core.model.Language
 import io.github.kaczmarek.ipcalculator.core.model.LayoutType
 import io.github.kaczmarek.ipcalculator.core.model.ThemeType
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.core.ui.widget.CardWrapper
 import io.github.kaczmarek.ipcalculator.core.ui.widget.HeadlineItem
+import io.github.kaczmarek.ipcalculator.core.ui.widget.SnackbarHost
 import io.github.kaczmarek.ipcalculator.feature.settings.R
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun SettingsRoute(
     layoutType: LayoutType,
+    onOpenLink: (AppLinkType) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
     val uiState: SettingsUiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
-    SettingsScreen(
-        uiState = uiState,
-        layoutType = layoutType,
-        modifier = modifier,
-    )
+    LaunchedEffect(Unit) {
+        viewModel.effect.collect { effect ->
+            when (effect) {
+                is SettingsEffect.ShowErrorSnackbar -> {
+                    val result = snackbarHostState.showSnackbar(
+                        message = effect.message.asString(context),
+                        actionLabel = effect.action.asString(context),
+                        duration = SnackbarDuration.Long,
+                    )
+
+                    if (result == SnackbarResult.ActionPerformed) {
+                        onOpenLink.invoke(AppLinkType.Support)
+                    }
+                }
+            }
+        }
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        SettingsScreen(
+            uiState = uiState,
+            layoutType = layoutType,
+            modifier = modifier,
+        )
+
+        SnackbarHost(
+            snackbarHostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter),
+        )
+    }
 }
 
 @Composable

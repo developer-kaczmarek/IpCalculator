@@ -1,0 +1,4 @@
+<resources>
+    <string name="common_error_text">Oops! Something went wrong. We\'ve notified the developer</string>
+    <string name="common_error_action_text">I\'ll report it</string>
+</resources>
