@@ -5,7 +5,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.kaczmarek.ipcalculator.core.data.CalculatorRepository
+import io.github.kaczmarek.ipcalculator.core.ui.model.UiText
 import io.github.kaczmarek.ipcalculator.core.ui.utils.empty
+import io.github.kaczmarek.ipcalculator.core.ui.R
 import io.github.kaczmarek.ipcalculator.feature.calculator.model.CIDRUiModel
 import io.github.kaczmarek.ipcalculator.feature.calculator.model.OctetUiModel
 import io.github.kaczmarek.ipcalculator.feature.calculator.model.asUiModel
@@ -39,7 +41,14 @@ internal class CalculatorViewModel(
     val effect: SharedFlow<CalculatorEffect> = _effect.asSharedFlow()
 
     private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
-        // TODO: show snackbar
+        viewModelScope.launch {
+            _effect.emit(
+                CalculatorEffect.ShowErrorSnackbar(
+                    message = UiText.StringResource(R.string.common_error_text),
+                    action = UiText.StringResource(R.string.common_error_action_text),
+                )
+            )
+        }
     }
 
     init {
@@ -47,7 +56,7 @@ internal class CalculatorViewModel(
     }
 
     fun onCalculateClick() {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             updateFocusedOctetIndexIfCan(index = null)
 
             val currentOctets: List<Int> = uiState.value.octets.map { octet ->
@@ -76,19 +85,8 @@ internal class CalculatorViewModel(
         }
     }
 
-    fun onShareClick() {
-        viewModelScope.launch {
-            var shareText = String.empty
-            uiState.value.calculations.forEach { calculation ->
-                shareText += "${calculation.name}: ${calculation.value}\n"
-            }
-
-            _effect.emit(CalculatorEffect.ShareText(shareText))
-        }
-    }
-
     fun onOctetChange(index: Int, value: TextFieldValue) {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             when {
                 isEndsWithDot(value.text) -> updateFocusedOctetIndexIfCan(index = index + 1)
 
@@ -103,7 +101,7 @@ internal class CalculatorViewModel(
     }
 
     fun onOctetDeleteImeClick(index: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             val octet = uiState.value.octets[index]
             if (octet.value.text.isNotEmpty() || index == FIRST_OCTET_INDEX) return@launch
 
@@ -121,7 +119,7 @@ internal class CalculatorViewModel(
     }
 
     fun onOctetNextImeActionClick(index: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             updateFocusedOctetIndexIfCan(
                 index = if (index < FOURTH_OCTET_INDEX) {
                     index + 1
@@ -133,20 +131,20 @@ internal class CalculatorViewModel(
     }
 
     fun onOctetFocusChange(index: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             updateFocusedOctetIndexIfCan(index = index)
         }
     }
 
     fun onCIDRClick() {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             updateFocusedOctetIndexIfCan(index = null)
             updateCIDRPrefixListOpeningState(isOpening = true)
         }
     }
 
     fun onSubnetMaskItemClick(cidrValue: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             _uiState.update { state ->
                 state.copy(
                     cidr = state.cidr?.copy(value = cidrValue.toString()),
@@ -157,7 +155,7 @@ internal class CalculatorViewModel(
     }
 
     fun onSubnetMaskListDialogDismissRequest() {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             updateCIDRPrefixListOpeningState(isOpening = false)
         }
     }
@@ -258,7 +256,7 @@ internal class CalculatorViewModel(
     }
 
     private fun prepareUiState() {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             if (uiState.value.octets.isNotEmpty() && uiState.value.cidr != null) return@launch
 
             _uiState.update { state ->

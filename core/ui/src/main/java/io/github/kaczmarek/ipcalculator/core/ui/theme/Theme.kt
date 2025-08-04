@@ -24,6 +24,8 @@ private val DarkColorScheme = darkColorScheme(
     secondaryContainer = SurfaceDarkColor,
     onSecondaryContainer = Color.White,
     onSurfaceVariant = OnSurfaceVariantDarkColor,
+    errorContainer = ErrorContainerDarkColor,
+    onErrorContainer = Color.Black,
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -38,6 +40,8 @@ private val LightColorScheme = lightColorScheme(
     onSecondaryContainer = Color.Black,
     secondaryContainer = SurfaceLightColor,
     onSurfaceVariant = OnSurfaceVariantLightColor,
+    errorContainer = ErrorContainerLightColor,
+    onErrorContainer = Color.White,
 )
 
 @Composable
@@ -45,10 +49,11 @@ fun AppTheme(
     themeType: ThemeType = ThemeType.System,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when(themeType) {
-       ThemeType.System -> {
+    val colorScheme = when (themeType) {
+        ThemeType.System -> {
             if (isSystemInDarkTheme()) DarkColorScheme else LightColorScheme
         }
+
         ThemeType.Dark -> DarkColorScheme
 
         ThemeType.Light -> LightColorScheme

@@ -17,3 +17,6 @@ val OutlineVariantDarkColor = Color(0xFF5F5F61)
 
 val OnSurfaceVariantDarkColor = Color(0xFF848487)
 val OnSurfaceVariantLightColor = Color(0xFF808080)
+
+val ErrorContainerLightColor = Color(0xFF000000)
+val ErrorContainerDarkColor = Color(0xFFF7F7F7)

@@ -8,18 +8,26 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.github.kaczmarek.ipcalculator.core.model.AppLinkType
 import io.github.kaczmarek.ipcalculator.core.model.LayoutType
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.core.ui.utils.isLandscapeOrientation
+import io.github.kaczmarek.ipcalculator.core.ui.widget.SnackbarHost
 import io.github.kaczmarek.ipcalculator.feature.calculator.widget.CompactContainer
 import io.github.kaczmarek.ipcalculator.feature.calculator.widget.SpaciousContainer
 import io.github.kaczmarek.ipcalculator.feature.calculator.widget.SubnetMaskListDialogWidget
@@ -29,17 +37,35 @@ import org.koin.androidx.compose.koinViewModel
 internal fun CalculatorRoute(
     layoutType: LayoutType,
     onShareText: (String) -> Unit,
+    onOpenLink: (AppLinkType) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CalculatorViewModel = koinViewModel(),
 ) {
     val uiState: CalculatorUiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val snackbarHostState = remember { SnackbarHostState() }
+    val shareText = remember(uiState.calculations) {
+        buildString {
+            uiState.calculations.forEach {
+                append(it.name.asString(context))
+                append(": ${it.value.asString(context)}\n")
+            }
+        }
+    }
 
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                is CalculatorEffect.ShareText -> onShareText(effect.text)
-                is CalculatorEffect.ShowSnackbar -> {
-                    // handle snackbar
+                is CalculatorEffect.ShowErrorSnackbar -> {
+                    val result = snackbarHostState.showSnackbar(
+                        message = effect.message.asString(context),
+                        actionLabel = effect.action.asString(context),
+                        duration = SnackbarDuration.Long,
+                    )
+
+                    if (result == SnackbarResult.ActionPerformed) {
+                        onOpenLink.invoke(AppLinkType.Support)
+                    }
                 }
             }
         }
@@ -54,10 +80,11 @@ internal fun CalculatorRoute(
         onOctetFocusChange = viewModel::onOctetFocusChange,
         onCIDRClick = viewModel::onCIDRClick,
         onCalculateClick = viewModel::onCalculateClick,
-        onShareClick = viewModel::onShareClick,
+        onShareClick = { onShareText(shareText) },
         onSubnetMaskListDialogDismissRequest = viewModel::onSubnetMaskListDialogDismissRequest,
         onSubnetMaskItemClick = viewModel::onSubnetMaskItemClick,
         modifier = modifier,
+        snackbarHostState = snackbarHostState,
     )
 }
 
@@ -65,6 +92,7 @@ internal fun CalculatorRoute(
 private fun CalculatorScreen(
     uiState: CalculatorUiState,
     layoutType: LayoutType,
+    snackbarHostState: SnackbarHostState,
     onOctetChange: (Int, TextFieldValue) -> Unit,
     onOctetDeleteImeClick: (Int) -> Unit,
     onOctetNextImeActionClick: (Int) -> Unit,
@@ -108,6 +136,11 @@ private fun CalculatorScreen(
                     .imePadding(),
             )
         }
+
+        SnackbarHost(
+            snackbarHostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter),
+        )
     }
 
     if (uiState.isSubnetMaskListOpening) {
@@ -131,6 +164,8 @@ private fun CalculatorScreen(
 @Composable
 private fun CalculatorScreenPreview() {
     AppTheme {
+        val snackbarHostState = remember { SnackbarHostState() }
+
         CalculatorScreen(
             layoutType = LayoutType.Compat,
             onOctetChange = { _, _ -> },
@@ -143,6 +178,7 @@ private fun CalculatorScreenPreview() {
             onSubnetMaskListDialogDismissRequest = {},
             onSubnetMaskItemClick = {},
             uiState = CalculatorUiState(),
+            snackbarHostState = snackbarHostState,
         )
     }
 }

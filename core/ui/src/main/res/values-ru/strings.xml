@@ -1,0 +1,4 @@
+<resources>
+    <string name="common_error_text">Ай! У нас проблема. Информация уже у разработчика</string>
+    <string name="common_error_action_text">Я расскажу сам</string>
+</resources>

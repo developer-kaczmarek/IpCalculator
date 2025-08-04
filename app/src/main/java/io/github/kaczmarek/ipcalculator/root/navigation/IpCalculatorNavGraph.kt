@@ -36,6 +36,7 @@ fun IpCalculatorNavGraph(
         calculatorScreen(
             layoutType = layoutType,
             onShareText = onShareText,
+            onOpenLink = onOpenLink,
         )
 
         infoScreen(
@@ -47,6 +48,7 @@ fun IpCalculatorNavGraph(
 
         settingsScreen(
             layoutType = layoutType,
+            onOpenLink = onOpenLink,
         )
     }
 }
