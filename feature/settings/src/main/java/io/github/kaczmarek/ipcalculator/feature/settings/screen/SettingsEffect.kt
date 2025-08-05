@@ -8,4 +8,6 @@ internal sealed interface SettingsEffect {
         val message: UiText,
         val action: UiText,
     ) : SettingsEffect
+
+    data object RecreateActivity: SettingsEffect
 }

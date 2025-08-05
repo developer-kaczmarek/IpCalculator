@@ -1,5 +1,6 @@
 package io.github.kaczmarek.ipcalculator.feature.settings.screen
 
+import android.app.Activity
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -72,6 +73,10 @@ internal fun SettingsRoute(
                     if (result == SnackbarResult.ActionPerformed) {
                         onOpenLink.invoke(AppLinkType.Support)
                     }
+                }
+
+                is SettingsEffect.RecreateActivity -> {
+                    (context as? Activity)?.recreate()
                 }
             }
         }
