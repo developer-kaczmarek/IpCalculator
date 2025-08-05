@@ -34,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -131,13 +132,14 @@ private fun NavigationRailBar(
     modifier: Modifier = Modifier,
 ) {
     NavigationRail(
-        modifier = modifier,
+        modifier = modifier.testTag("RootNavigationRailBar"),
         containerColor = Color.Transparent,
     ) {
         Spacer(modifier = Modifier.weight(1.0f))
 
         ipCalculatorTabScreens.forEach { destination ->
             NavigationItem(
+                modifier = Modifier.testTag("RootNavigationItem+${destination.route}"),
                 selected = destination.route == currentRoute,
                 onClick = { onNavigate(destination.route) },
                 labelRes = destination.titleTextId,
@@ -156,12 +158,15 @@ private fun BottomBar(
 ) {
     Column(modifier = modifier) {
         NavigationBar(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("RootBottomBar"),
             containerColor = MaterialTheme.colorScheme.surface,
             windowInsets = WindowInsets(0.dp),
         ) {
             ipCalculatorTabScreens.forEach { destination ->
                 NavigationItem(
+                    modifier = Modifier.testTag("RootNavigationItem+${destination.route}"),
                     selected = destination.route == currentRoute,
                     onClick = { onNavigate(destination.route) },
                     labelRes = destination.titleTextId,
@@ -184,8 +189,10 @@ private fun RowScope.NavigationItem(
     @StringRes labelRes: Int,
     selected: Boolean,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     NavigationBarItem(
+        modifier = modifier,
         selected = selected,
         onClick = onClick,
         label = {
@@ -205,8 +212,10 @@ private fun NavigationItem(
     @StringRes labelRes: Int,
     selected: Boolean,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     NavigationRailItem(
+        modifier = modifier,
         selected = selected,
         onClick = onClick,
         label = {

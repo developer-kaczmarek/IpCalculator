@@ -29,6 +29,7 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
@@ -58,15 +59,17 @@ internal fun OctetTextFieldsWidget(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier.border(
-            width = 1.dp,
-            color = if (focusedOctetIndex != null) {
-                MaterialTheme.colorScheme.primary
-            } else {
-                MaterialTheme.colorScheme.onSurface
-            },
-            shape = CircleShape,
-        ),
+        modifier = modifier
+            .testTag("OctetTextFieldsWidget")
+            .border(
+                width = 1.dp,
+                color = if (focusedOctetIndex != null) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.onSurface
+                },
+                shape = CircleShape,
+            ),
         verticalAlignment = Alignment.Bottom,
     ) {
         val focusManager = LocalFocusManager.current
@@ -93,6 +96,7 @@ internal fun OctetTextFieldsWidget(
                 onNextImeActionClick = { onOctetNextImeActionClick(index) },
                 onFocusChange = { onOctetFocusChange(index) },
                 modifier = Modifier
+                    .testTag("OctetTextField+$index")
                     .fillMaxWidth()
                     .weight(1.0f)
                     .focusRequester(

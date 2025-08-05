@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -100,6 +101,7 @@ private fun SubnetMaskListWidget(
             LargeText(
                 text = subnetMask,
                 modifier = Modifier
+                    .testTag("SubnetMaskListWidgetItem+$cidrValue")
                     .fillMaxWidth()
                     .clickable { onSubnetMaskItemClick(cidrValue) }
                     .padding(all = 16.dp),

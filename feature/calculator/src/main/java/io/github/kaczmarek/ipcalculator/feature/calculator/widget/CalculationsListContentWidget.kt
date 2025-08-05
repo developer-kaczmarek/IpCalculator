@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -57,7 +58,7 @@ internal fun CalculationsListContentWidget(
 private fun EmptyStateWidget(
     modifier: Modifier = Modifier,
 ) {
-    Box(modifier = modifier) {
+    Box(modifier = modifier.testTag("EmptyStateWidget")) {
         Column(
             modifier = Modifier
                 .align(Alignment.Center)
@@ -73,14 +74,18 @@ private fun EmptyStateWidget(
                     }
                 ),
                 contentDescription = null,
-                modifier = Modifier.height(100.dp),
+                modifier = Modifier
+                    .height(100.dp)
+                    .testTag("EmptyStateWidgetImage"),
                 contentScale = ContentScale.Inside,
             )
 
             LargeText(
                 text = stringResource(id = R.string.calculator_empty_state_text),
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(all = 16.dp),
+                modifier = Modifier
+                    .padding(all = 16.dp)
+                    .testTag("EmptyStateWidgetLargeText"),
             )
         }
     }
@@ -91,7 +96,9 @@ private fun ContentStateWidget(
     calculations: List<CalculationUiModel>,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier.testTag("ContentStateWidget"),
+    ) {
         calculations.forEachIndexed { index, calculation ->
             ListItem(
                 headlineContent = { Text(text = calculation.name.asString()) },
@@ -104,6 +111,8 @@ private fun ContentStateWidget(
                 colors = ListItemDefaults.colors(
                     containerColor = MaterialTheme.colorScheme.background,
                 ),
+                modifier = Modifier
+                    .testTag("ContentStateWidgetListItem+${calculation.name.asString()}"),
             )
 
             if (index < calculations.lastIndex) {

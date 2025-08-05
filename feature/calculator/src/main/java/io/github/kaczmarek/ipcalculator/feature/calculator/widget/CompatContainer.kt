@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -167,6 +168,7 @@ private fun CompatPanelButtonsGroupWidget(
             text = stringResource(id = R.string.calculator_calculate_text),
             onClick = onCalculateClick,
             modifier = Modifier
+                .testTag("CalculateButton")
                 .fillMaxWidth()
                 .weight(1.0f),
         )
@@ -176,6 +178,7 @@ private fun CompatPanelButtonsGroupWidget(
             enabled = isSharingAvailable,
             onClick = onShareClick,
             modifier = Modifier
+                .testTag("ShareButton")
                 .fillMaxWidth()
                 .weight(1.0f),
         )
