@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,6 +35,7 @@ internal fun CIDRWidget(
 ) {
     Row(
         modifier = modifier
+            .testTag("CIDRWidget")
             .border(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.onSurface,
@@ -48,6 +50,7 @@ internal fun CIDRWidget(
             PlaceholderText(
                 text = cidrPrefix.placeholder,
                 modifier = Modifier
+                    .testTag("CIDRWidgetPlaceholderText")
                     .fillMaxWidth()
                     .weight(1.0f)
                     .padding(start = 8.dp)
@@ -57,6 +60,7 @@ internal fun CIDRWidget(
             Text(
                 text = cidrPrefix.value,
                 modifier = Modifier
+                    .testTag("CIDRWidgetValueText")
                     .fillMaxWidth()
                     .weight(1.0f)
                     .padding(start = 8.dp)
@@ -72,6 +76,7 @@ internal fun CIDRWidget(
             imageVector = Icons.Filled.ArrowDropDown,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.testTag("CIDRWidgetIcon"),
         )
     }
 }

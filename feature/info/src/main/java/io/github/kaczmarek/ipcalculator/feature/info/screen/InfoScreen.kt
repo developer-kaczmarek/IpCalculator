@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -72,6 +73,7 @@ private fun InfoScreen(
             LargeText(
                 text = stringResource(id = R.string.info_go_to_github),
                 modifier = Modifier
+                    .testTag("GithubLargeText")
                     .fillMaxWidth()
                     .clickable(onClick = { onOpenLink(AppLinkType.Github) })
                     .padding(all = 16.dp),
@@ -86,6 +88,7 @@ private fun InfoScreen(
             LargeText(
                 text = stringResource(id = R.string.info_privacy_policy),
                 modifier = Modifier
+                    .testTag("PrivacyPolicyLargeText")
                     .fillMaxWidth()
                     .clickable(onClick = { onOpenLink(AppLinkType.PrivacyPolicy) })
                     .padding(all = 16.dp),
@@ -103,6 +106,7 @@ private fun InfoScreen(
                 LargeText(
                     text = stringResource(id = R.string.info_send_email),
                     modifier = Modifier
+                        .testTag("ContactLargeText")
                         .fillMaxWidth()
                         .clickable(onClick = { onOpenLink(AppLinkType.Support) })
                         .padding(all = 16.dp),
@@ -113,6 +117,7 @@ private fun InfoScreen(
                 LargeText(
                     text = stringResource(id = R.string.info_app_rate),
                     modifier = Modifier
+                        .testTag("RateTheAppLargeText")
                         .fillMaxWidth()
                         .clickable(onClick = onOpenStore)
                         .padding(all = 16.dp),
@@ -123,6 +128,7 @@ private fun InfoScreen(
                 LargeText(
                     text = stringResource(id = R.string.info_share_app),
                     modifier = Modifier
+                        .testTag("ShareTheAppLargeText")
                         .fillMaxWidth()
                         .clickable { onShareText(context.getString(R.string.share_app_text)) }
                         .padding(all = 16.dp),

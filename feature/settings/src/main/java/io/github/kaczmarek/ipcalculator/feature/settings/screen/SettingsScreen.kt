@@ -33,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
@@ -197,7 +198,9 @@ private fun LocaleRadioGroup(
                 selected = selectedLanguage == Language.English,
                 text = stringResource(id = R.string.settings_locale_en),
                 onClick = { onClick(Language.English) },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("LocaleRadioGroupEnglishRadioOption"),
             )
 
             HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -206,7 +209,9 @@ private fun LocaleRadioGroup(
                 selected = selectedLanguage == Language.Russian,
                 text = stringResource(id = R.string.settings_locale_ru),
                 onClick = { onClick(Language.Russian) },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("LocaleRadioGroupRussianRadioOption"),
             )
 
             HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -215,7 +220,9 @@ private fun LocaleRadioGroup(
                 selected = selectedLanguage == Language.Kazakh,
                 text = stringResource(id = R.string.settings_locale_kk),
                 onClick = { onClick(Language.Kazakh) },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("LocaleRadioGroupKazakhRadioOption"),
             )
         }
     }
@@ -237,7 +244,9 @@ private fun ThemeRadioGroup(
                 selected = selectedThemeType == ThemeType.System,
                 text = stringResource(id = R.string.settings_theme_system),
                 onClick = { onClick(ThemeType.System) },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("ThemeRadioGroupSystemRadioOption"),
             )
 
             HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -246,7 +255,9 @@ private fun ThemeRadioGroup(
                 selected = selectedThemeType == ThemeType.Dark,
                 text = stringResource(id = R.string.settings_theme_dark),
                 onClick = { onClick(ThemeType.Dark) },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("ThemeRadioGroupDarkRadioOption"),
             )
 
             HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -255,7 +266,9 @@ private fun ThemeRadioGroup(
                 selected = selectedThemeType == ThemeType.Light,
                 text = stringResource(id = R.string.settings_theme_light),
                 onClick = { onClick(ThemeType.Light) },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("ThemeRadioGroupLightRadioOption"),
             )
         }
     }

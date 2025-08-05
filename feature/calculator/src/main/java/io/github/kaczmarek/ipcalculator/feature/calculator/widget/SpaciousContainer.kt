@@ -19,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -175,14 +176,18 @@ private fun SpaciousPanelButtonsGroupWidget(
         PanelButton(
             text = stringResource(id = R.string.calculator_calculate_text),
             onClick = onCalculateClick,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("CalculateButton"),
         )
 
         PanelButton(
             text = stringResource(id = R.string.calculator_share_text),
             enabled = isSharingAvailable,
             onClick = onShareClick,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("ShareButton"),
         )
     }
 }
