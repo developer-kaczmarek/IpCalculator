@@ -10,7 +10,7 @@ import io.github.kaczmarek.ipcalculator.core.model.Language
 internal class DefaultLanguageRepository(
     private val settingsDataStore: SettingsDataStore,
     private val context: Context,
-): LanguageRepository {
+) : LanguageRepository {
 
     override fun isLanguageSelected(): Boolean {
         val code = settingsDataStore.getSelectedLanguageCode()

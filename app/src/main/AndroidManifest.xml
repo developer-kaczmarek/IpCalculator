@@ -16,6 +16,7 @@
         <activity
             android:name=".IpCalculatorActivity"
             android:exported="true"
+            android:configChanges="locale|layoutDirection"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.IPCalculator.Splash"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">

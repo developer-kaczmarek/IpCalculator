@@ -1,5 +1,6 @@
 package io.github.kaczmarek.ipcalculator.feature.settings.screen
 
+import android.os.Build
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.kaczmarek.ipcalculator.core.data.AppThemeRepository
@@ -44,8 +45,11 @@ internal class SettingsViewModel(
 
     fun onLanguageItemClick(newLanguage: Language) {
         viewModelScope.launch(exceptionHandler) {
-            languageRepository.setSelectedLanguage(newLanguage)
             uiState.update { uiState.value.copy(selectedLanguage = newLanguage) }
+            languageRepository.setSelectedLanguage(newLanguage)
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                _effect.emit(SettingsEffect.RecreateActivity)
+            }
         }
     }
 
