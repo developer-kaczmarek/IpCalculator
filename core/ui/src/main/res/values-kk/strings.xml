@@ -1,4 +1,4 @@
 <resources>
-    <string name="common_error_text">Ой! Қате орын алды. Ақпарат әзірлеушіге жіберілді</string>
-    <string name="common_error_action_text">Мен хабарлаймын</string>
+    <string name="common_error_text">Кешіріңіз, қателік орын алды. Ақпарат әзірлеушіге жіберілді</string>
+    <string name="common_error_action_text">Жіберу</string>
 </resources>
