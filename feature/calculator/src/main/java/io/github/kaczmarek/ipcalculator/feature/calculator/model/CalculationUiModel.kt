@@ -8,6 +8,7 @@ import io.github.kaczmarek.ipcalculator.feature.calculator.R
 internal data class CalculationUiModel(
     val name: UiText,
     val value: UiText,
+    val type: CalculationType,
 )
 
 internal fun Calculation.asUiModel() = CalculationUiModel(
@@ -27,5 +28,6 @@ internal fun Calculation.asUiModel() = CalculationUiModel(
         UiText.StringResource(R.string.calculator_no_data)
     } else {
         UiText.DynamicString(value)
-    }
+    },
+    type = type,
 )
