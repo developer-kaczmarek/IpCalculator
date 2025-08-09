@@ -26,12 +26,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
+import io.github.kaczmarek.ipcalculator.core.ui.utils.testTagAsId
 import io.github.kaczmarek.ipcalculator.core.ui.utils.toPx
 import io.github.kaczmarek.ipcalculator.core.ui.widget.LargeText
 import io.github.kaczmarek.ipcalculator.feature.calculator.R
@@ -101,7 +101,7 @@ private fun SubnetMaskListWidget(
             LargeText(
                 text = subnetMask,
                 modifier = Modifier
-                    .testTag("SubnetMaskListWidgetItem+$cidrValue")
+                    .testTagAsId("SubnetMaskListWidgetItem+$cidrValue")
                     .fillMaxWidth()
                     .clickable { onSubnetMaskItemClick(cidrValue) }
                     .padding(all = 16.dp),

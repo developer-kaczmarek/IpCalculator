@@ -19,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,6 +27,7 @@ import io.github.kaczmarek.ipcalculator.core.model.AppLinkType
 import io.github.kaczmarek.ipcalculator.core.model.LayoutType
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.core.ui.utils.isLandscapeOrientation
+import io.github.kaczmarek.ipcalculator.core.ui.utils.testTagAsId
 import io.github.kaczmarek.ipcalculator.core.ui.widget.SnackbarHost
 import io.github.kaczmarek.ipcalculator.feature.calculator.widget.CompactContainer
 import io.github.kaczmarek.ipcalculator.feature.calculator.widget.SpaciousContainer
@@ -149,7 +149,7 @@ private fun CalculatorScreen(
             onDismissRequest = onSubnetMaskListDialogDismissRequest,
             onSubnetMaskItemClick = onSubnetMaskItemClick,
             modifier = Modifier
-                .testTag("SubnetMaskListDialogWidget")
+                .testTagAsId("SubnetMaskListDialogWidget")
                 .padding(all = 16.dp)
                 .fillMaxSize()
                 .background(

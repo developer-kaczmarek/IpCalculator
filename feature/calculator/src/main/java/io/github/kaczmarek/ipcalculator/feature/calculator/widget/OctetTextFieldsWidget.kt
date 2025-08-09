@@ -29,7 +29,6 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
@@ -41,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.core.ui.theme.robotoMonoFamily
 import io.github.kaczmarek.ipcalculator.core.ui.utils.empty
+import io.github.kaczmarek.ipcalculator.core.ui.utils.testTagAsId
 import io.github.kaczmarek.ipcalculator.feature.calculator.R
 import io.github.kaczmarek.ipcalculator.feature.calculator.model.OctetUiModel
 import io.github.kaczmarek.ipcalculator.feature.calculator.screen.FIRST_OCTET_INDEX
@@ -60,7 +60,7 @@ internal fun OctetTextFieldsWidget(
 ) {
     Row(
         modifier = modifier
-            .testTag("OctetTextFieldsWidget")
+            .testTagAsId("OctetTextFieldsWidget")
             .border(
                 width = 1.dp,
                 color = if (focusedOctetIndex != null) {
@@ -96,7 +96,7 @@ internal fun OctetTextFieldsWidget(
                 onNextImeActionClick = { onOctetNextImeActionClick(index) },
                 onFocusChange = { onOctetFocusChange(index) },
                 modifier = Modifier
-                    .testTag("OctetTextField+$index")
+                    .testTagAsId("OctetTextField+$index")
                     .fillMaxWidth()
                     .weight(1.0f)
                     .focusRequester(

@@ -19,7 +19,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -28,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import io.github.kaczmarek.ipcalculator.core.model.LayoutType
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.core.ui.utils.empty
+import io.github.kaczmarek.ipcalculator.core.ui.utils.testTagAsId
 import io.github.kaczmarek.ipcalculator.core.ui.widget.LargeText
 import io.github.kaczmarek.ipcalculator.core.ui.widget.PanelButton
 import io.github.kaczmarek.ipcalculator.feature.calculator.R
@@ -178,7 +178,7 @@ private fun SpaciousPanelButtonsGroupWidget(
             onClick = onCalculateClick,
             modifier = Modifier
                 .fillMaxWidth()
-                .testTag("CalculateButton"),
+                .testTagAsId("CalculateButton"),
         )
 
         PanelButton(
@@ -187,7 +187,7 @@ private fun SpaciousPanelButtonsGroupWidget(
             onClick = onShareClick,
             modifier = Modifier
                 .fillMaxWidth()
-                .testTag("ShareButton"),
+                .testTagAsId("ShareButton"),
         )
     }
 }

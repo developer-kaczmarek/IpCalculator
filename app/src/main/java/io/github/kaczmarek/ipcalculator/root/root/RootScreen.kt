@@ -34,7 +34,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,6 +46,7 @@ import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.core.ui.utils.getLayoutType
 import io.github.kaczmarek.ipcalculator.core.ui.utils.isLandscapeOrientation
 import io.github.kaczmarek.ipcalculator.core.ui.utils.navigateToBarRoute
+import io.github.kaczmarek.ipcalculator.core.ui.utils.testTagAsId
 import io.github.kaczmarek.ipcalculator.feature.calculator.navigation.CALCULATOR_ROUTE
 import io.github.kaczmarek.ipcalculator.root.navigation.IpCalculatorNavGraph
 import io.github.kaczmarek.ipcalculator.root.navigation.ipCalculatorTabScreens
@@ -132,14 +132,14 @@ private fun NavigationRailBar(
     modifier: Modifier = Modifier,
 ) {
     NavigationRail(
-        modifier = modifier.testTag("RootNavigationRailBar"),
+        modifier = modifier.testTagAsId("RootNavigationRailBar"),
         containerColor = Color.Transparent,
     ) {
         Spacer(modifier = Modifier.weight(1.0f))
 
         ipCalculatorTabScreens.forEach { destination ->
             NavigationItem(
-                modifier = Modifier.testTag("RootNavigationItem+${destination.route}"),
+                modifier = Modifier.testTagAsId("RootNavigationItem+${destination.route}"),
                 selected = destination.route == currentRoute,
                 onClick = { onNavigate(destination.route) },
                 labelRes = destination.titleTextId,
@@ -160,13 +160,13 @@ private fun BottomBar(
         NavigationBar(
             modifier = Modifier
                 .fillMaxWidth()
-                .testTag("RootBottomBar"),
+                .testTagAsId("RootBottomBar"),
             containerColor = MaterialTheme.colorScheme.surface,
             windowInsets = WindowInsets(0.dp),
         ) {
             ipCalculatorTabScreens.forEach { destination ->
                 NavigationItem(
-                    modifier = Modifier.testTag("RootNavigationItem+${destination.route}"),
+                    modifier = Modifier.testTagAsId("RootNavigationItem+${destination.route}"),
                     selected = destination.route == currentRoute,
                     onClick = { onNavigate(destination.route) },
                     labelRes = destination.titleTextId,

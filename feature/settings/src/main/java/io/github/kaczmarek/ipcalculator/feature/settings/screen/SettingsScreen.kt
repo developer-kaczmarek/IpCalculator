@@ -33,7 +33,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,6 +43,7 @@ import io.github.kaczmarek.ipcalculator.core.model.Language
 import io.github.kaczmarek.ipcalculator.core.model.LayoutType
 import io.github.kaczmarek.ipcalculator.core.model.ThemeType
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
+import io.github.kaczmarek.ipcalculator.core.ui.utils.testTagAsId
 import io.github.kaczmarek.ipcalculator.core.ui.widget.CardWrapper
 import io.github.kaczmarek.ipcalculator.core.ui.widget.HeadlineItem
 import io.github.kaczmarek.ipcalculator.core.ui.widget.SnackbarHost
@@ -200,7 +200,7 @@ private fun LocaleRadioGroup(
                 onClick = { onClick(Language.English) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .testTag("LocaleRadioGroupEnglishRadioOption"),
+                    .testTagAsId("LocaleRadioGroupEnglishRadioOption"),
             )
 
             HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -211,7 +211,7 @@ private fun LocaleRadioGroup(
                 onClick = { onClick(Language.Russian) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .testTag("LocaleRadioGroupRussianRadioOption"),
+                    .testTagAsId("LocaleRadioGroupRussianRadioOption"),
             )
 
             HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -222,7 +222,7 @@ private fun LocaleRadioGroup(
                 onClick = { onClick(Language.Kazakh) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .testTag("LocaleRadioGroupKazakhRadioOption"),
+                    .testTagAsId("LocaleRadioGroupKazakhRadioOption"),
             )
         }
     }
@@ -246,7 +246,7 @@ private fun ThemeRadioGroup(
                 onClick = { onClick(ThemeType.System) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .testTag("ThemeRadioGroupSystemRadioOption"),
+                    .testTagAsId("ThemeRadioGroupSystemRadioOption"),
             )
 
             HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -257,7 +257,7 @@ private fun ThemeRadioGroup(
                 onClick = { onClick(ThemeType.Dark) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .testTag("ThemeRadioGroupDarkRadioOption"),
+                    .testTagAsId("ThemeRadioGroupDarkRadioOption"),
             )
 
             HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -268,7 +268,7 @@ private fun ThemeRadioGroup(
                 onClick = { onClick(ThemeType.Light) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .testTag("ThemeRadioGroupLightRadioOption"),
+                    .testTagAsId("ThemeRadioGroupLightRadioOption"),
             )
         }
     }
