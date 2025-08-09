@@ -6,7 +6,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
+import io.github.kaczmarek.ipcalculator.core.ui.utils.testTagAsId
 
 @Composable
 fun SnackbarHost(
@@ -15,11 +15,11 @@ fun SnackbarHost(
 ) {
     SnackbarHost(
         hostState = snackbarHostState,
-        modifier = modifier.testTag("SnackbarHost"),
+        modifier = modifier.testTagAsId("SnackbarHost"),
         snackbar = {
             Snackbar(
                 snackbarData = it,
-                modifier = Modifier.testTag("Snackbar"),
+                modifier = Modifier.testTagAsId("Snackbar"),
                 containerColor = MaterialTheme.colorScheme.errorContainer,
                 contentColor = MaterialTheme.colorScheme.onErrorContainer,
                 actionColor = MaterialTheme.colorScheme.primary,

@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -30,6 +29,7 @@ import io.github.kaczmarek.ipcalculator.core.ui.model.UiText
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.core.ui.theme.robotoMonoFamily
 import io.github.kaczmarek.ipcalculator.core.ui.utils.isLight
+import io.github.kaczmarek.ipcalculator.core.ui.utils.testTagAsId
 import io.github.kaczmarek.ipcalculator.core.ui.widget.LargeText
 import io.github.kaczmarek.ipcalculator.feature.calculator.R
 import io.github.kaczmarek.ipcalculator.feature.calculator.model.CalculationUiModel
@@ -58,7 +58,7 @@ internal fun CalculationsListContentWidget(
 private fun EmptyStateWidget(
     modifier: Modifier = Modifier,
 ) {
-    Box(modifier = modifier.testTag("EmptyStateWidget")) {
+    Box(modifier = modifier.testTagAsId("EmptyStateWidget")) {
         Column(
             modifier = Modifier
                 .align(Alignment.Center)
@@ -76,7 +76,7 @@ private fun EmptyStateWidget(
                 contentDescription = null,
                 modifier = Modifier
                     .height(100.dp)
-                    .testTag("EmptyStateWidgetImage"),
+                    .testTagAsId("EmptyStateWidgetImage"),
                 contentScale = ContentScale.Inside,
             )
 
@@ -85,7 +85,7 @@ private fun EmptyStateWidget(
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .padding(all = 16.dp)
-                    .testTag("EmptyStateWidgetLargeText"),
+                    .testTagAsId("EmptyStateWidgetLargeText"),
             )
         }
     }
@@ -97,7 +97,7 @@ private fun ContentStateWidget(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.testTag("ContentStateWidget"),
+        modifier = modifier.testTagAsId("ContentStateWidget"),
     ) {
         calculations.forEachIndexed { index, calculation ->
             ListItem(
@@ -112,7 +112,7 @@ private fun ContentStateWidget(
                     containerColor = MaterialTheme.colorScheme.background,
                 ),
                 modifier = Modifier
-                    .testTag("ContentStateWidgetListItem+${calculation.name.asString()}"),
+                    .testTagAsId("ContentStateWidgetListItem+${calculation.name.asString()}"),
             )
 
             if (index < calculations.lastIndex) {
