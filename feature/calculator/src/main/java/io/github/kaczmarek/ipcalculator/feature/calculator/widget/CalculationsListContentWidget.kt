@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.github.kaczmarek.ipcalculator.core.model.CalculationType
 import io.github.kaczmarek.ipcalculator.core.ui.model.UiText
 import io.github.kaczmarek.ipcalculator.core.ui.theme.AppTheme
 import io.github.kaczmarek.ipcalculator.core.ui.theme.robotoMonoFamily
@@ -112,7 +113,7 @@ private fun ContentStateWidget(
                     containerColor = MaterialTheme.colorScheme.background,
                 ),
                 modifier = Modifier
-                    .testTagAsId("ContentStateWidgetListItem+${calculation.name.asString()}"),
+                    .testTagAsId("ContentStateWidgetListItem+${calculation.type}"),
             )
 
             if (index < calculations.lastIndex) {
@@ -137,14 +138,17 @@ private fun CalculationsListContentWidgetPreview() {
                         CalculationUiModel(
                             name = UiText.DynamicString("IP адрес"),
                             value = UiText.DynamicString("192.168.1.1"),
+                            type = CalculationType.IPAddress,
                         ),
                         CalculationUiModel(
                             name = UiText.DynamicString("CIDR нотация"),
                             value = UiText.DynamicString("24"),
+                            type = CalculationType.CIDRPrefix,
                         ),
                         CalculationUiModel(
                             name = UiText.DynamicString("Маска подсети"),
                             value = UiText.DynamicString("255.255.255.0"),
+                            type = CalculationType.SubnetMask,
                         ),
                     ),
                 ),
