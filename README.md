@@ -14,7 +14,10 @@ You can share the result via messenger or simply copy it as text.
 Everything you need to calculate and view the obtained information is available on a single screen. We’ve tried to save your time.
 
 ## Screenshots
-![UI](images/UI.png)
+![UI](images/UI1.png)
+![UI](images/UI2.png)
+![UI](images/UI3.png)
+![UI](images/UI4.png)
 
 ## Bugs / Questions / Suggestions
 
