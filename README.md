@@ -19,6 +19,9 @@ Everything you need to calculate and view the obtained information is available 
 ![UI](images/UI3.png)
 ![UI](images/UI4.png)
 
+## Acknowledgments
+Special thanks for the help with the Kazakh translation: [Nuray Turganbayeva (System Analyst)](https://www.linkedin.com/in/nuray-turganbayeva/)
+
 ## Bugs / Questions / Suggestions
 
 📧 [Write to me and I will fix / reply / add details as soon as possible](mailto:developer.kaczmarek@gmail.com)
