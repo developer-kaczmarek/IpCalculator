@@ -116,6 +116,7 @@ private fun SettingsScreen(
         HeadlineItem(
             text = stringResource(id = R.string.settings_theme),
             modifier = Modifier
+                .testTagAsId("ThemeHeadlineItem")
                 .fillMaxWidth(fraction = if (layoutType == LayoutType.Compat) 1.0f else 0.6f)
                 .padding(horizontal = 16.dp)
                 .padding(top = 24.dp, bottom = 8.dp),
@@ -132,6 +133,7 @@ private fun SettingsScreen(
         HeadlineItem(
             text = stringResource(id = R.string.settings_language),
             modifier = Modifier
+                .testTagAsId("LanguageHeadlineItem")
                 .fillMaxWidth(fraction = if (layoutType == LayoutType.Compat) 1.0f else 0.6f)
                 .padding(horizontal = 16.dp)
                 .padding(top = 24.dp, bottom = 8.dp),

@@ -65,6 +65,7 @@ internal fun SubnetMaskListDialogWidget(
                 SubnetMaskListWidget(
                     onSubnetMaskItemClick = onSubnetMaskItemClick,
                     modifier = Modifier
+                        .testTagAsId("SubnetMaskListContainer")
                         .fillMaxSize()
                         .verticalScroll(scrollState),
                 )
