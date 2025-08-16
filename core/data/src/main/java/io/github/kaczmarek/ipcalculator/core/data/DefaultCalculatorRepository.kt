@@ -144,7 +144,7 @@ internal class DefaultCalculatorRepository : CalculatorRepository {
     private fun getMaxPossibleHostCount(cidr: Int): Long {
         val count = 2.0.pow((Integer.SIZE - cidr).toDouble()).toLong()
 
-        return if (count <= 1) 0 else count
+        return if (count < 1) 0 else count
     }
 
     private fun getFirstUsableHost(cidr: Int, majorIpAddress: Int): String {
