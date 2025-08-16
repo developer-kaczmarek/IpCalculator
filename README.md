@@ -1,21 +1,24 @@
-# IP Калькулятор
+![IP Calculator](images/banner.png "IP Calculator")
+
+<a href="https://play.google.com/store/apps/details?id=io.github.kaczmarek.ipcalculator"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="70"></a>
+
+IP Calculator
+==================
+
 [![LICENSE](https://github.com/developer-kaczmarek/IpCalculator/blob/main/images/license-GPLv3-blue.svg)](https://github.com/developer-kaczmarek/IpCalculator/blob/main/LICENSE)
 
-IP калькулятор позволит вычислить ip адрес сети, широковещательный адрес, ip адрес первого узла (хоста), ip адрес последнего узла (хоста), количество рабочих узлов (хостов) в заданной сети, маску сети, обратную маску (wildcard mask) и сетевой префикс. 
+The IP calculator allows you to determine the network IP address, broadcast address, first host IP address, last host IP address, the number of usable hosts in the given network, the subnet mask, the wildcard mask, and the network prefix.
 
-Полученным результатом можно поделиться через мессенджер или просто скопировать в виде текста.
+You can share the result via messenger or simply copy it as text.
 
-Всё что нужно для вычисления и просмотра, полученной информации – на одном экране. Мы постарались сэкономить Ваше время.
+Everything you need to calculate and view the obtained information is available on a single screen. We’ve tried to save your time.
 
-## Магазин приложений
-* Страницу приложения IP Калькулятор можно найти [здесь](https://play.google.com/store/apps/details?id=io.github.kaczmarek.ipcalculator).
+## Screenshots
+![UI](images/UI.png)
 
-## Как это выглядит?
-![UI](https://github.com/developer-kaczmarek/IpCalculator/blob/main/images/UI.png)
+## Bugs / Questions / Suggestions
 
-## Баги / Вопросы /  Предложения
+📧 [Write to me and I will fix / reply / add details as soon as possible](mailto:developer.kaczmarek@gmail.com)
 
-📧 [Напишите и я исправлю / отвечу / дополню как можно скорее](mailto:developer.kaczmarek@gmail.com)
-
-## Политика конфиденциальности
-* Приложение не требует регистрации пользователя. Приложение не требует от пользователя предоставления какой-либо личной информации. Более подробно познакомиться с политикой конфиденциальности можно [здесь](https://github.com/developer-kaczmarek/IpCalculator/wiki/%D0%9F%D0%BE%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0-%D0%BA%D0%BE%D0%BD%D1%84%D0%B8%D0%B4%D0%B5%D0%BD%D1%86%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D0%B8).
+## Privacy policy
+* The app does not require user registration. The app does not ask the user to provide any personal information. You can read the full privacy policy [here](https://github.com/developer-kaczmarek/IpCalculator/wiki/Privacy-policy).
