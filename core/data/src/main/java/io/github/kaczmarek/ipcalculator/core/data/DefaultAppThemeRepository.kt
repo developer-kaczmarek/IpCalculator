@@ -11,10 +11,6 @@ internal class DefaultAppThemeRepository(
 
     private val themeTypeFlow = MutableStateFlow(loadThemeType())
 
-    override fun getSelectedThemeType(): ThemeType {
-        return themeTypeFlow.value
-    }
-
     override fun observeThemeType(): StateFlow<ThemeType> = themeTypeFlow
 
     override fun setSelectedTheme(themeType: ThemeType) {
@@ -22,9 +18,9 @@ internal class DefaultAppThemeRepository(
         themeTypeFlow.value = themeType
     }
 
-
     private fun loadThemeType(): ThemeType {
         val name = settingsDataStore.getSelectedThemeTypeName()
+
         return ThemeType.entries.find { it.name == name } ?: ThemeType.System
     }
 }

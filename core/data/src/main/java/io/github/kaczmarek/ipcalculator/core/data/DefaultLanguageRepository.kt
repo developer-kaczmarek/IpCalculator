@@ -1,39 +1,53 @@
 package io.github.kaczmarek.ipcalculator.core.data
 
-import android.app.LocaleManager
+import android.content.ComponentCallbacks
 import android.content.Context
-import android.os.Build
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.ConfigurationCompat
 import androidx.core.os.LocaleListCompat
-import io.github.kaczmarek.ipcalculator.core.datastore.SettingsDataStore
 import io.github.kaczmarek.ipcalculator.core.model.Language
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 internal class DefaultLanguageRepository(
-    private val settingsDataStore: SettingsDataStore,
     private val context: Context,
 ) : LanguageRepository {
 
-    override fun isManualChosen(): Boolean {
-        return settingsDataStore.isManualLanguageChosen()
-    }
+    override fun observeLanguage(): Flow<Language> = callbackFlow {
+        val sendLanguage = {
+            trySend(getSelectedLanguage())
+        }
 
-    override fun setManualChosen() {
-        settingsDataStore.setManualLanguageChosen()
-    }
+        sendLanguage()
 
-    override fun resetManualChosen() {
-        settingsDataStore.resetManualLanguageChosen()
-    }
+        val listener = object : ComponentCallbacks {
+            override fun onConfigurationChanged(newConfig: Configuration) {
+                sendLanguage()
+            }
+
+            @Deprecated("Deprecated in Java")
+            override fun onLowMemory() {
+                // No-op
+            }
+        }
+
+        context.registerComponentCallbacks(listener)
+
+        awaitClose {
+            context.unregisterComponentCallbacks(listener)
+        }
+    }.distinctUntilChanged()
 
     override fun getSelectedLanguage(): Language {
-        val code = settingsDataStore.getSelectedLanguageCode()
+        val appLocales = AppCompatDelegate.getApplicationLocales()
+        if (appLocales.isEmpty) return getSystemLocaleOrDefault()
+
+        val code = appLocales[0]?.language
 
         return Language.entries.find { it.code == code } ?: Language.English
-    }
-
-    override fun setSelectedLanguage(language: Language) {
-        settingsDataStore.setSelectedLanguageCode(language.code)
     }
 
     override fun updateLanguageConfiguration(language: Language) {
@@ -41,20 +55,9 @@ internal class DefaultLanguageRepository(
         AppCompatDelegate.setApplicationLocales(locales)
     }
 
-    override fun getSystemLocaleOrDefault(): Language {
+    private fun getSystemLocaleOrDefault(): Language {
         val currentLocale = ConfigurationCompat.getLocales(context.resources.configuration)[0]
 
         return Language.entries.find { it.code == currentLocale?.language } ?: Language.English
-    }
-
-    override fun isChosenFromPerAppMenu(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            val localeManager = context.getSystemService(LocaleManager::class.java)
-            val appLocales = localeManager.applicationLocales
-
-            appLocales.isEmpty.not()
-        } else {
-            false
-        }
     }
 }

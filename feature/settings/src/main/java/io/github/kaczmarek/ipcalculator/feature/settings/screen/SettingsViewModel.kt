@@ -11,10 +11,12 @@ import io.github.kaczmarek.ipcalculator.core.ui.R
 import io.github.kaczmarek.ipcalculator.core.ui.model.UiText
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 internal class SettingsViewModel(
@@ -22,7 +24,16 @@ internal class SettingsViewModel(
     private val languageRepository: LanguageRepository,
 ) : ViewModel() {
 
-    val uiState = MutableStateFlow(SettingsUiState())
+    val uiState: StateFlow<SettingsUiState> = combine(
+        languageRepository.observeLanguage(),
+        themeRepository.observeThemeType()
+    ) { language, theme ->
+        SettingsUiState(selectedLanguage = language, selectedThemeType = theme)
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = SettingsUiState(),
+    )
 
     private val _effect = MutableSharedFlow<SettingsEffect>()
     val effect: SharedFlow<SettingsEffect> = _effect.asSharedFlow()
@@ -39,15 +50,8 @@ internal class SettingsViewModel(
         }
     }
 
-    init {
-        prepareUiState()
-    }
-
     fun onLanguageItemClick(newLanguage: Language) {
         viewModelScope.launch(exceptionHandler) {
-            uiState.update { uiState.value.copy(selectedLanguage = newLanguage) }
-            languageRepository.setManualChosen()
-            languageRepository.setSelectedLanguage(newLanguage)
             languageRepository.updateLanguageConfiguration(newLanguage)
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                 _effect.emit(SettingsEffect.RecreateActivity)
@@ -58,21 +62,6 @@ internal class SettingsViewModel(
     fun onThemeItemClick(newTheme: ThemeType) {
         viewModelScope.launch(exceptionHandler) {
             themeRepository.setSelectedTheme(newTheme)
-            uiState.update { uiState.value.copy(selectedThemeType = newTheme) }
-        }
-    }
-
-    private fun prepareUiState() {
-        viewModelScope.launch(exceptionHandler) {
-            val selectedLanguage = languageRepository.getSelectedLanguage()
-            val selectedTheme = themeRepository.getSelectedThemeType()
-
-            uiState.update {
-                uiState.value.copy(
-                    selectedLanguage = selectedLanguage,
-                    selectedThemeType = selectedTheme,
-                )
-            }
         }
     }
 }

@@ -36,7 +36,7 @@ class IpCalculatorActivity : AppCompatActivity() {
         enableEdgeToEdge(
             navigationBarStyle = SystemBarStyle.auto(
                 Color.TRANSPARENT,
-                Color.TRANSPARENT
+                Color.TRANSPARENT,
             )
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -67,7 +67,7 @@ class IpCalculatorActivity : AppCompatActivity() {
             val uri = resources.getString(R.string.market_link).toUri()
             val intent = Intent(Intent.ACTION_VIEW, uri)
             startActivity(intent)
-        } catch (t: Throwable) {
+        } catch (_: Throwable) {
             startActivity(
                 getSuitableViewerIntent(
                     link = resources.getString(R.string.web_google_play_link),

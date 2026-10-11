@@ -9,7 +9,6 @@ val rootModule = module {
     viewModel {
         RootViewModel(
             themeRepository = get(),
-            languageRepository = get(),
         )
     }
 }

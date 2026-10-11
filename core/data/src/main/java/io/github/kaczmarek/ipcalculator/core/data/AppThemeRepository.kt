@@ -5,8 +5,6 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface AppThemeRepository {
 
-    fun getSelectedThemeType(): ThemeType
-
     fun observeThemeType(): StateFlow<ThemeType>
 
     fun setSelectedTheme(themeType: ThemeType)

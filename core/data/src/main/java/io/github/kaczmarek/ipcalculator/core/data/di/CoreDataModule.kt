@@ -19,7 +19,6 @@ val coreDataModule = module {
 
     single<LanguageRepository> {
         DefaultLanguageRepository(
-            settingsDataStore = get(),
             context = androidContext(),
         )
     }
