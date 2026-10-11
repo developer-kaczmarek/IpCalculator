@@ -8,4 +8,6 @@ internal sealed interface CalculatorEffect {
         val message: UiText,
         val action: UiText,
     ) : CalculatorEffect
+
+    data object HideKeyboard : CalculatorEffect
 }

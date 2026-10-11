@@ -42,6 +42,7 @@ internal fun SpaciousContainer(
     onOctetChange: (Int, TextFieldValue) -> Unit,
     onOctetNextImeActionClick: (Int) -> Unit,
     onOctetFocusChange: (Int) -> Unit,
+    onOctetBackspace: (Int) -> Unit,
     onCIDRClick: () -> Unit,
     onCalculateClick: () -> Unit,
     onShareClick: () -> Unit,
@@ -66,6 +67,7 @@ internal fun SpaciousContainer(
             onOctetChange = onOctetChange,
             onOctetNextImeActionClick = onOctetNextImeActionClick,
             onOctetFocusChange = onOctetFocusChange,
+            onOctetBackspace = onOctetBackspace,
             onCIDRClick = onCIDRClick,
             onCalculateClick = onCalculateClick,
             onShareClick = onShareClick,
@@ -87,6 +89,7 @@ private fun SpaciousCalculatorControlPanelWidget(
     onOctetChange: (Int, TextFieldValue) -> Unit,
     onOctetNextImeActionClick: (Int) -> Unit,
     onOctetFocusChange: (Int) -> Unit,
+    onOctetBackspace: (Int) -> Unit,
     onCIDRClick: () -> Unit,
     onCalculateClick: () -> Unit,
     onShareClick: () -> Unit,
@@ -103,6 +106,7 @@ private fun SpaciousCalculatorControlPanelWidget(
             onOctetChange = onOctetChange,
             onOctetNextImeActionClick = onOctetNextImeActionClick,
             onOctetFocusChange = onOctetFocusChange,
+            onOctetBackspace = onOctetBackspace,
             onCIDRClick = onCIDRClick,
         )
 
@@ -123,6 +127,7 @@ private fun SpaciousPanelFieldsGroupWidget(
     onOctetChange: (Int, TextFieldValue) -> Unit,
     onOctetNextImeActionClick: (Int) -> Unit,
     onOctetFocusChange: (Int) -> Unit,
+    onOctetBackspace: (Int) -> Unit,
     onCIDRClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -137,6 +142,7 @@ private fun SpaciousPanelFieldsGroupWidget(
             onOctetChange = onOctetChange,
             onOctetNextImeActionClick = onOctetNextImeActionClick,
             onOctetFocusChange = onOctetFocusChange,
+            onOctetBackspace = onOctetBackspace,
             modifier = Modifier.fillMaxWidth(),
         )
 
@@ -243,6 +249,7 @@ private fun SpaciousContainerPreview() {
                 onOctetChange = { _, _ -> },
                 onOctetNextImeActionClick = {},
                 onOctetFocusChange = {},
+                onOctetBackspace = {},
                 onCIDRClick = {},
                 onCalculateClick = {},
                 onShareClick = {},

@@ -19,6 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,6 +46,8 @@ internal fun CalculatorRoute(
 ) {
     val uiState: CalculatorUiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
     val snackbarHostState = remember { SnackbarHostState() }
     val shareText = remember(uiState.calculations) {
         buildString {
@@ -68,6 +72,11 @@ internal fun CalculatorRoute(
                         onOpenLink.invoke(AppLinkType.Support)
                     }
                 }
+
+                CalculatorEffect.HideKeyboard -> {
+                    keyboardController?.hide()
+                    focusManager.clearFocus()
+                }
             }
         }
     }
@@ -78,6 +87,7 @@ internal fun CalculatorRoute(
         onOctetChange = viewModel::onOctetChange,
         onOctetNextImeActionClick = viewModel::onOctetNextImeActionClick,
         onOctetFocusChange = viewModel::onOctetFocusChange,
+        onOctetBackspace = viewModel::onOctetBackspace,
         onCIDRClick = viewModel::onCIDRClick,
         onCalculateClick = viewModel::onCalculateClick,
         onShareClick = { onShareText(shareText) },
@@ -96,6 +106,7 @@ private fun CalculatorScreen(
     onOctetChange: (Int, TextFieldValue) -> Unit,
     onOctetNextImeActionClick: (Int) -> Unit,
     onOctetFocusChange: (Int) -> Unit,
+    onOctetBackspace: (Int) -> Unit,
     onCIDRClick: () -> Unit,
     onCalculateClick: () -> Unit,
     onShareClick: () -> Unit,
@@ -113,6 +124,7 @@ private fun CalculatorScreen(
                 onOctetChange = onOctetChange,
                 onOctetNextImeActionClick = onOctetNextImeActionClick,
                 onOctetFocusChange = onOctetFocusChange,
+                onOctetBackspace = onOctetBackspace,
                 onCIDRClick = onCIDRClick,
                 onCalculateClick = onCalculateClick,
                 onShareClick = onShareClick,
@@ -125,6 +137,7 @@ private fun CalculatorScreen(
                 onOctetChange = onOctetChange,
                 onOctetNextImeActionClick = onOctetNextImeActionClick,
                 onOctetFocusChange = onOctetFocusChange,
+                onOctetBackspace = onOctetBackspace,
                 onCIDRClick = onCIDRClick,
                 onCalculateClick = onCalculateClick,
                 onShareClick = onShareClick,
@@ -169,6 +182,7 @@ private fun CalculatorScreenPreview() {
             onOctetChange = { _, _ -> },
             onOctetNextImeActionClick = {},
             onOctetFocusChange = {},
+            onOctetBackspace = {},
             onCIDRClick = {},
             onCalculateClick = {},
             onShareClick = {},

@@ -26,12 +26,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
@@ -46,10 +47,7 @@ import io.github.kaczmarek.ipcalculator.core.ui.utils.empty
 import io.github.kaczmarek.ipcalculator.core.ui.utils.testTagAsId
 import io.github.kaczmarek.ipcalculator.feature.calculator.R
 import io.github.kaczmarek.ipcalculator.feature.calculator.model.OctetUiModel
-import io.github.kaczmarek.ipcalculator.feature.calculator.screen.FIRST_OCTET_INDEX
 import io.github.kaczmarek.ipcalculator.feature.calculator.screen.FOURTH_OCTET_INDEX
-import io.github.kaczmarek.ipcalculator.feature.calculator.screen.SECOND_OCTET_INDEX
-import io.github.kaczmarek.ipcalculator.feature.calculator.screen.THIRD_OCTET_INDEX
 
 @Composable
 internal fun OctetTextFieldsWidget(
@@ -58,6 +56,7 @@ internal fun OctetTextFieldsWidget(
     onOctetChange: (Int, TextFieldValue) -> Unit,
     onOctetNextImeActionClick: (Int) -> Unit,
     onOctetFocusChange: (Int) -> Unit,
+    onOctetBackspace: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -75,21 +74,11 @@ internal fun OctetTextFieldsWidget(
             .focusable(),
         verticalAlignment = Alignment.Bottom,
     ) {
-        val focusManager = LocalFocusManager.current
-        val keyboard = LocalSoftwareKeyboardController.current
-        val firstOctetFocusRequester = remember { FocusRequester() }
-        val secondOctetFocusRequester = remember { FocusRequester() }
-        val thirdOctetFocusRequester = remember { FocusRequester() }
-        val fourthOctetFocusRequester = remember { FocusRequester() }
+        val focusRequesters = remember { List(4) { FocusRequester() } }
 
         LaunchedEffect(focusedOctetIndex) {
-            focusManager.clearFocus()
-            when (focusedOctetIndex) {
-                FIRST_OCTET_INDEX -> firstOctetFocusRequester.requestFocus()
-                SECOND_OCTET_INDEX -> secondOctetFocusRequester.requestFocus()
-                THIRD_OCTET_INDEX -> thirdOctetFocusRequester.requestFocus()
-                FOURTH_OCTET_INDEX -> fourthOctetFocusRequester.requestFocus()
-                else -> keyboard?.hide()
+           focusedOctetIndex?.let { index ->
+                focusRequesters.getOrNull(index)?.requestFocus()
             }
         }
 
@@ -98,21 +87,15 @@ internal fun OctetTextFieldsWidget(
                 octet = octet,
                 onOctetChange = { onOctetChange(index, it) },
                 onNextImeActionClick = { onOctetNextImeActionClick(index) },
-                onFocusChange = {
-                    onOctetFocusChange(index)
+                onFocusChange = { onOctetFocusChange(index) },
+                onBackspace = {
+                    onOctetBackspace(index)
                 },
                 modifier = Modifier
                     .testTagAsId("OctetTextField+$index")
                     .fillMaxWidth()
                     .weight(1.0f)
-                    .focusRequester(
-                        when (index) {
-                            FIRST_OCTET_INDEX -> firstOctetFocusRequester
-                            SECOND_OCTET_INDEX -> secondOctetFocusRequester
-                            THIRD_OCTET_INDEX -> thirdOctetFocusRequester
-                            else -> fourthOctetFocusRequester
-                        }
-                    )
+                    .focusRequester(focusRequesters[index])
             )
 
             if (index < FOURTH_OCTET_INDEX) {
@@ -145,23 +128,17 @@ private fun OctetDelimiterText(
     )
 }
 
-
 @Composable
 private fun OctetTextField(
     octet: OctetUiModel,
     onOctetChange: (TextFieldValue) -> Unit,
     onNextImeActionClick: () -> Unit,
     onFocusChange: () -> Unit,
+    onBackspace: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val focused by interactionSource.collectIsFocusedAsState()
-
-    LaunchedEffect(focused) {
-        if (focused) {
-            onFocusChange()
-        }
-    }
+    val isFocused by interactionSource.collectIsFocusedAsState()
 
     BasicTextField(
         interactionSource = interactionSource,
@@ -179,7 +156,24 @@ private fun OctetTextField(
             keyboardType = KeyboardType.Decimal,
             imeAction = ImeAction.Next,
         ),
-        modifier = modifier,
+        modifier = modifier
+            .onFocusChanged { focusState ->
+                if (focusState.isFocused) {
+                    onFocusChange()
+                }
+            }
+            .onKeyEvent {
+                if (it.type == KeyEventType.KeyUp &&
+                    it.key == Key.Backspace &&
+                    octet.value.selection.collapsed &&
+                    octet.value.selection.start == 0
+                ) {
+                    onBackspace()
+                    true
+                } else {
+                    false
+                }
+            },
         singleLine = true,
         keyboardActions = KeyboardActions(
             onNext = { onNextImeActionClick() },
@@ -191,7 +185,7 @@ private fun OctetTextField(
                     .fillMaxWidth(),
                 contentAlignment = Alignment.Center,
             ) {
-                if (octet.value.text.isEmpty() && !focused) {
+                if (octet.value.text.isEmpty() && !isFocused) {
                     PlaceholderText(
                         text = octet.placeholder,
                         modifier = Modifier.fillMaxWidth(),
@@ -251,6 +245,9 @@ private fun OctetTextFieldsWidgetPreview() {
                     // Do something
                 },
                 onOctetFocusChange = {
+                    // Do something
+                },
+                onOctetBackspace = {
                     // Do something
                 },
                 modifier = Modifier

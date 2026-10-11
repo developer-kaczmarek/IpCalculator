@@ -34,6 +34,7 @@ internal fun CompactContainer(
     onOctetChange: (Int, TextFieldValue) -> Unit,
     onOctetNextImeActionClick: (Int) -> Unit,
     onOctetFocusChange: (Int) -> Unit,
+    onOctetBackspace: (Int) -> Unit,
     onCIDRClick: () -> Unit,
     onCalculateClick: () -> Unit,
     onShareClick: () -> Unit,
@@ -52,6 +53,7 @@ internal fun CompactContainer(
             onOctetChange = onOctetChange,
             onOctetNextImeActionClick = onOctetNextImeActionClick,
             onOctetFocusChange = onOctetFocusChange,
+            onOctetBackspace = onOctetBackspace,
             onCIDRClick = onCIDRClick,
             onShareClick = onShareClick,
             onCalculateClick = onCalculateClick,
@@ -73,6 +75,7 @@ private fun CompatCalculatorControlPanelWidget(
     onOctetChange: (Int, TextFieldValue) -> Unit,
     onOctetNextImeActionClick: (Int) -> Unit,
     onOctetFocusChange: (Int) -> Unit,
+    onOctetBackspace: (Int) -> Unit,
     onCIDRClick: () -> Unit,
     onCalculateClick: () -> Unit,
     onShareClick: () -> Unit,
@@ -90,6 +93,7 @@ private fun CompatCalculatorControlPanelWidget(
             onOctetChange = onOctetChange,
             onOctetNextImeActionClick = onOctetNextImeActionClick,
             onOctetFocusChange = onOctetFocusChange,
+            onOctetBackspace = onOctetBackspace,
             onCIDRClick = onCIDRClick,
         )
 
@@ -110,6 +114,7 @@ private fun CompatPanelFieldsGroupWidget(
     onOctetChange: (Int, TextFieldValue) -> Unit,
     onOctetNextImeActionClick: (Int) -> Unit,
     onOctetFocusChange: (Int) -> Unit,
+    onOctetBackspace: (Int) -> Unit,
     onCIDRClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -124,6 +129,7 @@ private fun CompatPanelFieldsGroupWidget(
             onOctetChange = onOctetChange,
             onOctetNextImeActionClick = onOctetNextImeActionClick,
             onOctetFocusChange = onOctetFocusChange,
+            onOctetBackspace = onOctetBackspace,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1.5f),
@@ -228,6 +234,7 @@ private fun CompactContainerPreview() {
                 onOctetChange = { _, _ -> },
                 onOctetNextImeActionClick = {},
                 onOctetFocusChange = {},
+                onOctetBackspace = {},
                 onCIDRClick = {},
                 onCalculateClick = {},
                 onShareClick = {},
