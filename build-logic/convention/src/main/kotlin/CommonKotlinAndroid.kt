@@ -1,36 +1,39 @@
-import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 internal fun Project.configureKotlinAndroid(
-    commonExtension: CommonExtension<*, *, *, *, *, *>,
-) = with(commonExtension) {
+    extension: LibraryExtension,
+) {
+    extension.apply {
+        compileSdk = libs.findVersionOrThrow("compileSdk").toInt()
+        defaultConfig {
+            minSdk = libs.findVersionOrThrow("minSdk").toInt()
+            lint.targetSdk = libs.findVersionOrThrow("targetSdk").toInt()
+        }
 
-    val minSdkVersion = libs.versions.minSdk.get().toInt()
-    val targetSdkVersion = libs.versions.targetSdk.get().toInt()
-    val compileSdkVersion = libs.versions.compileSdk.get().toInt()
-
-    compileSdk = compileSdkVersion
-
-    defaultConfig {
-        minSdk = minSdkVersion
-        lint.targetSdk = targetSdkVersion
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_21
+            targetCompatibility = JavaVersion.VERSION_21
+            isCoreLibraryDesugaringEnabled = true
+        }
     }
+    configureKotlinCommon()
+}
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+private fun Project.configureKotlinCommon() {
+    dependencies {
+        add("coreLibraryDesugaring", libs.findLibrary("android-desugarJdkLibs").get())
     }
 
     extensions.configure<KotlinAndroidProjectExtension> {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_1_8)
-            freeCompilerArgs.addAll(
-                "-opt-in=kotlin.RequiresOptIn",
-            )
+            jvmTarget.set(JvmTarget.JVM_21)
+            freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
         }
     }
 }

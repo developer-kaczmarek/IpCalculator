@@ -1,6 +1,8 @@
 package io.github.kaczmarek.ipcalculator.core.data
 
+import android.app.LocaleManager
 import android.content.Context
+import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.ConfigurationCompat
 import androidx.core.os.LocaleListCompat
@@ -12,10 +14,16 @@ internal class DefaultLanguageRepository(
     private val context: Context,
 ) : LanguageRepository {
 
-    override fun isLanguageSelected(): Boolean {
-        val code = settingsDataStore.getSelectedLanguageCode()
+    override fun isManualChosen(): Boolean {
+        return settingsDataStore.isManualLanguageChosen()
+    }
 
-        return Language.entries.find { it.code == code } != null
+    override fun setManualChosen() {
+        settingsDataStore.setManualLanguageChosen()
+    }
+
+    override fun resetManualChosen() {
+        settingsDataStore.resetManualLanguageChosen()
     }
 
     override fun getSelectedLanguage(): Language {
@@ -26,6 +34,9 @@ internal class DefaultLanguageRepository(
 
     override fun setSelectedLanguage(language: Language) {
         settingsDataStore.setSelectedLanguageCode(language.code)
+    }
+
+    override fun updateLanguageConfiguration(language: Language) {
         val locales = LocaleListCompat.forLanguageTags(language.code)
         AppCompatDelegate.setApplicationLocales(locales)
     }
@@ -34,5 +45,16 @@ internal class DefaultLanguageRepository(
         val currentLocale = ConfigurationCompat.getLocales(context.resources.configuration)[0]
 
         return Language.entries.find { it.code == currentLocale?.language } ?: Language.English
+    }
+
+    override fun isChosenFromPerAppMenu(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val localeManager = context.getSystemService(LocaleManager::class.java)
+            val appLocales = localeManager.applicationLocales
+
+            appLocales.isEmpty.not()
+        } else {
+            false
+        }
     }
 }

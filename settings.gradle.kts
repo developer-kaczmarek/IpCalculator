@@ -1,5 +1,7 @@
 pluginManagement {
+    // Подключаем билд-логику ПЕРВОЙ, чтобы плагины были доступны ниже
     includeBuild("build-logic")
+
     repositories {
         google {
             content {
@@ -12,8 +14,11 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
+    // Запрещаем модулям объявлять свои репозитории для стабильности сборки
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
     repositories {
         google()
         mavenCentral()
@@ -21,10 +26,14 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "IP Calculator"
+
+// Feature модули
 include(":app")
 include(":feature:info")
 include(":feature:settings")
 include(":feature:calculator")
+
+// Core модули
 include(":core:model")
 include(":core:ui")
 include(":core:datastore")

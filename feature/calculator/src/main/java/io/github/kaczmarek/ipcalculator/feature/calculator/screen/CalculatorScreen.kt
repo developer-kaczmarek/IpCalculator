@@ -76,7 +76,6 @@ internal fun CalculatorRoute(
         uiState = uiState,
         layoutType = layoutType,
         onOctetChange = viewModel::onOctetChange,
-        onOctetDeleteImeClick = viewModel::onOctetDeleteImeClick,
         onOctetNextImeActionClick = viewModel::onOctetNextImeActionClick,
         onOctetFocusChange = viewModel::onOctetFocusChange,
         onCIDRClick = viewModel::onCIDRClick,
@@ -95,7 +94,6 @@ private fun CalculatorScreen(
     layoutType: LayoutType,
     snackbarHostState: SnackbarHostState,
     onOctetChange: (Int, TextFieldValue) -> Unit,
-    onOctetDeleteImeClick: (Int) -> Unit,
     onOctetNextImeActionClick: (Int) -> Unit,
     onOctetFocusChange: (Int) -> Unit,
     onCIDRClick: () -> Unit,
@@ -113,7 +111,6 @@ private fun CalculatorScreen(
             SpaciousContainer(
                 uiState = uiState,
                 onOctetChange = onOctetChange,
-                onOctetDeleteImeClick = onOctetDeleteImeClick,
                 onOctetNextImeActionClick = onOctetNextImeActionClick,
                 onOctetFocusChange = onOctetFocusChange,
                 onCIDRClick = onCIDRClick,
@@ -126,7 +123,6 @@ private fun CalculatorScreen(
             CompactContainer(
                 uiState = uiState,
                 onOctetChange = onOctetChange,
-                onOctetDeleteImeClick = onOctetDeleteImeClick,
                 onOctetNextImeActionClick = onOctetNextImeActionClick,
                 onOctetFocusChange = onOctetFocusChange,
                 onCIDRClick = onCIDRClick,
@@ -171,7 +167,6 @@ private fun CalculatorScreenPreview() {
         CalculatorScreen(
             layoutType = LayoutType.Compat,
             onOctetChange = { _, _ -> },
-            onOctetDeleteImeClick = {},
             onOctetNextImeActionClick = {},
             onOctetFocusChange = {},
             onCIDRClick = {},

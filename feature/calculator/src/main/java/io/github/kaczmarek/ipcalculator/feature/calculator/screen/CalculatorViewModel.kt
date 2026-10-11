@@ -29,6 +29,7 @@ private const val FIRST_OCTET_PLACEHOLDER = "192"
 private const val SECOND_OCTET_PLACEHOLDER = "168"
 private const val THIRD_AND_FOURTH_OCTETS_PLACEHOLDER = "1"
 private const val CIDR_PREFIX_PLACEHOLDER = "24"
+private const val INVALID_SYMBOL_PATTERN = "[%@*()-,]"
 
 internal class CalculatorViewModel(
     private val calculatorRepository: CalculatorRepository,
@@ -87,6 +88,8 @@ internal class CalculatorViewModel(
 
     fun onOctetChange(index: Int, value: TextFieldValue) {
         viewModelScope.launch(exceptionHandler) {
+            if (value.text.contains(Regex(INVALID_SYMBOL_PATTERN))) return@launch
+
             when {
                 isEndsWithDot(value.text) -> updateFocusedOctetIndexIfCan(index = index + 1)
 
@@ -95,26 +98,13 @@ internal class CalculatorViewModel(
                     text = value.text,
                 )
 
+                value.text.isEmpty() -> {
+                    updateOctetValue(index, value)
+                    cleanOctetValue(index)
+                }
+
                 else -> updateOctetValue(index, value)
             }
-        }
-    }
-
-    fun onOctetDeleteImeClick(index: Int) {
-        viewModelScope.launch(exceptionHandler) {
-            val octet = uiState.value.octets[index]
-            if (octet.value.text.isNotEmpty() || index == FIRST_OCTET_INDEX) return@launch
-
-            val previousOctetIndex = index - 1
-            val previousOctet = uiState.value.octets[previousOctetIndex]
-
-            onOctetChange(
-                index = previousOctetIndex, value = TextFieldValue(
-                    text = previousOctet.value.text,
-                    selection = TextRange(previousOctet.value.text.length),
-                )
-            )
-            updateFocusedOctetIndexIfCan(index = previousOctetIndex)
         }
     }
 
@@ -157,6 +147,24 @@ internal class CalculatorViewModel(
     fun onSubnetMaskListDialogDismissRequest() {
         viewModelScope.launch(exceptionHandler) {
             updateCIDRPrefixListOpeningState(isOpening = false)
+        }
+    }
+
+    private fun cleanOctetValue(index: Int) {
+        viewModelScope.launch(exceptionHandler) {
+            val octet = uiState.value.octets[index]
+            if (octet.value.text.length > 1 || index == FIRST_OCTET_INDEX) return@launch
+
+            val previousOctetIndex = index - 1
+            val previousOctet = uiState.value.octets[previousOctetIndex]
+
+            onOctetChange(
+                index = previousOctetIndex, value = TextFieldValue(
+                    text = previousOctet.value.text,
+                    selection = TextRange(previousOctet.value.text.length),
+                )
+            )
+            updateFocusedOctetIndexIfCan(index = previousOctetIndex)
         }
     }
 

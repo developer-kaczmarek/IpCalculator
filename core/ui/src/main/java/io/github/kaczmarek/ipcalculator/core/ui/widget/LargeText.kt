@@ -42,8 +42,7 @@ private fun LargeTextPreview() {
             LargeText(
                 text = LoremIpsum(2).values
                     .toList()
-                    .first()
-                    .toString(),
+                    .first(),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(all = 16.dp),
@@ -52,8 +51,7 @@ private fun LargeTextPreview() {
             LargeText(
                 text = LoremIpsum(10).values
                     .toList()
-                    .first()
-                    .toString(),
+                    .first(),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(all = 16.dp),

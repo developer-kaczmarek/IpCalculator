@@ -13,8 +13,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.Dp
-import androidx.window.core.layout.WindowHeightSizeClass
-import androidx.window.core.layout.WindowWidthSizeClass
 import io.github.kaczmarek.ipcalculator.core.model.LayoutType
 
 @Composable
@@ -33,19 +31,18 @@ fun isLandscapeOrientation(): Boolean {
 
 @Composable
 fun getLayoutType(adaptiveInfo: WindowAdaptiveInfo): LayoutType {
-    return with(adaptiveInfo) {
-        val isCompatWindowSize = windowPosture.isTabletop ||
-                windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT
+    val sizeClass = adaptiveInfo.windowSizeClass
+    val posture = adaptiveInfo.windowPosture
 
-        val isSpaciousWindowSize =
-            windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED ||
-                    windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.MEDIUM
+    val isHeightCompact = !sizeClass.isHeightAtLeastBreakpoint(480)
 
-        when {
-            isCompatWindowSize -> LayoutType.Compat
-            isSpaciousWindowSize -> LayoutType.Spacious
-            else -> LayoutType.Compat
-        }
+    val isCompatWindowSize = posture.isTabletop || isHeightCompact
+    val isSpaciousWindowSize = sizeClass.isWidthAtLeastBreakpoint(600)
+
+    return when {
+        isCompatWindowSize -> LayoutType.Compat
+        isSpaciousWindowSize -> LayoutType.Spacious
+        else -> LayoutType.Compat
     }
 }
 

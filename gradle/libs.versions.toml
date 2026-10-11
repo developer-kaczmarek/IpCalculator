@@ -1,54 +1,79 @@
 [versions]
-minSdk = "21"
-compileSdk = "35"
-targetSdk = "35"
+# SDK Versions
+minSdk = "23"
+compileSdk = "37"
+targetSdk = "37"
+
+# App Versioning
 versionCode = "6"
 versionName = "2.0"
 
-agp = "8.6.1"
-kotlin = "2.0.21"
-coreKtx = "1.16.0"
-coreSplashscreen = "1.0.1"
-activityCompose = "1.10.1"
-composeBom = "2025.07.00"
-koin = "4.0.0"
-adaptiveNavigationSuite = "1.3.2"
-androidxNavigation = "2.9.2"
-androidxLifecycle = "2.9.2"
+# Build Tools & Core Plugins
+# AGP 9.1.1 требует Gradle 9.3.1+
+agp = "9.1.1"
+kotlin = "2.4.10"
+
+# AndroidX Lifecycle & Core
+coreKtx = "1.19.0"
+coreSplashscreen = "1.2.0"
+androidxLifecycle = "2.11.0"
+activityCompose = "1.13.0"
+
+# Compose & Navigation
+# В 2026 году BOM управляет всеми библиотеками Compose
+composeBom = "2026.06.01"
+adaptiveNavigationSuite = "1.4.0"
+androidxNavigation = "2.9.8"
+desugar-jdk-libs = "2.1.4"
+
+# Dependency Injection
+koin = "4.2.2"
 
 [libraries]
+# Core
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
+android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
+# Lifecycle
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
 androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
+
+# Activity & Navigation
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
+androidx-navigation-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "androidxNavigation" }
+androidx-adaptive-navigation = { group = "androidx.compose.material3", name = "material3-adaptive-navigation-suite-android", version.ref = "adaptiveNavigationSuite" }
+
+# Compose (Versioned via BOM)
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
+
+# Koin
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
-androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
-androidx-adaptive-navigation = { group = "androidx.compose.material3", name = "material3-adaptive-navigation-suite-android", version.ref = "adaptiveNavigationSuite" }
-androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
-androidx-navigation-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "androidxNavigation" }
 
-# Dependencies of the included build-logic
+# Build-logic dependencies (for Convention Plugins)
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 
 [plugins]
+# Android Plugins
 androidApplication = { id = "com.android.application", version.ref = "agp" }
-jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+
+# Kotlin Plugins
+# В Kotlin 2.x Compose Compiler является частью плагина Kotlin
 jetbrainsKotlinComposeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrainsKotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
-#Convention plugins
-convetion-library = { id = "convention.android.library", version = "unspecified" }
-androidLibrary = { id = "com.android.library", version.ref = "agp" }
+# Custom Convention Plugins
+convention-library = { id = "convention.android.library", version = "unspecified" }
 
 [bundles]
 koin = ["koin-core", "koin-android", "koin-compose"]
-

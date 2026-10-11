@@ -32,7 +32,6 @@ import io.github.kaczmarek.ipcalculator.feature.calculator.screen.CalculatorUiSt
 internal fun CompactContainer(
     uiState: CalculatorUiState,
     onOctetChange: (Int, TextFieldValue) -> Unit,
-    onOctetDeleteImeClick: (Int) -> Unit,
     onOctetNextImeActionClick: (Int) -> Unit,
     onOctetFocusChange: (Int) -> Unit,
     onCIDRClick: () -> Unit,
@@ -51,7 +50,6 @@ internal fun CompactContainer(
         CompatCalculatorControlPanelWidget(
             uiState = uiState,
             onOctetChange = onOctetChange,
-            onOctetDeleteImeClick = onOctetDeleteImeClick,
             onOctetNextImeActionClick = onOctetNextImeActionClick,
             onOctetFocusChange = onOctetFocusChange,
             onCIDRClick = onCIDRClick,
@@ -73,7 +71,6 @@ internal fun CompactContainer(
 private fun CompatCalculatorControlPanelWidget(
     uiState: CalculatorUiState,
     onOctetChange: (Int, TextFieldValue) -> Unit,
-    onOctetDeleteImeClick: (Int) -> Unit,
     onOctetNextImeActionClick: (Int) -> Unit,
     onOctetFocusChange: (Int) -> Unit,
     onCIDRClick: () -> Unit,
@@ -91,7 +88,6 @@ private fun CompatCalculatorControlPanelWidget(
             focusedOctetIndex = uiState.focusedOctetIndex,
             cidr = uiState.cidr,
             onOctetChange = onOctetChange,
-            onOctetDeleteImeClick = onOctetDeleteImeClick,
             onOctetNextImeActionClick = onOctetNextImeActionClick,
             onOctetFocusChange = onOctetFocusChange,
             onCIDRClick = onCIDRClick,
@@ -112,7 +108,6 @@ private fun CompatPanelFieldsGroupWidget(
     focusedOctetIndex: Int?,
     cidr: CIDRUiModel?,
     onOctetChange: (Int, TextFieldValue) -> Unit,
-    onOctetDeleteImeClick: (Int) -> Unit,
     onOctetNextImeActionClick: (Int) -> Unit,
     onOctetFocusChange: (Int) -> Unit,
     onCIDRClick: () -> Unit,
@@ -127,7 +122,6 @@ private fun CompatPanelFieldsGroupWidget(
             octets = octets,
             focusedOctetIndex = focusedOctetIndex,
             onOctetChange = onOctetChange,
-            onOctetDeleteImeClick = onOctetDeleteImeClick,
             onOctetNextImeActionClick = onOctetNextImeActionClick,
             onOctetFocusChange = onOctetFocusChange,
             modifier = Modifier
@@ -232,7 +226,6 @@ private fun CompactContainerPreview() {
                     ),
                 ),
                 onOctetChange = { _, _ -> },
-                onOctetDeleteImeClick = {},
                 onOctetNextImeActionClick = {},
                 onOctetFocusChange = {},
                 onCIDRClick = {},

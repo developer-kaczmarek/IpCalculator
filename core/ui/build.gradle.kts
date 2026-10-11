@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.convetion.library)
+    alias(libs.plugins.convention.library)
 }
 
 android {

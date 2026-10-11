@@ -46,7 +46,9 @@ internal class SettingsViewModel(
     fun onLanguageItemClick(newLanguage: Language) {
         viewModelScope.launch(exceptionHandler) {
             uiState.update { uiState.value.copy(selectedLanguage = newLanguage) }
+            languageRepository.setManualChosen()
             languageRepository.setSelectedLanguage(newLanguage)
+            languageRepository.updateLanguageConfiguration(newLanguage)
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                 _effect.emit(SettingsEffect.RecreateActivity)
             }

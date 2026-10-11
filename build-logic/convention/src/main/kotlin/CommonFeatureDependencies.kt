@@ -1,29 +1,34 @@
-import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
 internal fun Project.configureFeatureDependencies(
-    commonExtension: CommonExtension<*, *, *, *, *, *>,
-) = with(commonExtension) {
-    buildFeatures.compose = true
+    extension: LibraryExtension,
+) {
+    extension.buildFeatures {
+        compose = true
+    }
+    configureCommonDependencies()
+}
 
+private fun Project.configureCommonDependencies() {
     dependencies {
-        add("implementation", libs.androidx.lifecycle.runtime.ktx)
+        val bom = platform(libs.findLibrary("androidx-compose-bom").get())
+        add("implementation", bom)
+        add("androidTestImplementation", bom)
 
-        add("implementation", libs.androidx.activity.compose)
-        add("implementation", platform(libs.androidx.compose.bom))
-        add("implementation", libs.androidx.ui)
-        add("implementation", libs.androidx.ui.graphics)
-        add("implementation", libs.androidx.ui.tooling.preview)
-        add("implementation", libs.androidx.material3)
-        add("implementation", libs.androidx.adaptive.navigation)
-        add("implementation", libs.androidx.lifecycle.runtime.ktx)
-        add("implementation", libs.androidx.lifecycle.viewModelCompose)
-        add("implementation", libs.androidx.navigation.compose)
+        add("implementation", libs.findLibrary("androidx-lifecycle-runtime-ktx").get())
+        add("implementation", libs.findLibrary("androidx-lifecycle-viewModelCompose").get())
+        add("implementation", libs.findLibrary("androidx-activity-compose").get())
+        add("implementation", libs.findLibrary("androidx-ui").get())
+        add("implementation", libs.findLibrary("androidx-ui-graphics").get())
+        add("implementation", libs.findLibrary("androidx-ui-tooling-preview").get())
+        add("implementation", libs.findLibrary("androidx-material3").get())
+        add("implementation", libs.findLibrary("androidx-adaptive-navigation").get())
+        add("implementation", libs.findLibrary("androidx-navigation-compose").get())
+        add("implementation", libs.findLibrary("androidx-material-icons-extended").get())
 
-        add("androidTestImplementation", platform(libs.androidx.compose.bom))
-        add("debugImplementation", libs.androidx.ui.tooling)
-
-        add("implementation", libs.bundles.koin)
+        add("debugImplementation", libs.findLibrary("androidx-ui-tooling").get())
+        add("implementation", libs.findBundle("koin").get())
     }
 }

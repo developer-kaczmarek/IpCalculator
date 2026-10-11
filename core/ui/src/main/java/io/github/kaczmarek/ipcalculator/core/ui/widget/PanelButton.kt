@@ -51,8 +51,7 @@ private fun PanelButtonPreview() {
             PanelButton(
                 text = LoremIpsum(2).values
                     .toList()
-                    .first()
-                    .toString(),
+                    .first(),
                 onClick = {
                     // Do something
                 },
@@ -62,8 +61,7 @@ private fun PanelButtonPreview() {
             PanelButton(
                 text = LoremIpsum(2).values
                     .toList()
-                    .first()
-                    .toString(),
+                    .first(),
                 enabled = false,
                 onClick = {
                     // Do something

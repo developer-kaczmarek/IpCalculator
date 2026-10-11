@@ -45,8 +45,7 @@ private fun HeadlineItemPreview() {
             HeadlineItem(
                 text = LoremIpsum(2).values
                     .toList()
-                    .first()
-                    .toString(),
+                    .first(),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
@@ -56,8 +55,7 @@ private fun HeadlineItemPreview() {
             HeadlineItem(
                 text = LoremIpsum(10).values
                     .toList()
-                    .first()
-                    .toString(),
+                    .first(),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)

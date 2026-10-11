@@ -4,8 +4,10 @@ import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,6 +31,7 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
@@ -53,7 +56,6 @@ internal fun OctetTextFieldsWidget(
     octets: List<OctetUiModel>,
     focusedOctetIndex: Int?,
     onOctetChange: (Int, TextFieldValue) -> Unit,
-    onOctetDeleteImeClick: (Int) -> Unit,
     onOctetNextImeActionClick: (Int) -> Unit,
     onOctetFocusChange: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -69,10 +71,12 @@ internal fun OctetTextFieldsWidget(
                     MaterialTheme.colorScheme.onSurface
                 },
                 shape = CircleShape,
-            ),
+            )
+            .focusable(),
         verticalAlignment = Alignment.Bottom,
     ) {
         val focusManager = LocalFocusManager.current
+        val keyboard = LocalSoftwareKeyboardController.current
         val firstOctetFocusRequester = remember { FocusRequester() }
         val secondOctetFocusRequester = remember { FocusRequester() }
         val thirdOctetFocusRequester = remember { FocusRequester() }
@@ -85,7 +89,7 @@ internal fun OctetTextFieldsWidget(
                 SECOND_OCTET_INDEX -> secondOctetFocusRequester.requestFocus()
                 THIRD_OCTET_INDEX -> thirdOctetFocusRequester.requestFocus()
                 FOURTH_OCTET_INDEX -> fourthOctetFocusRequester.requestFocus()
-                else -> Unit
+                else -> keyboard?.hide()
             }
         }
 
@@ -94,7 +98,9 @@ internal fun OctetTextFieldsWidget(
                 octet = octet,
                 onOctetChange = { onOctetChange(index, it) },
                 onNextImeActionClick = { onOctetNextImeActionClick(index) },
-                onFocusChange = { onOctetFocusChange(index) },
+                onFocusChange = {
+                    onOctetFocusChange(index)
+                },
                 modifier = Modifier
                     .testTagAsId("OctetTextField+$index")
                     .fillMaxWidth()
@@ -107,12 +113,6 @@ internal fun OctetTextFieldsWidget(
                             else -> fourthOctetFocusRequester
                         }
                     )
-                    .onKeyEvent {
-                        if (it.key == Key.Backspace) {
-                            onOctetDeleteImeClick(index)
-                        }
-                        false
-                    },
             )
 
             if (index < FOURTH_OCTET_INDEX) {
@@ -185,20 +185,19 @@ private fun OctetTextField(
             onNext = { onNextImeActionClick() },
         ),
         decorationBox = @Composable { innerTextField ->
-            Column(
+            Box(
                 modifier = Modifier
                     .padding(horizontal = 4.dp, vertical = 8.dp)
                     .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
+                contentAlignment = Alignment.Center,
             ) {
                 if (octet.value.text.isEmpty() && !focused) {
                     PlaceholderText(
                         text = octet.placeholder,
                         modifier = Modifier.fillMaxWidth(),
                     )
-                } else {
-                    innerTextField()
                 }
+                innerTextField()
             }
         },
     )
@@ -245,10 +244,7 @@ private fun OctetTextFieldsWidgetPreview() {
                     ),
                 ),
                 focusedOctetIndex = null,
-                onOctetChange = { index, value ->
-                    // Do something
-                },
-                onOctetDeleteImeClick = {
+                onOctetChange = { _, _ ->
                     // Do something
                 },
                 onOctetNextImeActionClick = {

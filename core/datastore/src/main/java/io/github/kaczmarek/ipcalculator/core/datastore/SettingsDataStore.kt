@@ -5,6 +5,7 @@ import android.content.Context
 private const val SETTINGS_PREFERENCES = "SETTINGS_PREFERENCES"
 private const val LANGUAGE_SETTINGS_KEY = "LANGUAGE_SETTINGS_KEY"
 private const val APP_THEME_SETTINGS_KEY = "APP_THEME_SETTINGS_KEY"
+private const val MANUAL_CHOSEN_KEY = "MANUAL_CHOSEN_KEY"
 
 class SettingsDataStore(context: Context) {
     private val settingsPreferences =
@@ -29,6 +30,22 @@ class SettingsDataStore(context: Context) {
     fun setSelectedThemeTypeName(themeTypeName: String) {
         preferencesEditor
             .putString(APP_THEME_SETTINGS_KEY, themeTypeName)
+            .apply()
+    }
+
+    fun isManualLanguageChosen(): Boolean {
+        return settingsPreferences.getBoolean(MANUAL_CHOSEN_KEY, false)
+    }
+
+    fun setManualLanguageChosen() {
+        preferencesEditor
+            .putBoolean(MANUAL_CHOSEN_KEY, true)
+            .apply()
+    }
+
+    fun resetManualLanguageChosen() {
+        preferencesEditor
+            .putBoolean(MANUAL_CHOSEN_KEY, false)
             .apply()
     }
 }

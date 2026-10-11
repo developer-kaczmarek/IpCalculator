@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.jetbrainsKotlinComposeCompiler)
     alias(libs.plugins.jetbrainsKotlinSerialization)
 }
@@ -17,49 +16,49 @@ android {
         versionName = libs.versions.versionName.get()
 
         resourceConfigurations += listOf("en", "ru", "kk")
+        vectorDrawables.useSupportLibrary = true
+    }
 
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+        isCoreLibraryDesugaringEnabled = true
+    }
+
+    buildFeatures {
+        compose = true
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "2.0.0"
-    }
+
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += setOf("/META-INF/{AL2.0,LGPL2.1}", "/META-INF/INDEX.LIST")
         }
     }
 }
 
-dependencies {
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+        freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
+    }
+}
 
-    implementation(project(":core:model"))
-    implementation(project(":core:ui"))
-    implementation(project(":core:data"))
+dependencies {
+    coreLibraryDesugaring(libs.android.desugarJdkLibs)
+
+    implementation(project(":feature:calculator"))
     implementation(project(":feature:info"))
     implementation(project(":feature:settings"))
-    implementation(project(":feature:calculator"))
+    implementation(project(":core:ui"))
+    implementation(project(":core:model"))
+    implementation(project(":core:data"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
@@ -70,11 +69,12 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    implementation(libs.androidx.material.icons.extended)
+
     implementation(libs.androidx.adaptive.navigation)
     implementation(libs.androidx.navigation.compose)
 
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    debugImplementation(libs.androidx.ui.tooling)
-
     implementation(libs.bundles.koin)
+    debugImplementation(libs.androidx.ui.tooling)
 }

@@ -23,8 +23,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
@@ -195,6 +197,10 @@ private fun RowScope.NavigationItem(
         modifier = modifier,
         selected = selected,
         onClick = onClick,
+        colors = NavigationBarItemDefaults.colors(
+            selectedTextColor = MaterialTheme.colorScheme.onSurface,
+            selectedIconColor = MaterialTheme.colorScheme.onSurface,
+        ),
         label = {
             Text(
                 text = stringResource(labelRes),
@@ -218,6 +224,10 @@ private fun NavigationItem(
         modifier = modifier,
         selected = selected,
         onClick = onClick,
+        colors = NavigationRailItemDefaults.colors(
+            selectedTextColor = MaterialTheme.colorScheme.onSurface,
+            selectedIconColor = MaterialTheme.colorScheme.onSurface,
+        ),
         label = {
             Text(
                 text = stringResource(labelRes),
